@@ -107,7 +107,7 @@ jobs:
             fail=1
           fi
 
-          [ "$fail" -eq 0 ] && echo "✓ all 8 version locations match $ROOT_VERSION"
+          [ "$fail" -eq 0 ] && echo "✓ all version locations match $ROOT_VERSION"
 
       - name: Validate marketplace.json lists every skill folder
         run: |

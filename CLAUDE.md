@@ -2,12 +2,13 @@
 
 ## What this is
 
-Three skills that drive the [`higgsfield` CLI](https://github.com/higgsfield-ai/cli) to call Higgsfield API endpoints — image and video generation, Soul Character training, branded product photography.
+Four skills that drive the [`higgsfield` CLI](https://github.com/higgsfield-ai/cli) to call Higgsfield API endpoints — image and video generation, Soul Character training, branded product photography, and marketplace product cards.
 
 ```
 higgsfield-soul-id     →  trains identity, returns reference_id
 higgsfield-generate →  consumes reference_id, plus 30+ models, plus Marketing Studio
 higgsfield-product-photoshoot  →  self-contained, brand visuals via gpt_image_2
+higgsfield-marketplace-cards  →  marketplace main, secondary, and A+ style images
 ```
 
 ## Repository structure
@@ -48,6 +49,8 @@ skills/
 │   ├── SKILL.md
 │   └── references/{photo-guide,troubleshooting}.md
 ├── higgsfield-product-photoshoot/
+│   └── SKILL.md
+├── higgsfield-marketplace-cards/
 │   └── SKILL.md
 ├── evals/                             # dev-only test infrastructure
 │   ├── README.md
@@ -97,12 +100,13 @@ If two skills happen to share a doc (e.g. both `higgsfield-generate` and `higgsf
 
 ## Version sync
 
-A single repo-wide version (currently `0.3.0`) lives in 8 places. They must all match:
+A single repo-wide version (currently `0.3.0`) lives in 9 places. They must all match:
 
 - `VERSION` — the source of truth.
 - `higgsfield-generate/SKILL.md` — `version:` in frontmatter.
 - `higgsfield-soul-id/SKILL.md` — `version:` in frontmatter.
 - `higgsfield-product-photoshoot/SKILL.md` — `version:` in frontmatter.
+- `higgsfield-marketplace-cards/SKILL.md` — `version:` in frontmatter.
 - `.claude-plugin/marketplace.json` — `plugins[0].version`.
 - `.claude-plugin/plugin.json` — top-level `version`.
 - `.codex-plugin/plugin.json` — top-level `version`.
@@ -117,6 +121,7 @@ Skills communicate through return values, not implicit state.
 - `higgsfield-soul-id` returns a `reference_id` (Soul Character).
 - `higgsfield-generate` consumes it via `--soul-id` for Soul-aware models (`text2image_soul_v2`, `soul_cinema_studio`) or as `custom` avatar in Marketing Studio.
 - `higgsfield-product-photoshoot` does not chain — it owns its own pipeline.
+- `higgsfield-marketplace-cards` does not chain by default; it can reuse an existing main image job through `--main-job`.
 
 When the user asks for both identity AND output in one request ("train Soul on these photos AND make a video of me"), run `higgsfield-soul-id` first, then `higgsfield-generate`. Don't batch-ask questions across skills — finish Soul, then start the video conversation.
 

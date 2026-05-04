@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 [![Version](https://img.shields.io/badge/version-0.3.0-green.svg)](./VERSION)
-[![Skills](https://img.shields.io/badge/skills-3-blueviolet.svg)](#skills)
+[![Skills](https://img.shields.io/badge/skills-4-blueviolet.svg)](#skills)
 [![Discord](https://img.shields.io/badge/discord-join-5865F2?logo=discord&logoColor=white)](https://discord.com/invite/higgsfield)
 
 AI agent skills for image and video generation via [Higgsfield AI](https://higgsfield.ai). Works with Claude Code, Cursor, Codex, and other AI coding agents that load Markdown-based skills.
@@ -53,8 +53,9 @@ More options in [INSTALL.md](./INSTALL.md). Agent-driven install (paste into you
 | [`higgsfield-generate`](./higgsfield-generate) | `/higgsfield:generate` | Image and video generation across 30+ models (Nano Banana 2, Soul V2, Veo 3.1, Kling 3.0, Seedance 2.0, Flux 2, GPT Image 2, …) plus Marketing Studio for branded ads with avatars and imported products. |
 | [`higgsfield-soul-id`](./higgsfield-soul-id) | `/higgsfield:soul-id` | Train a Soul Character — a reusable, face-faithful identity model. Returns a `reference_id` consumable by Soul-aware generation. |
 | [`higgsfield-product-photoshoot`](./higgsfield-product-photoshoot) | `/higgsfield:product-photoshoot` | Brand-quality product imagery with mode-specific prompt enhancement. 10 modes (studio, lifestyle, Pinterest, hero banner, ad packs, virtual try-on, …) backed by `gpt_image_2`. |
+| [`higgsfield-marketplace-cards`](./higgsfield-marketplace-cards) | `/higgsfield:marketplace-cards` | Marketplace product cards: compliant main image, secondary product images, and A+ style modules via backend prompt enhancement. |
 
-The skills chain: train Soul → use the reference id in `generate` (including Marketing Studio jobs). `product-photoshoot` is self-contained — backend enhances the prompt before submitting to `gpt_image_2`.
+The skills chain: train Soul → use the reference id in `generate` (including Marketing Studio jobs). `product-photoshoot` and `marketplace-cards` are self-contained — backend enhances prompts before submitting image jobs.
 
 ### Modes
 
@@ -94,6 +95,7 @@ The skills chain: train Soul → use the reference id in `generate` (including M
 | Generate any image / video from a prompt | `higgsfield-generate` | Prefers `gpt_image_2` / `nano_banana_2` for images and `seedance_2_0` for video by default |
 | Image with my own face | `higgsfield-soul-id` then `higgsfield-generate` | One-time training, then `--soul-id` |
 | Branded product photo (studio / lifestyle / Pinterest / hero / ad pack) | `higgsfield-product-photoshoot` | Mode-specific prompt enhancer + `gpt_image_2` |
+| Marketplace product cards / A+ style content | `higgsfield-marketplace-cards` | Main image, secondary images, and A+ style modules with hidden marketplace prompt templates |
 | Branded ad video / UGC / unboxing / TV spot | `higgsfield-generate` | Marketing Studio mode with avatars + products |
 | Train a custom face identity | `higgsfield-soul-id` | 5–20 photos, returns `reference_id` |
 | Image-to-video animation | `higgsfield-generate` | Prefer `seedance_2_0` with `--start-image`; use `kling3_0` as lower-cost fallback |

@@ -1,12 +1,13 @@
 # Install Higgsfield Skills
 
-Three skills ship in this repo:
+Four skills ship in this repo:
 
 - **`higgsfield-generate`** — image and video generation, 30+ models, plus Marketing Studio (branded ads with avatars and imported products)
 - **`higgsfield-soul-id`** — train a face-faithful Soul Character
 - **`higgsfield-product-photoshoot`** — brand-quality product imagery with mode-specific prompt enhancement
+- **`higgsfield-marketplace-cards`** — marketplace main, secondary, and A+ style product cards with backend prompt enhancement
 
-They chain: `higgsfield-soul-id` returns a Soul ID consumable by `higgsfield-generate` (Soul models and identity-aware Marketing Studio jobs). `higgsfield-product-photoshoot` is the single entry point for any professional product visual; backend enhances the prompt before submitting to `gpt_image_2`.
+They chain: `higgsfield-soul-id` returns a Soul ID consumable by `higgsfield-generate` (Soul models and identity-aware Marketing Studio jobs). `higgsfield-product-photoshoot` is the single entry point for professional brand product visuals; `higgsfield-marketplace-cards` is the marketplace product card pipeline. Both use backend prompt enhancement before submitting image jobs.
 
 ## Prerequisites
 
@@ -25,7 +26,7 @@ Works with Claude Code, Cursor, Codex, and any agent that picks up `~/.<agent>/s
 npx skills add higgsfield-ai/skills
 ```
 
-Installs all three skills. The `skills` CLI auto-detects the host agent and writes each skill to the right path.
+Installs all four skills. The `skills` CLI auto-detects the host agent and writes each skill to the right path.
 
 ## Option 2 — `gh skill install`
 
@@ -35,7 +36,7 @@ GitHub CLI v2.90+ extension. Same coverage as `npx skills`.
 gh skill install higgsfield-ai/skills
 ```
 
-Installs all three skills.
+Installs all four skills.
 
 ## Option 3 — Claude Code marketplace
 
@@ -46,7 +47,7 @@ Claude Code only. Inside Claude Code:
 /plugin install higgsfield@higgsfield
 ```
 
-Pulls the plugin manifest from `.claude-plugin/marketplace.json` and registers all three skills as `/higgsfield:generate`, `/higgsfield:soul-id`, `/higgsfield:product-photoshoot`.
+Pulls the plugin manifest from `.claude-plugin/marketplace.json` and registers all four skills as `/higgsfield:generate`, `/higgsfield:soul-id`, `/higgsfield:product-photoshoot`, `/higgsfield:marketplace-cards`.
 
 ## Option 4 — Setup script
 
