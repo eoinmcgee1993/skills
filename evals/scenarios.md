@@ -105,9 +105,9 @@ These exist to be run by a human (or by another agent acting as the user) in a f
 
 **Expected behavior:**
 
-- Picks `--mode pinterest_pin`.
+- Picks `--mode moodboard_pin`.
 - NOT `lifestyle_scene` or `product_shot`.
-- Calls `higgsfield product-photoshoot create --mode pinterest_pin --image candle.jpg --prompt "..."`.
+- Calls `higgsfield product-photoshoot create --mode moodboard_pin --image candle.jpg --prompt "..."`.
 - Does NOT call `higgsfield generate create gpt_image_2 ...` directly (must go through the prompt enhancer).
 - Asks ≤4 short questions (count, mood, anything to emphasize). Mode is obvious from the request.
 - Delivers ONE URL or a short bulleted list if `--count > 1`.

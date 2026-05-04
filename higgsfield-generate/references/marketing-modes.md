@@ -5,9 +5,9 @@ Canonical mode values for `marketing_studio_video` `--mode`. Mirrored from the M
 | `--mode` slug | Human-readable label | Best for |
 |---|---|---|
 | `ugc` | UGC | Default. Casual, organic-feel content from a presenter. |
-| `ugc_how_to` | Tutorial | "Here's how to use this." Tutorial / explainer. |
+| `tutorial` | Tutorial | "Here's how to use this." Tutorial / explainer. |
 | `ugc_unboxing` | Unboxing | "Just got this in the mail." Unboxing reveal. |
-| `product_showcase` | Hyper Motion | Clean product highlight, polished. |
+| `hyper_motion` | Hyper Motion | Clean product highlight, polished. |
 | `product_review` | Product Review | Presenter giving an opinion on the product. |
 | `tv_spot` | TV Spot | Broadcast-style commercial. Higher production. |
 | `wild_card` | Wild Card | Experimental, model picks the vibe. |
@@ -18,9 +18,9 @@ Canonical mode values for `marketing_studio_video` `--mode`. Mirrored from the M
 
 ## Picking flow
 
-- "Looks like a real person filmed on phone" → `ugc` family (`ugc`, `ugc_unboxing`, `ugc_virtual_try_on`, `ugc_how_to`)
+- "Looks like a real person filmed on phone" → `ugc` family (`ugc`, `ugc_unboxing`, `ugc_virtual_try_on`, `tutorial`)
 - "Polished broadcast commercial" → `tv_spot`
-- "Show the product itself, less presenter" → `product_showcase`
+- "Show the product itself, less presenter" → `hyper_motion`
 - "Presenter giving an opinion" → `product_review`
 - "Try clothing on someone" → `virtual_try_on` (polished) or `ugc_virtual_try_on` (organic feel)
 - "Surprise me / something different" → `wild_card`

@@ -135,7 +135,7 @@ Branded image/video gen: avatars + products + ad-style modes. Use models `market
 2. **Pick avatar.**
    - Default: `higgsfield marketing-studio avatars list` and pick a preset matching the brand voice.
    - Custom: `higgsfield marketing-studio avatars create --name "..." --image <upload_id>`.
-3. **Pick mode.** Default `ugc`. Other slugs (canonical from MCP): `ugc_how_to`, `ugc_unboxing`, `product_showcase`, `product_review`, `tv_spot`, `wild_card`, `ugc_virtual_try_on`, `virtual_try_on`. See `references/marketing-modes.md`.
+3. **Pick mode.** Default `ugc`. Other slugs (canonical from MCP): `tutorial`, `ugc_unboxing`, `hyper_motion`, `product_review`, `tv_spot`, `wild_card`, `ugc_virtual_try_on`, `virtual_try_on`. See `references/marketing-modes.md`.
 4. **Generate (one-shot).**
    ```bash
    higgsfield generate create marketing_studio_video \

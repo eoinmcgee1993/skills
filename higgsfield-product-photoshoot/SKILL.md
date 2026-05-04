@@ -14,7 +14,7 @@ description: |
   "in [aesthetic] style", or any request involving a product, brand,
   or paid social creative.
   Modes: product_shot, lifestyle_scene, closeup_product_with_person,
-  pinterest_pin, hero_banner, social_carousel, ad_creative_pack,
+  moodboard_pin, hero_banner, social_carousel, ad_creative_pack,
   virtual_model_tryout, conceptual_product, restyle.
   Backend assembles the final prompt — never write gpt_image_2
   prompts freehand. Always go through this skill.
@@ -56,7 +56,7 @@ Before any other command:
 | `product_shot` | Product on neutral / studio / catalog background |
 | `lifestyle_scene` | Product in real-world environment, hands, action, atmosphere |
 | `closeup_product_with_person` | Tight crop with hands / partial face — beauty application, holding, demonstrating |
-| `pinterest_pin` | Vertical 2:3 Pinterest-native aesthetic, moodboard feel |
+| `moodboard_pin` | Vertical 2:3 Pinterest-native aesthetic, moodboard feel |
 | `hero_banner` | Wide-format website / email / campaign header |
 | `social_carousel` | 3–10 connected slides for IG / LinkedIn / Facebook |
 | `ad_creative_pack` | Coordinated pack of static ad variants for Meta / TikTok / Pinterest / Google Ads |
@@ -71,7 +71,7 @@ Pick by intent, not surface keyword. When two modes could apply, prefer the more
 - product + neutral / clean / white / studio / catalog / Shopify → `product_shot`
 - product + scene / in use / kitchen / outdoor / cafe / gym → `lifestyle_scene`
 - hands holding / face with product / beauty application / demonstrating → `closeup_product_with_person`
-- Pinterest, pin, vertical pin → `pinterest_pin`
+- Pinterest, pin, vertical pin → `moodboard_pin`
 - hero, banner, website header, landing page, email header, wide format → `hero_banner`
 - carousel, slide post, multi-slide, swipeable → `social_carousel`
 - ads, ad pack, paid social, Meta / TikTok / Pinterest ads → `ad_creative_pack`
@@ -80,7 +80,7 @@ Pick by intent, not surface keyword. When two modes could apply, prefer the more
 - modify EXISTING image's aesthetic, mood, season — without changing subject → `restyle`
 
 Tie-breakers:
-- "Pinterest pin of my product on a kitchen counter" → `pinterest_pin` (Pinterest is the platform)
+- "Pinterest pin of my product on a kitchen counter" → `moodboard_pin` (Pinterest is the platform)
 - "Hero banner showing my product in use" → `hero_banner` (banner format wins)
 - "Carousel of my product in different scenes" → `social_carousel` (multi-slide wins)
 - "Closeup of person applying my serum" → `closeup_product_with_person` (specific genre wins)
@@ -162,7 +162,7 @@ higgsfield product-photoshoot create \
 
 ```bash
 higgsfield product-photoshoot create \
-  --mode pinterest_pin \
+  --mode moodboard_pin \
   --prompt "vertical pin for my candle brand, cottagecore mood" \
   --image candle.jpg
 ```

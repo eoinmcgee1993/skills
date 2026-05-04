@@ -65,7 +65,7 @@ The skills chain: train Soul → use the reference id in `generate` (including M
 | `product_shot` | Product on neutral / studio / catalog background |
 | `lifestyle_scene` | Product in a real environment — hands, action, atmosphere |
 | `closeup_product_with_person` | Tight crop with hands or partial face — beauty, demonstrating |
-| `pinterest_pin` | Vertical 2:3 Pinterest-native pin, moodboard feel |
+| `moodboard_pin` | Vertical 2:3 Pinterest-native pin, moodboard feel |
 | `hero_banner` | Wide-format website / email / campaign header |
 | `social_carousel` | 3–10 connected slides for IG / LinkedIn / Facebook |
 | `ad_creative_pack` | Coordinated pack of static ad variants for Meta / TikTok / Pinterest / Google |
@@ -78,9 +78,9 @@ The skills chain: train Soul → use the reference id in `generate` (including M
 | Mode | What it's for |
 |---|---|
 | `ugc` | Default. Casual, organic-feel content from a presenter |
-| `ugc_how_to` | Tutorial / explainer |
+| `tutorial` | Tutorial / explainer |
 | `ugc_unboxing` | Unboxing reveal |
-| `product_showcase` | Clean product highlight, polished |
+| `hyper_motion` | Clean product highlight, polished |
 | `product_review` | Presenter giving an opinion |
 | `tv_spot` | Broadcast-style commercial |
 | `wild_card` | Experimental, model picks the vibe |
