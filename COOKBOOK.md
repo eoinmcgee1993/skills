@@ -51,6 +51,7 @@ Train my Soul on this headshot, then make 5 lifestyle photos of my product
      --start-image ./campaign/photos/lifestyle-01.jpg \
      --duration 5 \
      --aspect_ratio 1:1 \
+     --sound off \
      --output-dir ./campaign/videos \
      --wait
    ```
@@ -190,7 +191,7 @@ higgsfield generate create marketing_studio_video \
 Option B — direct Soul model (more direct, less branded staging):
 
 ```bash
-higgsfield generate create soul_cinema_studio \
+higgsfield generate create soul_cinematic \
   --prompt "<full script>" \
   --soul-id <reference_id> \
   --duration 60 \

@@ -128,7 +128,10 @@ higgsfield model get <model>
 Common patterns:
 
 - **Seedance 2.0** image: `auto`, `21:9`, `16:9`, `4:3`, `1:1`, `3:4`, `9:16`. Duration 4–15s.
-- **Kling 3.0**: `16:9`, `9:16`, `1:1`. Duration 3–15s. Modes `pro`/`std`.
+- **Kling 3.0**: `16:9`, `9:16`, `1:1`. Duration 3–15s. Modes `pro`/`std`. Sound `on`/`off`.
+- **Soul 2.0**: `1:1`, `16:9`, `9:16`, `4:3`, `3:4`, `3:2`, `2:3`. Quality `1.5k` or `2k` maps to backend `720p`/`1080p`.
+- **Soul Cinema**: same as Soul 2.0 plus `21:9`. Quality `1.5k` or `2k`.
+- **Soul Location**: `1:1`, `4:3`, `3:4`, `16:9`, `9:16`, `3:2`, `2:3`, `21:9`, `9:21`. No quality/resolution selector; dimensions are fixed by aspect ratio.
 - **Veo 3.1**: `16:9` or `9:16`. Duration `4`, `6`, or `8` only. Quality `basic`/`high`/`ultra`.
 - **Marketing Studio (video)**: `auto`/`21:9`/`16:9`/`4:3`/`1:1`/`3:4`/`9:16`. Resolution `480p` or `720p`.
 

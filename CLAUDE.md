@@ -119,7 +119,7 @@ CI fails if any drift. Don't bump versions by hand on feature branches — let r
 Skills communicate through return values, not implicit state.
 
 - `higgsfield-soul-id` returns a `reference_id` (Soul Character).
-- `higgsfield-generate` consumes it via `--soul-id` for Soul-aware models (`text2image_soul_v2`, `soul_cinema_studio`) or as `custom` avatar in Marketing Studio.
+- `higgsfield-generate` consumes it via `--soul-id` for Soul-aware models (`text2image_soul_v2`, `soul_cinematic`) or as `custom` avatar in Marketing Studio.
 - `higgsfield-product-photoshoot` does not chain — it owns its own pipeline.
 - `higgsfield-marketplace-cards` does not chain by default; it can reuse an existing main image job through `--main-job`.
 

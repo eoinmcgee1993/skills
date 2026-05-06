@@ -84,7 +84,7 @@ These exist to be run by a human (or by another agent acting as the user) in a f
 **Expected behavior:**
 
 - Looks up the existing Soul reference (asks user for the id, OR detects from a workspace state file if one exists).
-- Picks `text2image_soul_v2` or `soul_cinema_studio` (the cinematic variant fits the "cinematic" word).
+- Picks `text2image_soul_v2` or `soul_cinematic` (the cinematic variant fits the "cinematic" word).
 - Passes `--soul-id <id>`.
 - Does NOT re-train Soul.
 - Delivers ONE URL.

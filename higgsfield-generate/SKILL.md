@@ -102,12 +102,14 @@ Flags pass through to model schema. Use `higgsfield model get <jst>` to discover
 higgsfield generate create gpt_image_2 --prompt "neon city at dusk" --aspect_ratio 16:9 --resolution 2k --wait
 higgsfield generate create nano_banana_2 --prompt "anime character concept, expressive pose" --image ./ref.png --wait
 higgsfield generate create seedance_2_0 --prompt "camera dollies in" --start-image ./first.png --duration 8 --wait
-higgsfield generate create text2image_soul_v2 --prompt "..." --soul-id <soul_ref_id> --wait
+higgsfield generate create text2image_soul_v2 --prompt "..." --soul-id <soul_ref_id> --quality 2k --wait
 ```
 
 For machine-readable output (chained pipelines, agent context), add `--json`. With `--wait --json` you get the final job object array. Without `--wait`, you get the job IDs.
 
 Stdin prompt: `echo "..." | higgsfield generate create z_image --wait`.
+
+Soul image quality: for `text2image_soul_v2` and `soul_cinematic`, pass `--quality 1.5k` or `--quality 2k`. These are UI-facing tiers; the backend maps them to `720p`/`1080p` and model-specific dimensions from the selected `--aspect_ratio`. `soul_location` has no quality selector; it uses fixed dimensions per aspect ratio.
 
 ## Marketing Studio
 
