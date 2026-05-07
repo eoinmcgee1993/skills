@@ -122,6 +122,7 @@ Branded image/video gen: avatars + products + optional setup hooks/settings + ad
 - **Webproduct** — App Store / web page version. Auto-routes when fetching App Store URLs.
 - **Hook** — reusable opening angle / ad hook. Browse with `higgsfield marketing-studio hooks list`. Hook text is prepended to the user's prompt; it does not replace `--prompt`.
 - **Setting** — reusable environment / scene context. Browse with `higgsfield marketing-studio settings list`.
+- **Ad reference** — reusable inspiration video that can be bound to an avatar and/or product. Created from an uploaded video (`--video-input <upload_id>`) or a previous generation job (`--job <job_id>`). Browse with `higgsfield marketing-studio ad-references list`. See `references/marketing-ad-references.md`.
 
 ### Discovery commands
 
@@ -132,6 +133,7 @@ higgsfield marketing-studio avatars list --json
 higgsfield marketing-studio products list --json
 higgsfield marketing-studio hooks list --json
 higgsfield marketing-studio settings list --json
+higgsfield marketing-studio ad-references list --json
 ```
 
 `--hook_id` and `--setting_id` are supported by `marketing_studio_video` only; do not pass them to `marketing_studio_image`.
@@ -139,6 +141,8 @@ higgsfield marketing-studio settings list --json
 ### UX rules (additional)
 
 - One question per phase. Don't ask product+avatar+mode upfront.
+- **Two ad approaches are mutually exclusive.** Either the user gives an ad reference video (reference-driven) **or** picks hook/setting blocks (composed-from-blocks) — never both. If the user has an ad reference selected, do not offer hook/setting; if hook/setting are picked, do not offer to attach an ad reference.
+- **Ad reference source.** The only valid inputs are a local video file (uploaded via `higgsfield upload create ... --video`) or a prior video job. If the user provides anything else, ask for a local file.
 
 ### Workflow — quick ad video
 
@@ -155,7 +159,7 @@ higgsfield marketing-studio settings list --json
    - Hook: `higgsfield marketing-studio hooks list --json`
    - Setting: `higgsfield marketing-studio settings list --json`
    Pass selected IDs as `--hook_id <hook_id>` and `--setting_id <setting_id>` for `marketing_studio_video` only. Do not copy the hook's prompt into `--prompt` unless the user explicitly wants to reinforce the same wording.
-4. **Pick mode if needed.** Default is `ugc`; `--mode` is not required just because `--hook_id` is present. Other current slugs: `ugc_how_to`, `ugc_unboxing`, `product_showcase`, `product_review`, `tv_spot`, `wild_card`, `ugc_virtual_try_on`, `virtual_try_on`. See `references/marketing-modes.md`.
+4. **Pick mode if needed.** Default is `ugc`; `--mode` is not required just because `--hook_id` is present. Other current slugs: `ugc_how_to`, `ugc_unboxing`, `product_showcase`, `product_review`, `tv_spot`, `wild_card`, `ugc_virtual_try_on`, `virtual_try_on`. **Hook/setting are valid only for `ugc`, `ugc_how_to`, `ugc_unboxing`, `product_review`, `ugc_virtual_try_on`** — do not pass `--hook_id` / `--setting_id` with the other modes. See `references/marketing-modes.md`.
 5. **Generate (one-shot).**
    ```bash
    PRODUCT_IDS_JSON=$(mktemp)
@@ -229,4 +233,5 @@ Load on demand:
 - `references/marketing-avatars.md` — preset vs custom avatars
 - `references/marketing-products.md` — URL fetch vs manual product create
 - `references/marketing-setup-items.md` — hooks/settings discovery and usage
+- `references/marketing-ad-references.md` — ad reference videos (create/list/get)
 - `references/marketing-modes.md` — every Marketing Studio mode

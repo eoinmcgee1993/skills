@@ -5,6 +5,8 @@ Marketing Studio setup items are optional reusable context for `marketing_studio
 - **Hook** (`--hook_id`) sets the opening angle / ad hook. The hook prompt is prepended to the user prompt; it does not replace `--prompt`.
 - **Setting** (`--setting_id`) sets the scene or environment context.
 - Supported by `marketing_studio_video` only. Do not pass setup items to `marketing_studio_image`.
+- **Mode whitelist.** Setup items are valid only for these `--mode` values: `ugc`, `ugc_how_to`, `ugc_unboxing`, `product_review`, `ugc_virtual_try_on`. For `product_showcase`, `tv_spot`, `wild_card`, `virtual_try_on` — do not pass `--hook_id` / `--setting_id`. See `marketing-modes.md` for the full table.
+- **Mutually exclusive with ad references.** If the user is generating from an ad reference video, do **not** also pass `--hook_id` / `--setting_id`. The two paths (reference-driven vs composed-from-blocks) cannot be combined.
 
 ## Discover Items
 

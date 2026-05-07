@@ -2,17 +2,19 @@
 
 Current mode values for `marketing_studio_video` `--mode`. The live schema is the source of truth, so run `higgsfield model get marketing_studio_video` if validation fails.
 
-| `--mode` slug | Human-readable label | Best for |
-|---|---|---|
-| `ugc` | UGC | Default. Casual, organic-feel content from a presenter. |
-| `ugc_how_to` | Tutorial | "Here's how to use this." Tutorial / explainer. |
-| `ugc_unboxing` | Unboxing | "Just got this in the mail." Unboxing reveal. |
-| `product_showcase` | Product Showcase | Clean product highlight, polished. |
-| `product_review` | Product Review | Presenter giving an opinion on the product. |
-| `tv_spot` | TV Spot | Broadcast-style commercial. Higher production. |
-| `wild_card` | Wild Card | Experimental, model picks the vibe. |
-| `ugc_virtual_try_on` | UGC Virtual Try On | Person trying on clothing/accessories — UGC vibe. |
-| `virtual_try_on` | Pro Virtual Try On | Same but more polished, model-driven. |
+| `--mode` slug | Human-readable label | Hook/setting | Best for |
+|---|---|---|---|
+| `ugc` | UGC | ✅ | Default. Casual, organic-feel content from a presenter. |
+| `ugc_how_to` | Tutorial | ✅ | "Here's how to use this." Tutorial / explainer. |
+| `ugc_unboxing` | Unboxing | ✅ | "Just got this in the mail." Unboxing reveal. |
+| `product_showcase` | Product Showcase | ❌ | Clean product highlight, polished. |
+| `product_review` | Product Review | ✅ | Presenter giving an opinion on the product. |
+| `tv_spot` | TV Spot | ❌ | Broadcast-style commercial. Higher production. |
+| `wild_card` | Wild Card | ❌ | Experimental, model picks the vibe. |
+| `ugc_virtual_try_on` | UGC Virtual Try On | ✅ | Person trying on clothing/accessories — UGC vibe. |
+| `virtual_try_on` | Pro Virtual Try On | ❌ | Same but more polished, model-driven. |
+
+The "Hook/setting" column shows whether `--hook_id` and `--setting_id` are valid for that mode. Modes marked ❌ ignore or reject setup items.
 
 **Default when the user doesn't specify:** `ugc`.
 
