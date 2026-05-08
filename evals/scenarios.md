@@ -1,6 +1,6 @@
 # Scenarios
 
-10 starter scenarios across the 3 skills. Each is one user request + what the agent should do + how to score it.
+11 starter scenarios across the 3 skills. Each is one user request + what the agent should do + how to score it.
 
 These exist to be run by a human (or by another agent acting as the user) in a fresh session with skills installed.
 
@@ -223,6 +223,30 @@ These exist to be run by a human (or by another agent acting as the user) in a f
 
 ---
 
+## Scenario 11 — Virality Predictor video scoring
+
+**User request:**
+
+> Analyze this ad video and tell me whether the hook is strong enough to hold attention.
+> [attached: ad.mp4]
+
+**Expected behavior:**
+
+- Picks Virality Predictor (`brain_activity`).
+- Uses `--video ad.mp4`.
+- Does NOT ask for a prompt; the video is the input.
+- Treats the result as a text score report, not a generated video/image.
+- Delivers overall score, peak hook second, sustain score, region highlights, and a business interpretation of attention/virality potential.
+- If present, links `brain_example_url` as the 3D brain asset and `vertexMapBinaryUrl` as the activity map binary.
+
+**Score:**
+
+- Pass: correct model, `--video` used, text metrics summarized with business interpretation, and Virality Predictor artifacts labeled clearly when present.
+- Partial: correct model but treats the result URL as the only output.
+- Fail: uses a video generation model, asks for a generation prompt, or ignores the uploaded clip.
+
+---
+
 ## Round template (copy when recording results)
 
 ```
@@ -235,6 +259,7 @@ Scenario 1: pass | partial | fail — <one-line reason>
 Scenario 2: ...
 ...
 Scenario 10: ...
+Scenario 11: ...
 
 Aggregate: <P pass / Q partial / F fail>
 Time-to-result mean: <Ns>
