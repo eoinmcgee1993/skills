@@ -3,9 +3,9 @@
 The full lineup of generation models available through Higgsfield. Each entry has its own sweet spot — pick the one that matches your brief. For the actual `--model` ID to pass to `higgsfield generate create`, run `higgsfield model list --json` and look up by display name.
 
 Preferred defaults for examples and quick-start guidance in this repo:
-- **Images/design/text:** `gpt_image_2`.
+- **Images/design/text:** `gpt_image_2`, `nano_banana_2`.
 - **Video:** `seedance_2_0`.
-- **Character/stylized/reference image work:** `nano_banana_2`, then `nano_banana_pro` for harder briefs.
+- **Character/stylized image work:** `soul_v2`
 - **Ads/UGC/product demos:** `marketing_studio_video` or `marketing_studio_image`.
 
 ---
