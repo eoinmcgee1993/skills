@@ -223,7 +223,7 @@ These exist to be run by a human (or by another agent acting as the user) in a f
 
 ---
 
-## Scenario 11 — Neuron Activation video scoring
+## Scenario 11 — Virality Predictor video scoring
 
 **User request:**
 
@@ -232,7 +232,7 @@ These exist to be run by a human (or by another agent acting as the user) in a f
 
 **Expected behavior:**
 
-- Picks Neuron Activation (`brain_activity`).
+- Picks Virality Predictor (`brain_activity`).
 - Uses `--video ad.mp4`.
 - Does NOT ask for a prompt; the video is the input.
 - Treats the result as a text score report, not a generated video/image.
