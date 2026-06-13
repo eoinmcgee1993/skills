@@ -2,26 +2,24 @@
 version: 0.3.0
 name: higgsfield-generate
 description: |
-  Generate images/videos via Higgsfield AI. Default: GPT
-  Image 2 for images/design/text, Seedance 2.0 for video,
-  Nano Banana 2/Pro for character/reference image work,
-  Marketing Studio for ads with avatars/products/hooks,
-  settings, plus Soul V2/Cinema/Cast/Location and Kling
-  3.0. Use when: "generate an image", "make a video",
-  "animate this photo", "image-to-video",
-  "edit/stylize/remix this image", "produce a clip",
-  "create an ad", "make a UGC video", "product demo",
-  "unboxing", "brand video", "presenter video",
-  "import product from URL", "create avatar for ad",
-  or "analyze video virality". Supports image-to-image,
-  image-to-video, references, job/upload IDs, and
-  Marketing Studio. Chain with higgsfield-soul-id for
-  face/identity consistency. Virality Predictor
-  (`brain_activity`) analyzes video virality: hook strength,
-  attention, retention, distraction risk, and creative
-  score. NOT for: Soul Character training (use
-  higgsfield-soul-id), product photoshoots, marketplace
-  listing cards, text/chat/TTS tasks.
+  Generate images/videos via Higgsfield AI. Defaults:
+  GPT Image 2 for image/design/text, Seedance 2.0 for
+  video, Nano Banana 2/Pro for character/reference images,
+  Marketing Studio for ads, plus Soul models and Kling 3.0.
+  Use when: "generate an image", "make a video", "animate
+  this photo", "image-to-video", "edit/stylize/remix this
+  image", "produce a clip", "reframe this video", "edit
+  this video from a sketch", "create an ad", "make a UGC
+  video", "product demo", "unboxing", "brand video",
+  "presenter video", "import product from URL", "create
+  avatar for ad", or "analyze video virality". Supports
+  image-to-image, image-to-video, workflow generation
+  (`draw_to_video`, `reframe`), references, job/upload IDs,
+  Marketing Studio, and Virality Predictor (`brain_activity`).
+  Chain with higgsfield-soul-id for face/identity consistency.
+  NOT for: Soul Character training (use higgsfield-soul-id),
+  product photoshoots, marketplace listing cards,
+  text/chat/TTS tasks.
 argument-hint: "[prompt-or-analysis-request] [--model <name>] [--image|--video <path-or-id>]"
 allowed-tools: Bash
 ---
@@ -53,6 +51,8 @@ Before any other command:
 ## Discovery guardrail
 
 When looking for a Higgsfield feature/model, do not rely only on semantic search or CLI `--help`. First run an unfiltered model list, then inspect likely `job_set_type` names. If the user says a model exists but search returns no results, trust that signal and verify with the full model list before answering.
+
+Workflows are separate from models. Discover them with `higgsfield workflow list` and inspect params with `higgsfield workflow get <workflow_name>`.
 
 Virality Predictor is exposed as:
 
@@ -89,6 +89,7 @@ If the user says "analyze this video", "score this ad", "evaluate the hook", or 
 
    **Video:**
    - All advertising / commercial / branded ad video → Marketing Studio (see Marketing Studio below)
+   - Edit existing video from sketch/timestamp, or reframe to another aspect ratio → workflow (`draw_to_video` or `reframe`), not a model. See `references/workflows.md`.
    - **Default all-purpose serious video (multi-shot, consistent identity, motion-heavy, image-to-video, 4–15s requests) → Seedance 2.0.** SOTA. Do not downgrade to Seedance 1.5 just because its duration enum is easier to read; validate Seedance 2.0 first.
    - Single-plane scene without strong dynamics, cheaper than Seedance 2.0 → Kling 3.0
    - Cheap clean shot without cuts, only when the user asks for cheaper/budget output → Seedance 1.5 Pro
@@ -107,6 +108,8 @@ If the user says "analyze this video", "score this ad", "evaluate the hook", or 
 5. **Deliver.** For generated media, send the URL plus a one-line summary (model, duration if video). For Virality Predictor, deliver the scores, business interpretation, and the Open report link. Do not surface `.glb`, `.bin`, or region-table internals in normal chat output.
 
 To inspect or rerun later, `higgsfield generate list --json` and `higgsfield generate get <id> --json` work for retrospection. `higgsfield generate wait <id>` is still available if you ever need to rejoin a job started without `--wait`.
+
+For workflow jobs, use `higgsfield generate workflow <workflow_name> ... --wait`. Cost syntax is `higgsfield generate cost workflow <workflow_name> ...`. See `references/workflows.md`.
 
 ## Media flags
 
@@ -279,6 +282,7 @@ See `references/troubleshooting.md` for more.
 Load on demand:
 
 - `references/model-catalog.md` — picking the right model for the task
+- `references/workflows.md` — `draw_to_video` and `reframe` workflow generation
 - `references/prompt-engineering.md` — writing prompts that work
 - `references/media-inputs.md` — image/video/audio reference flows and Virality Predictor video analysis
 - `references/troubleshooting.md` — common errors and fixes
