@@ -2,22 +2,25 @@
 version: 0.3.0
 name: higgsfield-generate
 description: |
-  Generate images/videos/3D assets via Higgsfield AI. Defaults:
+  Generate images/videos/3D assets/audio via Higgsfield AI. Defaults:
   GPT Image 2 for image/design/text, Seedance 2.0 for
   video, Nano Banana 2/Pro for character/reference images,
-  Marketing Studio for ads, plus Soul models and Kling 3.0.
+  Marketing Studio for ads, Sonilo/Mirelo for audio, plus
+  Soul models and Kling 3.0.
   Use when: "generate an image", "make a video", "animate
   this photo", "image-to-video", "edit/stylize/remix this
   image", "produce a clip", "reframe this video", "edit
   this video from a sketch", "create a 3D model", "make a
-  GLB/mesh", "create an ad", "make a UGC video", "product
-  demo", "unboxing", "brand video", "presenter video",
-  "import product from URL", "create avatar for ad", or
-  "analyze video virality". Supports image-to-image,
+  GLB/mesh", "create a sound effect", "make music",
+  "text-to-audio", "create an ad", "make a UGC video",
+  "product demo", "unboxing", "brand video", "presenter
+  video", "import product from URL", "create avatar for ad",
+  or "analyze video virality". Supports image-to-image,
   image-to-video, image-to-3D (`multi_image_to_3d`),
-  workflow generation (`draw_to_video`, `reframe`),
-  references, job/upload IDs, Marketing Studio, and
-  Virality Predictor (`brain_activity`).
+  text-to-audio (`mirelo_text_to_audio`), text-to-music
+  (`sonilo_music`), workflow generation (`draw_to_video`,
+  `reframe`), references, job/upload IDs, Marketing Studio,
+  and Virality Predictor (`brain_activity`).
   Chain with higgsfield-soul-id for face/identity consistency.
   NOT for: Soul Character training (use higgsfield-soul-id),
   product photoshoots, marketplace listing cards,
@@ -28,7 +31,7 @@ allowed-tools: Bash
 
 # Higgsfield Generate
 
-Submit jobs to any Higgsfield model. Wraps the `higgsfield` CLI. Covers generic image/video/3D generation, Marketing Studio (branded ads, avatars, products, hooks, settings), and, secondarily, Virality Predictor video scoring.
+Submit jobs to any Higgsfield model. Wraps the `higgsfield` CLI. Covers generic image/video/3D/audio generation, Marketing Studio (branded ads, avatars, products, hooks, settings), and, secondarily, Virality Predictor video scoring.
 
 ## Step 0 — Bootstrap
 
@@ -106,6 +109,10 @@ If the user says "analyze this video", "score this ad", "evaluate the hook", or 
    **3D:**
    - Create an actual 3D mesh/model/GLB from one or more object/product reference images → Multi-Image to 3D (`multi_image_to_3d`). Pass 1–4 images with repeated `--image`; use `--should_texture true` when the asset needs texture. If the user only asks for a 3D-rendered picture, use an image model instead.
 
+   **Audio:**
+   - Create non-speech sound effects, ambience, foley, impacts, or environmental audio from text → Mirelo Text to Audio (`mirelo_text_to_audio`). It requires `--prompt` and `--duration`, and returns audio. Do not pass media inputs.
+   - Create music, backing tracks, jingles, or instrumental beds from text → Sonilo Music (`sonilo_music`). It requires `--prompt` and `--duration`, and returns audio. Do not pass media inputs.
+
    For the actual `--model` ID to pass to `higgsfield generate create`, run `higgsfield model list --json | jq` to map display names to IDs. See `references/model-catalog.md` for the full table.
 
 2. **Pass media inputs straight to flags.** Media flags accept a local file path **or** a UUID. CLI auto-uploads paths and auto-detects job vs upload for UUIDs. No need to pre-upload. Each model declares accepted roles (`image`, `start_image`, `end_image`, `video`, `audio`) — see `references/media-inputs.md`.
@@ -139,6 +146,8 @@ higgsfield generate create nano_banana_2 --prompt "anime character concept, expr
 higgsfield generate create seedance_2_0 --prompt "camera dollies in" --start-image ./first.png --duration 12 --wait
 higgsfield generate create text2image_soul_v2 --prompt "..." --soul-id <soul_ref_id> --quality 2k --wait
 higgsfield generate create multi_image_to_3d --image ./front.png --image ./side.png --should_texture true --wait
+higgsfield generate create sonilo_music --prompt "cinematic synthwave track" --duration 12 --wait
+higgsfield generate create mirelo_text_to_audio --prompt "glass breaking in a large hall" --duration 4 --wait
 higgsfield generate create brain_activity --video ./ad.mp4 --wait
 ```
 

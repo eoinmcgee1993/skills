@@ -42,6 +42,8 @@ Each model declares a closed set of accepted roles via `MEDIA_ROLES`. Pass the r
 | `veo3` | `image` | Single image-to-video. |
 | `marketing_studio_video` | `image`, `start_image`, `end_image` | Plus `avatars`, `product_ids`, `assets` as separate fields. |
 | `multi_image_to_3d` | `image` | 1–4 object/product reference images. Returns a 3D asset rather than an image/video. |
+| `mirelo_text_to_audio` | (none) | Text-to-audio / SFX generation. Pass `--prompt`;|
+| `sonilo_music` | (none) | Text-to-music generation. Pass `--prompt` and `--duration`; |
 | `z_image`, `recraft_v4_1`, `soul_cast`, `soul_location` | (none) | Prompt-only. Reject media inputs. |
 
 For simple image-to-video on a video model that only declares `image` (e.g. `veo3`), plain `--image` is auto-remapped to `start_image` by the CLI when unambiguous. When in doubt:
@@ -86,12 +88,25 @@ higgsfield generate create seedance_2_0 \
 
 **Do NOT pass `--generate-audio` to `seedance_2_0`** — the model schema doesn't declare it. Use the audio media role instead.
 
+Text-to-audio and text-to-music are different: these models create audio from text, so they use no media flags:
+
+```bash
+higgsfield generate create mirelo_text_to_audio \
+  --prompt "glass breaking in a large hall" \
+  --wait
+
+higgsfield generate create sonilo_music \
+  --prompt "cinematic synthwave track" \
+  --duration 12 \
+  --wait
+```
+
 ## Schema mismatches
 
 The CLI returns specific error messages for known shape mismatches:
 
 - `Model accepts only --image (no roles)` — the model uses the legacy `input_images` shape, not `medias` with roles. Drop role-prefixed flags and use plain `--image`.
-- `Model does not accept media inputs` — the model is prompt-only (`z_image`, `recraft_v4_1`, `soul_location`, `soul_cast`, `wan2_6` for some configs). Drop all media flags.
+- `Model does not accept media inputs` — the model is prompt-only or non-media (`z_image`, `recraft_v4_1`, `mirelo_text_to_audio`, `sonilo_music`, `soul_location`, `soul_cast`, `wan2_6` for some configs). Drop all media flags.
 - `Unknown media role "<role>"` — the role isn't in this model's `MEDIA_ROLES`. Run `higgsfield model get <model>` and check `medias[].roles`.
 - `Missing required params: medias` for `brain_activity` — pass exactly one clip with `--video <path-or-id>`.
 

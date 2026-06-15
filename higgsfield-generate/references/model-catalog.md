@@ -66,6 +66,15 @@ Preferred defaults for examples and quick-start guidance in this repo:
 
 ---
 
+## Audio models
+
+| Model | Provider | What it's for |
+|---|---|---|
+| Sonilo Music | Sonilo | **Generate music from text.** Use for backing tracks, instrumental beds, jingles, and musical moods. Requires `--prompt` and `--duration`; returns audio and does not take media inputs. |
+| Mirelo Text to Audio | Mirelo | **Generate non-speech audio from text.** Use for sound effects, ambience, foley, impacts, transitions, and environmental sounds. Requires `--prompt` and `--duration`; returns audio and does not take media inputs. |
+
+---
+
 ## Text / analysis models
 
 | Model | Provider | What it's for |
@@ -124,12 +133,19 @@ Studio for ads and brand/product content.
 1. **Create an actual 3D mesh/model/GLB from one or more object/product reference images** → Multi-Image to 3D (`multi_image_to_3d`). Pass 1–4 repeated `--image` flags. Use `--should_texture true` for textured assets; use rigging/animation flags only when the user explicitly wants a rigged or animated asset.
 2. **Create a picture that merely looks like a 3D render** → use an image model instead, usually GPT Image 2 or Nano Banana 2 depending on the brief.
 
+### Audio — pick this default
+
+1. **Create non-speech sound effects, foley, ambience, impacts, or environmental audio from text** → Mirelo Text to Audio (`mirelo_text_to_audio`). Requires `--prompt` and `--duration`. Do not pass media inputs.
+2. **Create music, backing tracks, jingles, or instrumental beds from text** → Sonilo Music (`sonilo_music`). Requires `--prompt` and `--duration`. Do not pass media inputs.
+3. **Add soundtrack/audio to a generated video ad** → use Marketing Studio Video with `--generate_audio true`, not Mirelo/Sonilo.
+
 ### Things to keep in mind
 
 - **Don't invent model names.** Run `higgsfield model list` if you're unsure — submitting an unknown model returns `unknown model "..."`.
 - **Don't downgrade for schema convenience.** If Seedance 2.0 fits the intent, validate or submit it first; do not choose Seedance 1.5 only because it lists a requested duration more explicitly.
 - **Do not misroute video analysis because the output is text.** A request like "analyze this video" or "score this ad" maps to Virality Predictor (`brain_activity`) when the user provides or references a finished video.
 - **Do not misroute 3D style into 3D asset generation.** `multi_image_to_3d` is for actual mesh/GLB-style assets from reference images. A prompt like "make a 3D render" is usually image generation.
+- **Do not treat audio generation as an audio media input.** `mirelo_text_to_audio` and `sonilo_music` create audio from text. `--audio` is for reference audio on video models like Seedance 2.0.
 - **Audio reference for Seedance 2.0** comes through the media inputs with role `audio`, not via a separate `generate_audio` flag.
 - **Prompt-only models reject reference media.** Z Image, Recraft V4.1, Soul Cast, Soul Location, and some Wan configs are prompt-only; pass no media flags to them. Virality Predictor is different: it returns text but requires a video input.
 - **Route branded product visuals through `higgsfield-product-photoshoot`** — its prompt enhancer adds 10 mode-specific templates on top of GPT Image 2. Direct GPT Image 2 generation here is the right call for everything that isn't a product photoshoot.
@@ -152,6 +168,8 @@ Each model accepts a fixed set of media roles. When unsure, run `higgsfield mode
 | Marketing Studio (video) | `image`, `start_image`, `end_image` |
 | Virality Predictor (`brain_activity`) | `video` |
 | Multi-Image to 3D | `image` (1–4) |
+| Mirelo Text to Audio | (no media — pass `--prompt`) |
+| Sonilo Music | (no media — pass `--prompt` and `--duration`) |
 | Most image models | `image` (1+) |
 | Z Image, Recraft V4.1, Soul Cast, Soul Location | (no media — prompt-only) |
 
