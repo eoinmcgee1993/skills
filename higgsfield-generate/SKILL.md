@@ -2,20 +2,22 @@
 version: 0.3.0
 name: higgsfield-generate
 description: |
-  Generate images/videos via Higgsfield AI. Defaults:
+  Generate images/videos/3D assets via Higgsfield AI. Defaults:
   GPT Image 2 for image/design/text, Seedance 2.0 for
   video, Nano Banana 2/Pro for character/reference images,
   Marketing Studio for ads, plus Soul models and Kling 3.0.
   Use when: "generate an image", "make a video", "animate
   this photo", "image-to-video", "edit/stylize/remix this
   image", "produce a clip", "reframe this video", "edit
-  this video from a sketch", "create an ad", "make a UGC
-  video", "product demo", "unboxing", "brand video",
-  "presenter video", "import product from URL", "create
-  avatar for ad", or "analyze video virality". Supports
-  image-to-image, image-to-video, workflow generation
-  (`draw_to_video`, `reframe`), references, job/upload IDs,
-  Marketing Studio, and Virality Predictor (`brain_activity`).
+  this video from a sketch", "create a 3D model", "make a
+  GLB/mesh", "create an ad", "make a UGC video", "product
+  demo", "unboxing", "brand video", "presenter video",
+  "import product from URL", "create avatar for ad", or
+  "analyze video virality". Supports image-to-image,
+  image-to-video, image-to-3D (`multi_image_to_3d`),
+  workflow generation (`draw_to_video`, `reframe`),
+  references, job/upload IDs, Marketing Studio, and
+  Virality Predictor (`brain_activity`).
   Chain with higgsfield-soul-id for face/identity consistency.
   NOT for: Soul Character training (use higgsfield-soul-id),
   product photoshoots, marketplace listing cards,
@@ -26,7 +28,7 @@ allowed-tools: Bash
 
 # Higgsfield Generate
 
-Submit jobs to any Higgsfield model. Wraps the `higgsfield` CLI. Covers generic image/video gen, Marketing Studio (branded ads, avatars, products, hooks, settings), and, secondarily, Virality Predictor video scoring.
+Submit jobs to any Higgsfield model. Wraps the `higgsfield` CLI. Covers generic image/video/3D generation, Marketing Studio (branded ads, avatars, products, hooks, settings), and, secondarily, Virality Predictor video scoring.
 
 ## Step 0 — Bootstrap
 
@@ -81,7 +83,8 @@ If the user says "analyze this video", "score this ad", "evaluate the hook", or 
    - Cinematic still frame → Soul Cinema
    - Highly characterful creative persona (text-only, distinctive) → Soul Cast
    - Locations / environments / no-people scenes → Soul Location (best in class)
-   - Vector illustrations OR face edit + complex scene swap → Seedream 4.5
+   - Logo, icon, vector-like illustration, brand mark, controlled-palette graphic → Recraft V4.1 (`recraft_v4_1`, often with `--model_type vector`)
+   - Face edit + complex scene swap → Seedream 4.5
    - Soul Character (reference id from `higgsfield-soul-id`) → Soul 2.0 for stills, Soul Cinema for cinematic
    - Character or cartoon-style work → Nano Banana 2; step up to Nano Banana Pro on hard cases
    - Fast and cheap iteration → Z Image
@@ -100,12 +103,15 @@ If the user says "analyze this video", "score this ad", "evaluate the hook", or 
    **Video analysis:**
    - Rate a finished video's hook, virality potential, attention, retention, or distraction risk → Virality Predictor (`brain_activity`). This is a video analysis model that returns a text score/report, not a generated media asset.
 
+   **3D:**
+   - Create an actual 3D mesh/model/GLB from one or more object/product reference images → Multi-Image to 3D (`multi_image_to_3d`). Pass 1–4 images with repeated `--image`; use `--should_texture true` when the asset needs texture. If the user only asks for a 3D-rendered picture, use an image model instead.
+
    For the actual `--model` ID to pass to `higgsfield generate create`, run `higgsfield model list --json | jq` to map display names to IDs. See `references/model-catalog.md` for the full table.
 
 2. **Pass media inputs straight to flags.** Media flags accept a local file path **or** a UUID. CLI auto-uploads paths and auto-detects job vs upload for UUIDs. No need to pre-upload. Each model declares accepted roles (`image`, `start_image`, `end_image`, `video`, `audio`) — see `references/media-inputs.md`.
 3. **Validate quickly.** If unsure of params, run `higgsfield model get <jst> --json` once and pass only what's needed. Validate the preferred model before falling back to an older one. Use schema defaults otherwise. The server returns `adjustments` for non-fatal coercions (e.g. `aspect_ratio=99:99` → closest match) and a structured error for invalid declared-param values.
 4. **Submit and wait in one shot.** `higgsfield generate create <jst> [--prompt "..."] [media flags] [param flags] --wait`. Blocks until terminal status and prints the result on stdout. Tunables: `--wait-timeout 20m` (default 10m), `--wait-interval 5s` (default 3s). Virality Predictor does not need a prompt; pass `--video`.
-5. **Deliver.** For generated media, send the URL plus a one-line summary (model, duration if video). For Virality Predictor, deliver the scores, business interpretation, and the Open report link. Do not surface `.glb`, `.bin`, or region-table internals in normal chat output.
+5. **Deliver.** For generated media and 3D assets, send the primary result URL plus a one-line summary (model, duration if video; GLB/asset URL for 3D). For Virality Predictor, deliver the scores, business interpretation, and the Open report link. Do not surface Virality Predictor `.glb`, `.bin`, or region-table internals in normal chat output.
 
 To inspect or rerun later, `higgsfield generate list --json` and `higgsfield generate get <id> --json` work for retrospection. `higgsfield generate wait <id>` is still available if you ever need to rejoin a job started without `--wait`.
 
@@ -115,7 +121,7 @@ For workflow jobs, use `higgsfield generate workflow <workflow_name> ... --wait`
 
 | Flag | Purpose | Models that accept it |
 |---|---|---|
-| `--image <path-or-id>` | reference image | most image models, `seedance_2_0`, `veo3`, `marketing_studio_video` |
+| `--image <path-or-id>` | reference image | most image models, `multi_image_to_3d`, `seedance_2_0`, `veo3`, `marketing_studio_video` |
 | `--start-image <path-or-id>` | first frame for image-to-video transitions | `kling3_0`, `kling2_6`, `veo3_1`, `seedance_2_0`, `marketing_studio_video` |
 | `--end-image <path-or-id>` | last frame for transitions | `kling3_0`, `seedance_2_0`, `marketing_studio_video` |
 | `--video <path-or-id>` | reference or analyzed video | `seedance_2_0`, `brain_activity` |
@@ -132,6 +138,7 @@ higgsfield generate create gpt_image_2 --prompt "neon city at dusk" --aspect_rat
 higgsfield generate create nano_banana_2 --prompt "anime character concept, expressive pose" --image ./ref.png --wait
 higgsfield generate create seedance_2_0 --prompt "camera dollies in" --start-image ./first.png --duration 12 --wait
 higgsfield generate create text2image_soul_v2 --prompt "..." --soul-id <soul_ref_id> --quality 2k --wait
+higgsfield generate create multi_image_to_3d --image ./front.png --image ./side.png --should_texture true --wait
 higgsfield generate create brain_activity --video ./ad.mp4 --wait
 ```
 

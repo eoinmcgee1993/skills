@@ -41,7 +41,8 @@ Each model declares a closed set of accepted roles via `MEDIA_ROLES`. Pass the r
 | `veo3_1` | `start_image` | Max 1 reference. |
 | `veo3` | `image` | Single image-to-video. |
 | `marketing_studio_video` | `image`, `start_image`, `end_image` | Plus `avatars`, `product_ids`, `assets` as separate fields. |
-| `z_image`, `soul_cast`, `soul_location` | (none) | Text-only. Reject media inputs. |
+| `multi_image_to_3d` | `image` | 1–4 object/product reference images. Returns a 3D asset rather than an image/video. |
+| `z_image`, `recraft_v4_1`, `soul_cast`, `soul_location` | (none) | Prompt-only. Reject media inputs. |
 
 For simple image-to-video on a video model that only declares `image` (e.g. `veo3`), plain `--image` is auto-remapped to `start_image` by the CLI when unambiguous. When in doubt:
 
@@ -60,6 +61,15 @@ higgsfield generate create nano_banana_2 --prompt "..." \
 ```
 
 Single-reference video models (`veo3`, `veo3_1`, `kling2_6`) reject extra images — the CLI errors locally before submission with `Model accepts only one image reference`.
+
+3D asset generation with `multi_image_to_3d` accepts 1–4 images. Repeat `--image` for front/side/back/detail views:
+
+```bash
+higgsfield generate create multi_image_to_3d \
+  --image ./front.png --image ./side.png --image ./back.png \
+  --should_texture true \
+  --wait
+```
 
 ## Audio reference (Seedance)
 
@@ -81,7 +91,7 @@ higgsfield generate create seedance_2_0 \
 The CLI returns specific error messages for known shape mismatches:
 
 - `Model accepts only --image (no roles)` — the model uses the legacy `input_images` shape, not `medias` with roles. Drop role-prefixed flags and use plain `--image`.
-- `Model does not accept media inputs` — the model is prompt-only (`z_image`, `soul_location`, `soul_cast`, `wan2_6` for some configs). Drop all media flags.
+- `Model does not accept media inputs` — the model is prompt-only (`z_image`, `recraft_v4_1`, `soul_location`, `soul_cast`, `wan2_6` for some configs). Drop all media flags.
 - `Unknown media role "<role>"` — the role isn't in this model's `MEDIA_ROLES`. Run `higgsfield model get <model>` and check `medias[].roles`.
 - `Missing required params: medias` for `brain_activity` — pass exactly one clip with `--video <path-or-id>`.
 
