@@ -102,6 +102,7 @@ If the user says "analyze this video", "score this ad", "evaluate the hook", or 
    - Cinema-grade highest fidelity → Cinema Studio Video 3.0
    - Cheap with strong physics, no audio needed → Minimax Hailuo
    - Fast batch / volume → Veo 3.1 Lite
+   - Bold/stylized image-to-video from a required start image → Grok Video 1.5 (`grok_video_v15`). Requires one `--start-image` or `--image`, duration 2–15s, resolution `480p` or `720p`.
 
    **Video analysis:**
    - Rate a finished video's hook, virality potential, attention, retention, or distraction risk → Virality Predictor (`brain_activity`). This is a video analysis model that returns a text score/report, not a generated media asset.
@@ -128,8 +129,8 @@ For workflow jobs, use `higgsfield generate workflow <workflow_name> ... --wait`
 
 | Flag | Purpose | Models that accept it |
 |---|---|---|
-| `--image <path-or-id>` | reference image | most image models, `multi_image_to_3d`, `seedance_2_0`, `veo3`, `marketing_studio_video` |
-| `--start-image <path-or-id>` | first frame for image-to-video transitions | `kling3_0`, `kling2_6`, `veo3_1`, `seedance_2_0`, `marketing_studio_video` |
+| `--image <path-or-id>` | reference image | most image models, `grok_video_v15`, `multi_image_to_3d`, `seedance_2_0`, `veo3`, `marketing_studio_video` |
+| `--start-image <path-or-id>` | first frame for image-to-video transitions | `grok_video_v15`, `kling3_0`, `kling2_6`, `veo3_1`, `seedance_2_0`, `marketing_studio_video` |
 | `--end-image <path-or-id>` | last frame for transitions | `kling3_0`, `seedance_2_0`, `marketing_studio_video` |
 | `--video <path-or-id>` | reference or analyzed video | `seedance_2_0`, `brain_activity` |
 | `--audio <path-or-id>` | reference audio (lipsync, soundtrack match) | `seedance_2_0` (use this, NOT `--generate-audio`) |
@@ -144,6 +145,7 @@ Flags pass through to model schema. Use `higgsfield model get <jst>` to discover
 higgsfield generate create gpt_image_2 --prompt "neon city at dusk" --aspect_ratio 16:9 --resolution 2k --wait
 higgsfield generate create nano_banana_2 --prompt "anime character concept, expressive pose" --image ./ref.png --wait
 higgsfield generate create seedance_2_0 --prompt "camera dollies in" --start-image ./first.png --duration 12 --wait
+higgsfield generate create grok_video_v15 --prompt "cinematic handheld shot, neon rainy street" --start-image ./image.png --duration 5 --resolution 720p --wait
 higgsfield generate create text2image_soul_v2 --prompt "..." --soul-id <soul_ref_id> --quality 2k --wait
 higgsfield generate create multi_image_to_3d --image ./front.png --image ./side.png --should_texture true --wait
 higgsfield generate create sonilo_music --prompt "cinematic synthwave track" --duration 12 --wait

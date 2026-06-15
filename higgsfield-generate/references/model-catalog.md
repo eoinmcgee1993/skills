@@ -52,6 +52,7 @@ Preferred defaults for examples and quick-start guidance in this repo:
 | Wan 2.7 | Wan | Synchronized audio with character-consistent video. The newer Wan release. |
 | Wan 2.6 | Wan | Open-weight, stylized, experimental creative. Cheap option when the brief is intentionally artistic. |
 | Kling 2.6 | Kling | Cinematic motion with advanced physics — earlier Kling release alongside 3.0. |
+| Grok Video 1.5 | xAI | **Bold image-to-video from a required reference frame.** Use when the user wants stylized, anime-like, high-contrast, or experimental motion from one starting image. Requires one `--start-image` or `--image`; duration 2–15s; resolution `480p` or `720p`. |
 | Grok Imagine (video) | xAI | Text and image-to-video with audio support. Worth trying for stylized creative briefs. |
 | Cinema Studio Video | Higgsfield | Cinematic compositions with dramatic mood. Use Cinema Studio Video 3.0 as the modern default. |
 | Cinema Studio Video v2 | Higgsfield | Refined cinematic camera and color with genre control. Use Cinema Studio Video 3.0 as the modern default. |
@@ -122,7 +123,8 @@ Studio for ads and brand/product content.
 9. **Veo-format-bound work (specific aspect / duration set Veo accepts)** → Veo 3.1; Veo 3 is slightly behind.
 10. **Stylized / animation-style edit-driven work** → Wan 2.7.
 11. **Stylized cheap experimental** → Wan 2.6.
-12. **Anime / bold-style outputs where defaults feel flat** → Grok Imagine (video). Worth trying.
+12. **Anime / bold-style image-to-video with a start frame** → Grok Video 1.5 (`grok_video_v15`). Requires one `--start-image` or `--image`, duration 2–15s, resolution `480p` or `720p`.
+13. **Anime / bold-style text-to-video or older Grok-style outputs where defaults feel flat** → Grok Imagine (video). Worth trying.
 
 ### Video analysis — pick this default
 
@@ -163,6 +165,7 @@ Each model accepts a fixed set of media roles. When unsure, run `higgsfield mode
 | Seedance 2.0 | `image`, `start_image`, `end_image`, `video`, `audio` |
 | Kling 3.0 | `start_image`, `end_image` |
 | Kling 2.6 | `start_image` |
+| Grok Video 1.5 | `start_image` (required max 1; CLI also accepts `--image`) |
 | Veo 3.1 | `start_image` (max 1) |
 | Veo 3 | `image` (max 1) |
 | Marketing Studio (video) | `image`, `start_image`, `end_image` |

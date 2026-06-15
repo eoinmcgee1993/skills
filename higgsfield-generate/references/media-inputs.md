@@ -36,14 +36,15 @@ Each model declares a closed set of accepted roles via `MEDIA_ROLES`. Pass the r
 | Most image models (`nano_banana_2`, `flux_2`, `seedream_v4_5`, `gpt_image_2`, …) | `image` | 1+ references, often up to 8. |
 | `seedance_2_0` | `image`, `start_image`, `end_image`, `video`, `audio` | Audio is via `medias` (role `audio`), NOT via `--generate-audio`. |
 | `brain_activity` | `video` | Virality Predictor analyzes one uploaded clip and returns a text score report plus an Open report link; no prompt required. Treat "analyze this video" / "score this ad" as this video-analysis flow even though the output is text. Raw `.glb` and `.bin` artifacts stay in JSON/debug output, not normal chat output. |
+| `grok_video_v15` | `start_image` | Required single start frame. CLI also accepts `--image` and maps it to `start_image`. |
 | `kling3_0` | `start_image`, `end_image` | Image-to-video with optional last-frame transition. |
 | `kling2_6` | `start_image` | Single frame anchor. |
 | `veo3_1` | `start_image` | Max 1 reference. |
 | `veo3` | `image` | Single image-to-video. |
 | `marketing_studio_video` | `image`, `start_image`, `end_image` | Plus `avatars`, `product_ids`, `assets` as separate fields. |
 | `multi_image_to_3d` | `image` | 1–4 object/product reference images. Returns a 3D asset rather than an image/video. |
-| `mirelo_text_to_audio` | (none) | Text-to-audio / SFX generation. Pass `--prompt`;|
-| `sonilo_music` | (none) | Text-to-music generation. Pass `--prompt` and `--duration`; |
+| `mirelo_text_to_audio` | (none) | Text-to-audio / SFX generation. Pass `--prompt` and `--duration`; do not pass media inputs. |
+| `sonilo_music` | (none) | Text-to-music generation. Pass `--prompt` and `--duration`; do not pass media inputs. |
 | `z_image`, `recraft_v4_1`, `soul_cast`, `soul_location` | (none) | Prompt-only. Reject media inputs. |
 
 For simple image-to-video on a video model that only declares `image` (e.g. `veo3`), plain `--image` is auto-remapped to `start_image` by the CLI when unambiguous. When in doubt:
@@ -62,7 +63,7 @@ higgsfield generate create nano_banana_2 --prompt "..." \
   --wait
 ```
 
-Single-reference video models (`veo3`, `veo3_1`, `kling2_6`) reject extra images — the CLI errors locally before submission with `Model accepts only one image reference`.
+Single-reference video models (`grok_video_v15`, `veo3`, `veo3_1`, `kling2_6`) reject extra images — the CLI errors locally before submission with `Model accepts only one image reference`.
 
 3D asset generation with `multi_image_to_3d` accepts 1–4 images. Repeat `--image` for front/side/back/detail views:
 
