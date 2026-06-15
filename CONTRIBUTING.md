@@ -55,6 +55,7 @@ Before merging, confirm:
 6. **UX rules unchanged or stricter.** Don't loosen rules like "no raw IDs in chat", "polling is silent", "detect language and respond in it" without an explicit reason in the PR description.
 7. **CLI commands are real.** Every `higgsfield …` example in your SKILL.md or references must be a real, current command. Run it locally before merging.
 8. **Behavior change → docs change.** If you changed defaults, mode-selection logic, or chain semantics, the affected `SKILL.md` reflects it. An agent reading only `SKILL.md` should be able to execute the skill correctly.
+9. **Workflow changes → workflow reference.** If FNF adds or changes a public chain/workflow, update `higgsfield-generate/references/workflows.md`. Public docs call FNF chains "workflows"; use `higgsfield workflow list/get` for discovery, `higgsfield generate workflow <name> ... --wait` for creation, `higgsfield generate cost workflow <name> ...` for cost, and `higgsfield generate get/wait <job_id>` for results.
 
 ## Adding a new skill
 
@@ -105,6 +106,23 @@ Then:
 If a section in `SKILL.md` would not break the agent's ability to decide what to do next, move it to `<skill>/references/`. The agent loads references on-demand — `SKILL.md` is injected on every turn, so keep it lean.
 
 Each skill bundles its own references. If two skills happen to share a doc (e.g. both have a `troubleshooting.md`), keep separate copies — drift between skills is acceptable as long as each skill is internally consistent.
+
+## Updating model and workflow knowledge
+
+`higgsfield-generate` owns model and workflow routing knowledge.
+
+For models:
+- Add or update intent and provider in `higgsfield-generate/references/model-catalog.md`.
+- Add media-role details in `higgsfield-generate/references/media-inputs.md` only for unusual roles, transforms, single-media limits, video analysis, 3D, or audio.
+- Touch `higgsfield-generate/SKILL.md` only when routing/defaults change.
+
+For workflows:
+- FNF may call them "chains"; public skill docs call them "workflows".
+- Verify the public catalog with `higgsfield workflow list` and `higgsfield workflow get <workflow_name>`.
+- Add/update `higgsfield-generate/references/workflows.md` with use case, create example, cost example when supported, and result retrieval.
+- Use `higgsfield generate workflow <workflow_name> ... --wait` for creation and `higgsfield generate cost workflow <workflow_name> ...` for cost.
+- Do not add workflow-only items to `model-catalog.md`.
+- `draw_to_video` and `reframe` are the current public workflows. Do not mention `game_character_creator` unless it is publicly exposed and explicitly requested.
 
 ## License
 

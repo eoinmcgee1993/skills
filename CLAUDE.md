@@ -43,6 +43,7 @@ skills/
 │       ├── model-catalog.md
 │       ├── prompt-engineering.md
 │       ├── media-inputs.md
+│       ├── workflows.md
 │       ├── marketing-{avatars,products,modes}.md
 │       └── troubleshooting.md
 ├── higgsfield-soul-id/
@@ -68,7 +69,24 @@ All skills route through one binary: the [`higgsfield` CLI](https://github.com/h
 - One-shot create+wait: `higgsfield generate create <model> ... --wait` blocks until terminal and prints the result itself (media URL or Virality Predictor text summary). Prefer this over the legacy two-step `create` → `wait`. Tunables: `--wait-timeout`, `--wait-interval`. `product-photoshoot create` waits internally — no `--wait` needed.
 - Machine output: add `--json` to any command for parseable output.
 - Media inputs: every `--image`, `--start-image`, `--video`, etc. flag accepts a local path (auto-uploaded) OR a UUID (upload id or previous job id).
-- Source of truth: never invent model names. Run `higgsfield model list` for the live catalog. Reference catalogs in `references/model-catalog.md` are mappings (intent → model), not the model database.
+- Source of truth: never invent model or workflow names. Run `higgsfield model list` for the live model catalog and `higgsfield workflow list` for public workflows. Reference catalogs in `references/model-catalog.md` and `references/workflows.md` are mappings (intent → command), not the database.
+
+## Model and workflow knowledge
+
+When FNF adds a model executor or chain executor, update the generate skill knowledge instead of relying on memory.
+
+For models:
+- Update `higgsfield-generate/references/model-catalog.md` with the model's purpose and provider.
+- Update `higgsfield-generate/references/media-inputs.md` only for unusual media roles, transforms, single-media limits, video analysis, 3D, or audio.
+- Update `higgsfield-generate/SKILL.md` only when model routing/defaults change.
+
+For workflows:
+- FNF may call these "chains"; public docs and user-facing instructions call them "workflows".
+- Verify public exposure with `higgsfield workflow list` and inspect schema with `higgsfield workflow get <workflow_name>`.
+- Update `higgsfield-generate/references/workflows.md` with the use case, create command, cost command when available, and result retrieval.
+- Use public command shapes: `higgsfield generate workflow <workflow_name> ... --wait`, `higgsfield generate cost workflow <workflow_name> ...`, and `higgsfield generate get/wait <job_id>`.
+- Do not add workflow-only entries to `model-catalog.md`.
+- Current public workflows are `draw_to_video` and `reframe`. Do not mention `game_character_creator` unless the CLI exposes it publicly and the user explicitly asks for it.
 
 ## The 300-line rule
 

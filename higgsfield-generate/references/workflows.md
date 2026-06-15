@@ -81,3 +81,16 @@ higgsfield generate wait <job_id>
 ```
 
 Do not tell the user to use `workflow get` for a job result. `workflow get` describes the workflow schema; `generate get` fetches the created job.
+
+## Maintainer note
+
+When FNF adds a public chain, document it here as a workflow:
+
+1. Verify it appears in `higgsfield workflow list`.
+2. Inspect params with `higgsfield workflow get <workflow_name> --json`.
+3. Add it to the Current public workflows table with a clear use case.
+4. Add a create example using `higgsfield generate workflow <workflow_name> ... --wait`.
+5. Add a cost example only when `workflow get` exposes `cost_params`.
+6. Keep result retrieval on `higgsfield generate get/wait <job_id>`.
+
+Do not add workflow-only items to `model-catalog.md`. Public docs say "workflow"; FNF source may say "chain".
