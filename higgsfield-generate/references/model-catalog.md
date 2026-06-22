@@ -40,7 +40,7 @@ Preferred defaults for examples and quick-start guidance in this repo:
 
 | Model | Provider | What it's for |
 |---|---|---|
-| Seedance 2.0 | Bytedance | **SOTA all-purpose video.** Crisp, consistent identity, multi-shot capable. The default for any serious motion / cinematic / production brief. |
+| Seedance 2.0 | Bytedance | **SOTA all-purpose video up to 4K.** Crisp, consistent identity, multi-shot capable. The default for any serious motion / cinematic / production brief. |
 | Kling 3.0 | Kling | **Cheaper Seedance 2.0 substitute** for single-plane scenes that don't need heavy motion. Multi-shot, audio sync, motion transfer. |
 | Kling 3.0 Turbo | Kling | **Fast Kling option for simple motion.** Text-to-video and single start-frame animation when the user explicitly wants speed, lower cost, or a quick Kling 3.0 variant. |
 | Seedance 1.5 Pro | Bytedance | A budget-friendly Seedance for clean single-take shots. |
@@ -190,7 +190,7 @@ higgsfield model get <model>
 
 Common patterns:
 
-- **Seedance 2.0** image: `auto`, `21:9`, `16:9`, `4:3`, `1:1`, `3:4`, `9:16`. Duration 4–15s. Optional `--bitrate_mode standard|high`, default `standard`.
+- **Seedance 2.0** image: `auto`, `21:9`, `16:9`, `4:3`, `1:1`, `3:4`, `9:16`. Duration 4–15s. Resolution `480p`, `720p`, `1080p`, or `4k`. Optional `--bitrate_mode standard|high`, default `standard`.
 - **Kling 3.0**: `16:9`, `9:16`, `1:1`. Duration 3–15s. Modes `pro`/`std`. Sound `on`/`off`.
 - **Kling 3.0 Turbo**: `16:9`, `9:16`, `1:1`. Duration 3–15s. Resolution `720p` or `1080p`. Optional single `start_image` only.
 - **Soul 2.0**: `1:1`, `16:9`, `9:16`, `4:3`, `3:4`, `3:2`, `2:3`. Quality `1.5k` or `2k` maps to backend `720p`/`1080p`.
