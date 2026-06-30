@@ -5,7 +5,7 @@ description: |
   Generate images/videos/3D assets/audio via Higgsfield AI. Defaults:
   GPT Image 2 for image/design/text, Seedance 2.0 for
   video, Nano Banana 2/Pro for character/reference images,
-  Marketing Studio for ads, Sonilo/Mirelo for audio, plus
+  Marketing Studio for ads, Seed Audio 1.0 for audio, plus
   Soul models and Kling 3.0.
   Use when: "generate an image", "make a video", "animate
   this photo", "image-to-video", "edit/stylize/remix this
@@ -17,8 +17,7 @@ description: |
   video", "import product from URL", "create avatar for ad",
   or "analyze video virality". Supports image-to-image,
   image-to-video, image-to-3D (`multi_image_to_3d`),
-  text-to-audio (`mirelo_text_to_audio`), text-to-music
-  (`sonilo_music`), workflow generation (`draw_to_video`,
+  text-to-audio/music (`seed_audio`), workflow generation (`draw_to_video`,
   `reframe`), references, job/upload IDs, Marketing Studio,
   and Virality Predictor (`brain_activity`).
   Chain with higgsfield-soul-id for face/identity consistency.
@@ -77,6 +76,7 @@ If the user says "analyze this video", "score this ad", "evaluate the hook", or 
    - **Seedance 2.0** → default video model for serious motion, cinematic clips, multi-shot work, image-to-video, and 4–15s production-quality output up to 4K. 12s is valid.
    - **Nano Banana 2/Pro** → default for character, cartoon, stylized, and reference-driven image work; use Pro for harder briefs.
    - **Marketing Studio** → default for ads, UGC, product demos, unboxing, TV spots, presenter videos, and brand/product workflows.
+   - **Seed Audio 1.0** → default audio model for text-to-audio, voice, sound effects, ambience, foley, and music-like audio unless the user names Sonilo/Mirelo.
 
    **Image:**
    - Brand product visual (Pinterest pin, lifestyle, hero banner, ad pack, virtual try-on) → use `higgsfield-product-photoshoot` instead. NOT this skill.
@@ -111,8 +111,9 @@ If the user says "analyze this video", "score this ad", "evaluate the hook", or 
    - Create an actual 3D mesh/model/GLB from one or more object/product reference images → Multi-Image to 3D (`multi_image_to_3d`). Pass 1–4 images with repeated `--image`; use `--should_texture true` when the asset needs texture. If the user only asks for a 3D-rendered picture, use an image model instead.
 
    **Audio:**
-   - Create non-speech sound effects, ambience, foley, impacts, or environmental audio from text → Mirelo Text to Audio (`mirelo_text_to_audio`). It requires `--prompt` and `--duration`, and returns audio. Do not pass media inputs.
-   - Create music, backing tracks, jingles, or instrumental beds from text → Sonilo Music (`sonilo_music`). It requires `--prompt` and `--duration`, and returns audio. Do not pass media inputs.
+   - **Default for audio generation → Seed Audio 1.0 (`seed_audio`).** Use for text-to-audio, sound effects, ambience, foley, impacts, environmental audio, voice-style generations, and music-like audio. It requires `--prompt`; use optional `--audio-references`/`--image-references` only when the user provides references.
+   - Use Sonilo Music (`sonilo_music`) only when the user explicitly asks for Sonilo or you need that specialist music model. It requires `--prompt` and `--duration`, and returns audio.
+   - Use Mirelo Text to Audio (`mirelo_text_to_audio`) only when the user explicitly asks for Mirelo or you need that legacy SFX model. It requires `--prompt` and `--duration`, and returns audio.
 
    For the actual `--model` ID to pass to `higgsfield generate create`, run `higgsfield model list --json | jq` to map display names to IDs. See `references/model-catalog.md` for the full table.
 
@@ -148,6 +149,7 @@ higgsfield generate create seedance_2_0 --prompt "camera dollies in" --start-ima
 higgsfield generate create grok_video_v15 --prompt "cinematic handheld shot, neon rainy street" --start-image ./image.png --duration 5 --resolution 720p --wait
 higgsfield generate create text2image_soul_v2 --prompt "..." --soul-id <soul_ref_id> --quality 2k --wait
 higgsfield generate create multi_image_to_3d --image ./front.png --image ./side.png --should_texture true --wait
+higgsfield generate create seed_audio --prompt "cinematic rain ambience with distant thunder" --wait
 higgsfield generate create sonilo_music --prompt "cinematic synthwave track" --duration 12 --wait
 higgsfield generate create mirelo_text_to_audio --prompt "glass breaking in a large hall" --duration 4 --wait
 higgsfield generate create brain_activity --video ./ad.mp4 --wait

@@ -7,6 +7,7 @@ Preferred defaults for examples and quick-start guidance in this repo:
 - **Video:** `seedance_2_0` (all-purpose serious video).
 - **Character/stylized image work:** `text2image_soul_v2`.
 - **Ads/UGC/product demos:** `marketing_studio_video` or `marketing_studio_image`.
+- **Audio:** `seed_audio` (general text-to-audio, voice-style, SFX, ambience, and music-like audio).
 - **Video analysis:** Virality Predictor (`brain_activity`) for attention, hook, retention, and virality scoring. It may appear under text/analysis because the output is a report, but the input and intent are video analysis.
 
 ---
@@ -72,6 +73,7 @@ Preferred defaults for examples and quick-start guidance in this repo:
 
 | Model | Provider | What it's for |
 |---|---|---|
+| Seed Audio 1.0 | Bytedance | **Default audio generation.** Use for text-to-audio, sound effects, ambience, foley, impacts, environmental audio, voice-style generations, and music-like audio. Requires `--prompt`; optional references use `--audio-references`/`--image-references`. |
 | Sonilo Music | Sonilo | **Generate music from text.** Use for backing tracks, instrumental beds, jingles, and musical moods. Requires `--prompt` and `--duration`; returns audio and does not take media inputs. |
 | Mirelo Text to Audio | Mirelo | **Generate non-speech audio from text.** Use for sound effects, ambience, foley, impacts, transitions, and environmental sounds. Requires `--prompt` and `--duration`; returns audio and does not take media inputs. |
 
@@ -91,7 +93,7 @@ Practical defaults from production use. Match by intent, not surface keyword. Wh
 
 Core focus first: GPT Image 2 for images/design/text, Seedance 2.0 for video,
 Nano Banana 2/Pro for character or reference-driven image work, and Marketing
-Studio for ads and brand/product content.
+Studio for ads and brand/product content. Use Seed Audio 1.0 for audio.
 
 ### Image — pick this default
 
@@ -138,9 +140,10 @@ Studio for ads and brand/product content.
 
 ### Audio — pick this default
 
-1. **Create non-speech sound effects, foley, ambience, impacts, or environmental audio from text** → Mirelo Text to Audio (`mirelo_text_to_audio`). Requires `--prompt` and `--duration`. Do not pass media inputs.
-2. **Create music, backing tracks, jingles, or instrumental beds from text** → Sonilo Music (`sonilo_music`). Requires `--prompt` and `--duration`. Do not pass media inputs.
-3. **Add soundtrack/audio to a generated video ad** → use Marketing Studio Video with `--generate_audio true`, not Mirelo/Sonilo.
+1. **Default audio generation (text-to-audio, voice-style, SFX, ambience, foley, impacts, environmental audio, or music-like audio)** → Seed Audio 1.0 (`seed_audio`). Requires `--prompt`; use optional `--audio-references`/`--image-references` only when references are provided.
+2. **Create music, backing tracks, jingles, or instrumental beds with the specialist legacy music model** → Sonilo Music (`sonilo_music`) only when the user names Sonilo or Seed Audio is not appropriate. Requires `--prompt` and `--duration`.
+3. **Create SFX with the specialist legacy SFX model** → Mirelo Text to Audio (`mirelo_text_to_audio`) only when the user names Mirelo or Seed Audio is not appropriate. Requires `--prompt` and `--duration`.
+4. **Add soundtrack/audio to a generated video ad** → use Marketing Studio Video with `--generate_audio true`, not Seed Audio/Sonilo/Mirelo.
 
 ### Things to keep in mind
 
@@ -148,7 +151,7 @@ Studio for ads and brand/product content.
 - **Don't downgrade for schema convenience.** If Seedance 2.0 fits the intent, validate or submit it first; do not choose Seedance 1.5 only because it lists a requested duration more explicitly.
 - **Do not misroute video analysis because the output is text.** A request like "analyze this video" or "score this ad" maps to Virality Predictor (`brain_activity`) when the user provides or references a finished video.
 - **Do not misroute 3D style into 3D asset generation.** `multi_image_to_3d` is for actual mesh/GLB-style assets from reference images. A prompt like "make a 3D render" is usually image generation.
-- **Do not treat audio generation as an audio media input.** `mirelo_text_to_audio` and `sonilo_music` create audio from text. `--audio` is for reference audio on video models like Seedance 2.0.
+- **Do not treat audio generation as an audio media input.** `seed_audio`, `mirelo_text_to_audio`, and `sonilo_music` create audio from text. `--audio` is for reference audio on video models like Seedance 2.0 or an alias for `audio_references` on Seed Audio.
 - **Audio reference for Seedance 2.0** comes through the media inputs with role `audio`, not via a separate `generate_audio` flag.
 - **Prompt-only models reject reference media.** Z Image, Recraft V4.1, Soul Cast, Soul Location, and some Wan configs are prompt-only; pass no media flags to them. Virality Predictor is different: it returns text but requires a video input.
 - **Route branded product visuals through `higgsfield-product-photoshoot`** — its prompt enhancer adds 10 mode-specific templates on top of GPT Image 2. Direct GPT Image 2 generation here is the right call for everything that isn't a product photoshoot.
@@ -173,6 +176,7 @@ Each model accepts a fixed set of media roles. When unsure, run `higgsfield mode
 | Marketing Studio (video) | `image`, `start_image`, `end_image` |
 | Virality Predictor (`brain_activity`) | `video` |
 | Multi-Image to 3D | `image` (1–4) |
+| Seed Audio 1.0 | `audio_references` or `image_references` (optional; mutually exclusive) |
 | Mirelo Text to Audio | (no media — pass `--prompt`) |
 | Sonilo Music | (no media — pass `--prompt` and `--duration`) |
 | Most image models | `image` (1+) |

@@ -44,6 +44,7 @@ Each model declares a closed set of accepted roles via `MEDIA_ROLES`. Pass the r
 | `veo3` | `image` | Single image-to-video. |
 | `marketing_studio_video` | `image`, `start_image`, `end_image` | Plus `avatars`, `product_ids`, `assets` as separate fields. |
 | `multi_image_to_3d` | `image` | 1–4 object/product reference images. Returns a 3D asset rather than an image/video. |
+| `seed_audio` | `audio_references` or `image_references` | Default text-to-audio model. Requires `--prompt`; optional references use repeated `--audio-references`/`--image-references` (short aliases: `--audio`/`--image`). Audio and image references are mutually exclusive. |
 | `mirelo_text_to_audio` | (none) | Text-to-audio / SFX generation. Pass `--prompt` and `--duration`; do not pass media inputs. |
 | `sonilo_music` | (none) | Text-to-music generation. Pass `--prompt` and `--duration`; do not pass media inputs. |
 | `z_image`, `recraft_v4_1`, `soul_cast`, `soul_location` | (none) | Prompt-only. Reject media inputs. |
@@ -90,16 +91,30 @@ higgsfield generate create seedance_2_0 \
 
 **Do NOT pass `--generate-audio` to `seedance_2_0`** — the model schema doesn't declare it. Use the audio media role instead.
 
-Text-to-audio and text-to-music are different: these models create audio from text, so they use no media flags:
+Seed Audio is the default text-to-audio model. It can run prompt-only, or use optional audio/image references:
 
 ```bash
-higgsfield generate create mirelo_text_to_audio \
+higgsfield generate create seed_audio \
   --prompt "glass breaking in a large hall" \
   --wait
 
+higgsfield generate create seed_audio \
+  --prompt "same voice, calmer delivery" \
+  --audio-references ./voice.wav \
+  --wait
+```
+
+Sonilo and Mirelo are specialist/legacy alternatives. Use them only when the user names them or Seed Audio is not appropriate:
+
+```bash
 higgsfield generate create sonilo_music \
   --prompt "cinematic synthwave track" \
   --duration 12 \
+  --wait
+
+higgsfield generate create mirelo_text_to_audio \
+  --prompt "glass breaking in a large hall" \
+  --duration 4 \
   --wait
 ```
 
