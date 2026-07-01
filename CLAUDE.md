@@ -2,13 +2,14 @@
 
 ## What this is
 
-Four skills that drive the [`higgsfield` CLI](https://github.com/higgsfield-ai/cli) to call Higgsfield API endpoints — image/video generation, Marketing Studio, Virality Predictor video scoring, Soul Character training, branded product photography, and marketplace product cards.
+Five skills that drive the [`higgsfield` CLI](https://github.com/higgsfield-ai/cli) to call Higgsfield API endpoints — image/video generation, Marketing Studio, Virality Predictor video scoring, Soul Character training, branded product photography, marketplace product cards, and full-stack website building.
 
 ```
 higgsfield-soul-id     →  trains identity, returns reference_id
 higgsfield-generate →  consumes reference_id, plus 30+ models, plus Marketing Studio
 higgsfield-product-photoshoot  →  self-contained, brand visuals via gpt_image_2
 higgsfield-marketplace-cards  →  marketplace main, secondary, and A+ style images
+higgsfield-websites  →  build/edit/deploy full-stack sites via `higgsfield website …`
 ```
 
 ## Repository structure
@@ -53,6 +54,9 @@ skills/
 │   └── SKILL.md
 ├── higgsfield-marketplace-cards/
 │   └── SKILL.md
+├── higgsfield-websites/
+│   ├── SKILL.md
+│   └── references/                    # stack, wow-maker, auth, fnf-sdk, seo-*, security-*
 ├── evals/                             # dev-only test infrastructure
 │   ├── README.md
 │   └── scenarios.md
