@@ -5,21 +5,18 @@ description: |
   Generate images/videos/3D assets/audio via Higgsfield AI. Defaults:
   GPT Image 2 for image/design/text, Seedance 2.0 for
   video, Nano Banana 2/Lite/Pro for character/reference
-  images, Marketing Studio for ads, Seed Audio 1.0 for audio,
-  plus Soul models, Gemini Omni Flash, and Kling 3.0.
+  images, Marketing Studio for ads, Seed Audio 1.0 for audio.
   Use when: "generate an image", "make a video", "animate
   this photo", "image-to-video", "edit/stylize/remix this
-  image", "produce a clip", "reframe this video", "edit
-  this video from a sketch", "create a 3D model", "make a
-  GLB/mesh", "create a sound effect", "make music",
-  "text-to-audio", "create an ad", "make a UGC video",
-  "product demo", "unboxing", "brand video", "presenter
-  video", "import product from URL", "create avatar for ad",
-  or "analyze video virality". Supports image-to-image,
-  image-to-video, image-to-3D (`multi_image_to_3d`),
-  text-to-audio/music (`seed_audio`), workflow generation (`draw_to_video`,
-  `reframe`), references, job/upload IDs, Marketing Studio,
-  and Virality Predictor (`brain_activity`).
+  image", "reframe this video", "edit this video from a
+  sketch", "create a 3D model/GLB", "create a sound effect",
+  "make music", "text-to-audio", "create an ad", "make a UGC
+  video", "unboxing", "presenter video", "import product from
+  URL", or "analyze video virality". Supports image-to-3D
+  (`multi_image_to_3d`),
+  text-to-audio/music (`seed_audio`), workflow generation
+  (`draw_to_video`, `reframe`), Marketing Studio, and
+  Virality Predictor (`brain_activity`).
   Chain with higgsfield-soul-id for face/identity consistency.
   NOT for: Soul Character training (use higgsfield-soul-id),
   product photoshoots, marketplace listing cards,
