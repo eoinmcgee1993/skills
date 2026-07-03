@@ -9,7 +9,7 @@ libraries, and copy-paste component/block registries.
 components is a failure. Open this file on every build (marketing site, app,
 dashboard, the simplest landing — all of them), pick ingredients that fit the brief,
 and build something that feels expensive and alive. Do not search the skill library
-for other design guidance — everything is here. Use `design-taste-frontend.md` (or
+for other design guidance — everything is here. Use `design-recipe.md` (or
 `minimalist-ui.md` for Higgsfield-SDK apps) for HOW to execute with taste; this file
 is WHAT to build with.
 
@@ -56,7 +56,7 @@ page.
   top. `[W]` webgl/canvas = `[C]` **plus** `React.lazy` + code-split so it never
   enters the SSR render path. See the SSR pattern at the bottom.
 - **Motion budget:** one signature/hero effect per page (don't stack two). Motion must
-  be motivated (`design-taste-frontend.md` §4/§6). Honor `prefers-reduced-motion`:
+  be motivated (`design-recipe.md` §6). Honor `prefers-reduced-motion`:
   every animated effect needs a static fallback.
 
 ---
@@ -69,16 +69,20 @@ product's superpower**. Treat bespoke asset generation as a **default step on ev
 build**, not an afterthought. A hero with a generated image / video / 3D subject is
 often the single biggest wow upgrade available.
 
-**Tools** (load the Higgsfield generation toolset via `tool_search`; also
-`skill_view(name='image-generation')` if present). They are async — **submit → poll
-`higgsfield_job_status` → use the result**. If a param/model is rejected, call
-`higgsfield_generate_models_explore` and use what it reports.
+**Commands** (`higgsfield generate create <job_type> --prompt "…" [flags]`).
+Jobs are async — **submit (no `--wait` when batching; each prints a job id) →
+poll `higgsfield generate wait <id>` / `higgsfield generate get <id>` → use the
+result** (a single job can pass `--wait` to block and print the result URL). If
+a param/model is rejected, run `higgsfield model list` +
+`higgsfield model get <job_type>` and use what they report.
 
-- `higgsfield_generate_image` — `gpt_image_2` (general / art-directed), `nano_banana_pro`
+- Images — `gpt_image_2` (general / art-directed), `nano_banana_pro`
   (photoreal + reference-image driven, e.g. try-ons / product normalization).
-- `higgsfield_generate_video` — `seedance_2_0` (seamless loops + short films).
-- `remove_background` — turn a product/subject shot into a transparent PNG cutout.
-- `image_to_3d` — turn an approved image into a textured `.glb` (no rigging).
+- Video — `seedance_2_0` (seamless loops + short films).
+- `image_background_remover` — turn a product/subject shot into a transparent
+  PNG cutout.
+- `multi_image_to_3d` — turn 1-4 approved images into a textured `.glb`
+  (repeated `--image`, `--should_texture true`; no rigging).
 
 **Pipeline:** generate → poll → **download into `app/public/`** (e.g. `assets/`,
 `media/`, `frames/`) → reference **same-origin** (`/assets/...`). The Worker serves
@@ -89,15 +93,16 @@ stock/picsum as the final asset.
 - **Hero image / background** — the centerpiece visual (full-bleed or behind glass).
 - **Section textures / atmospheric plates** — backdrops that crossfade per section.
 - **Video loop / showreel** — a seamless `seedance_2_0` clip for a hero or band.
-- **Product cutouts** — `generate_image` → `remove_background` → transparent PNG.
-- **3D subject** — approved image → `image_to_3d` → `.glb` for an R3F scene.
+- **Product cutouts** — generate the image → `image_background_remover` →
+  transparent PNG.
+- **3D subject** — approved image → `multi_image_to_3d` → `.glb` for an R3F scene.
 - **OG image + favicon** — generate, wire into `<head>` / `app-meta`.
 - **People / avatars / testimonial faces, icon & logo glyphs** — bespoke, not stock.
 
 **Rules:** prompt for "no text, no logos, no watermark" (IP-safe + lets you set type
 in HTML); match the palette/mood to the brief; downscale large outputs (hero ≤2k,
-cutouts ~800px); **verify an image before the expensive `image_to_3d` step**; for a
-monochrome look force grayscale in the prompt AND on export.
+cutouts ~800px); **verify an image before the expensive `multi_image_to_3d`
+step**; for a monochrome look force grayscale in the prompt AND on export.
 
 ---
 
