@@ -1,23 +1,23 @@
 ---
-version: 0.3.0
+version: 0.4.0
 name: higgsfield-websites
 description: |
   Build, edit, and deploy full-stack websites via the Higgsfield CLI
-  (`higgsfield website …`). Each site is a React 19 + TanStack Start app,
-  server-rendered as one Cloudflare Worker, with D1 / R2 / KV / Durable Objects /
-  Containers. The loop: create → repo-access → clone → edit → push → deploy
-  preview. This skill is the website template's AGENTS.md — stack, the wow-maker
-  design contract, the hard rules, the editing map, and the verify/deploy flow,
-  plus per-task references. Everything is here; don't search the skill library
-  for other design guidance.
+  (`higgsfield website …`). Each site is a React 19 + TanStack Start SSR app in
+  one Cloudflare Worker (D1/R2/KV/DO/Containers). The loop: create →
+  repo-access → clone → edit → push → deploy preview. This is the website
+  template's AGENTS.md: stack, wow-maker design contract, hard rules, editing
+  map, verify/deploy flow, per-task references. Everything is here; don't
+  search the skill library for other design guidance.
   Use when: "build me a website", "make a landing page", "create a web app",
-  "build a SaaS dashboard / tool / portfolio", "deploy this site", "edit or add
-  a page or feature to my site", "ship to production".
-  Chain with: higgsfield-generate for hero images, video loops, and OG assets.
+  "build a SaaS dashboard / tool / portfolio", "deploy this site", "edit my site", "ship to production".
+  Create requires --type: "website" (no Higgsfield integration) vs "app"
+  (Higgsfield sign-in + SDK, Quanta + standard layouts).
+  Chain with: higgsfield-generate for hero images, loops, OG assets.
   NOT for: single image/video/audio generation (higgsfield-generate), product
   photos (higgsfield-product-photoshoot), marketplace cards
   (higgsfield-marketplace-cards).
-argument-hint: "[what to build or edit] [--env preview|production]"
+argument-hint: "[what to build or edit] [--type website|app] [--env preview|production]"
 allowed-tools: Bash
 ---
 
@@ -109,10 +109,13 @@ local filesystem with `git` + `bun`.
 Every hosted website tool maps to a `higgsfield website …` subcommand. The build/edit
 loop is: **create → repo-access → clone → edit → commit + push → deploy preview.**
 
-1. **Create** the website + its git repo. Prints a `website_id` (add `--json` for the
-   raw object). Use that id in every later command.
+1. **Create** the website + its git repo. `--type` is REQUIRED and is the USER'S
+   choice — ask them which kind they want when the request doesn't make it
+   obvious (see "Website vs app" below). Prints a `website_id` (add `--json` for
+   the raw object). Use that id in every later command.
    ```bash
-   higgsfield website create
+   higgsfield website create --type website   # standalone, no Higgsfield integration
+   higgsfield website create --type app       # Higgsfield-integrated (sign-in + SDK)
    ```
 2. **Get repo access** — clone URL, branch, slug, and a scoped git token. Clone into a
    directory named after the slug so multiple sites can share the workspace. Pass the
@@ -151,9 +154,36 @@ Other commands (all take `<website_id>`; add `--json` for machine-readable outpu
 - **Secrets (staged until the next deploy):**
   `higgsfield website secrets set <id> --name NAME --value VALUE`,
   `secrets list <id>`, `secrets delete <id> --name NAME`.
+- **Publish ("show in feed"):** `higgsfield website publish <id>` deploys the pushed
+  branch to PRODUCTION (a publish always includes the production deployment) AND lists
+  the website on the Higgsfield community feed — only on an explicit publish/share
+  request. `deploy --env production` is the no-feed-listing alternative. Before
+  publishing, fill `app/src/app-meta.json` with real og metadata and OFFER a cover
+  video (`og_video_url`) — ask the user's permission first (see
+  `references/seo-meta-tags.md`).
 - **List / delete:** `higgsfield website list`;
   `higgsfield website delete <id>` permanently removes the site, database, storage,
   and repo — only on an explicit delete request.
+
+## Website vs app — the REQUIRED `--type` on create
+
+`higgsfield website create` requires `--type`, and it is the USER'S choice — ask
+them which kind they want when the request doesn't make it obvious:
+
+- **`--type website`** — a standalone product with NO Higgsfield integration:
+  no "Sign in with Higgsfield", no requests to Higgsfield, no fnf SDK.
+  Marketing/landing pages, portfolios, general SaaS/dashboards/tools. Design:
+  wow-maker + custom Tailwind/CSS (`references/design-taste-frontend.md`) —
+  never Quanta, and no "Powered by / Built on Higgsfield" badges or mentions in
+  page content.
+- **`--type app`** — a product tightly integrated with Higgsfield: its users
+  Sign in with Higgsfield and generate images/videos through the fnf SDK (the
+  full auth + D1 contract applies — `references/fnf-sdk.md` +
+  `references/auth.md`). An app must match Higgsfield's own product design:
+  build the UI with **Quanta** (`references/quanta-design.md` +
+  `app/packages/quanta/ai/AGENTS.md`) and start from one of the standard app
+  layouts in `references/app-layouts.md` (marketing studio / stepper / simple
+  app / upscaler — a different layout is fine when the user asks for one).
 
 ## Stack
 
@@ -199,9 +229,10 @@ which one depends on whether the site integrates the Higgsfield SDK:
   **`references/design-taste-frontend.md`** (the anti-"AI-slop" craft playbook) and
   build custom Tailwind/CSS components. Do NOT import `@higgsfield/quanta/*`, and do
   NOT use `minimalist-ui`.
-- **Higgsfield-SDK app surfaces — apps that integrate the fnf SDK** (image/video
+- **Higgsfield-SDK app surfaces — `--type app` builds** (image/video
   generation, media upload, profile, workspace, credits, generation feed/history):
-  read **`references/minimalist-ui.md`** for the craft layer and
+  start the layout from **`references/app-layouts.md`** (the standard Higgsfield
+  app layouts), read **`references/minimalist-ui.md`** for the craft layer and
   **`references/quanta-design.md`** + the package guide
   `app/packages/quanta/ai/AGENTS.md` to implement. **`minimalist-ui` is for
   Higgsfield-SDK app surfaces ONLY** — never load it for a non-SDK site.
@@ -219,7 +250,7 @@ Then route to the FUNCTIONAL skill for the task:
 | **Design / wow on any build** — bespoke AI assets + signature effects + motion/3D libs + copy-paste components (approved, free) | **`references/wow-maker.md`** (read FIRST, every build) |
 | fnf SDK: generation jobs, media upload, profile/workspace/credits, adapters | `references/fnf-sdk.md` + `references/auth.md` + `references/runtime-and-infra.md` |
 | React query/cache/controllers for fnf | `references/fnf-react.md` + `references/auth.md` |
-| Higgsfield-SDK app UI (generation console, fnf-backed tool) | `references/minimalist-ui.md` + `references/quanta-design.md` + `app/packages/quanta/ai/AGENTS.md` + `references/fnf-sdk.md` + `references/fnf-react.md` + `references/auth.md` |
+| Higgsfield-SDK app UI (generation console, fnf-backed tool) | `references/app-layouts.md` + `references/minimalist-ui.md` + `references/quanta-design.md` + `app/packages/quanta/ai/AGENTS.md` + `references/fnf-sdk.md` + `references/fnf-react.md` + `references/auth.md` |
 | Auth, current user, login/logout, `/api/user`, `__auth` routes | `references/auth.md` + `references/runtime-and-infra.md` |
 | TanStack Start routes, SSR, server functions, Cloudflare Worker runtime | `references/runtime-and-infra.md` |
 | Heavy / long-running work (ffmpeg, headless browser, background jobs), containers | `references/containers.md` |

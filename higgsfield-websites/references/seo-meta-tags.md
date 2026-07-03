@@ -98,6 +98,42 @@ Map user input directly:
 | Brand color | `theme-color` |
 | Logo / hero image | `og:image` |
 
+## Page metadata file (`app/src/app-meta.json`) + cover video
+
+`app/src/app-meta.json` is the machine-editable page-metadata file the template
+reads at BUILD time for the global head, and the marketplace syncs onto the
+website's feed/listing card on every deploy. Its keys:
+
+```jsonc
+{
+  "og_title":       "…",   // browser <title> + og:title
+  "og_description": "…",   // meta description + og:description
+  "og_image_url":   "…",   // og:image + twitter:image (the feed card cover)
+  "favicon_url":    "…",   // <link rel="icon">
+  "og_video_url":   "…"    // og:video — the COVER VIDEO (feed cards play it on hover)
+}
+```
+
+Fill the four text/image keys with real values before any production deploy or
+publish (URLs: absolute https, or a root-relative path to a file in
+`app/public/` — it is resolved against the site's own host).
+
+**Cover video (`og_video_url`).** The animated counterpart of the cover image —
+the Higgsfield feed plays it on the website's card. It is OPTIONAL and costs
+credits to produce, so:
+
+1. **ASK THE USER FIRST.** Offer it when publishing ("want a short cover video
+   for the feed card?"); never generate one unprompted.
+2. If yes: generate a SHORT seamless loop (3-6s, no cuts, loop-friendly motion)
+   of the site's hero visual with the Higgsfield video tools (the video-loop
+   recipe in `references/asset-system.md` / `references/wow-maker.md` applies).
+3. Put the result where the card can load it: download it into `app/public/`
+   (e.g. `app/public/cover-video.mp4`) and set
+   `"og_video_url": "/cover-video.mp4"`, or use the generation result's hosted
+   https URL directly.
+4. Commit + deploy — the metadata (and the feed card) update on the next
+   deploy, like every other `app-meta.json` change.
+
 ## Pitfalls
 
 1. **Duplicate titles across routes.** Every page needs a unique `title` and `description`. Copy-paste from root is the #1 SEO mistake.
