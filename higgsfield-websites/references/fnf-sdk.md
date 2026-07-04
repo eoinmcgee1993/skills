@@ -10,6 +10,15 @@ Before coding, read:
 
 ## Template Rules
 
+- Adapter location: `@higgsfield/fnf` ships the SDK core, the backend ports,
+  and exactly ONE bundled adapter — `createWorkflowPlatformAdapter`, at the
+  `@higgsfield/fnf/workflow-platform` subpath (implementation:
+  `app/packages/fnf/src/workflow-platform/`). That is the only adapter
+  generated websites use, so the vendored `fnf` package is self-sufficient.
+  The old `@higgsfield/fnf/adapters` subpath NO LONGER EXISTS — importing it
+  is a build error. All other adapters (fnf-web, dev, apps-marketplace,
+  memory) live in the separate `@higgsfield/fnf-adapters` package, which
+  generated websites must not use.
 - Keep fnf API calls server-side: `createServerFn` or `*.server.ts`.
 - Do not call fnf from browser components.
 - An SDK website is a real END-TO-END product, never a mock. It MUST have a real
@@ -67,6 +76,12 @@ For prompts like "create a Nano Banana generation app", "build a Seedance form",
   credits from profile APIs.
 - Model form with validated settings for the requested model.
 - Cost preview using the SDK cost path when supported by the chosen model.
+- Submission confirmation gate: a browser confirmation modal (model, settings
+  summary, cost preview) BEFORE calling the generate route, plus the adapter
+  `confirm` option wired server-side (see "Submission Confirmation Gate"
+  below). A declined confirmation surfaces as the typed
+  `confirmation_rejected` error and renders as a cancelled state, not a
+  failure.
 - Media upload route using multipart `FormData` when the model accepts media.
 - Submit route/server function using `createJobClient` and registered jobs.
 - Feed/history panel using SDK list/get/getSet data so the user can see queued,
@@ -99,7 +114,7 @@ default; the default is a real, end-to-end app with a real backend and D1.
 import { createJobClient } from '@higgsfield/fnf/client'
 import { createMediaClient } from '@higgsfield/fnf/media'
 import { createProfileClient } from '@higgsfield/fnf/profile'
-import { createWorkflowPlatformAdapter } from '@higgsfield/fnf/adapters'
+import { createWorkflowPlatformAdapter } from '@higgsfield/fnf/workflow-platform'
 import { nanoBanana2, seedance2_0 } from '@higgsfield/fnf/jobs'
 ```
 
@@ -347,11 +362,15 @@ Server-function submit example:
 import { createServerFn } from '@tanstack/react-start'
 import { z } from 'zod'
 import { createJobClient } from '@higgsfield/fnf/client'
-import { createWorkflowPlatformAdapter } from '@higgsfield/fnf/adapters'
+import { createWorkflowPlatformAdapter } from '@higgsfield/fnf/workflow-platform'
 import { nanoBanana2 } from '@higgsfield/fnf/jobs'
 
 export const generate = createServerFn({ method: 'POST' })
-  .inputValidator(z.object({ prompt: z.string().min(1) }))
+  .inputValidator(z.object({
+    prompt: z.string().min(1),
+    // set by the browser confirmation modal — see "Submission Confirmation Gate"
+    confirmed: z.literal(true),
+  }))
   .handler(async ({ data }) => {
     const auth = await requireCurrentUser()
     if (!auth.ok) {
@@ -364,6 +383,10 @@ export const generate = createServerFn({ method: 'POST' })
 
     const adapter = createWorkflowPlatformAdapter({
       baseUrl: 'https://fnf.internal',
+      confirm: async () => {
+        if (!data.confirmed)
+          throw new Error('user did not confirm the submission')
+      },
     })
 
     const jobs = createJobClient({ adapter, jobs: [nanoBanana2] })
@@ -379,6 +402,46 @@ export const generate = createServerFn({ method: 'POST' })
 
 Do not use `createServerFn({ method: "GET" })` or a `GET` server route for
 generation. Generation is a mutation even when the form has no uploaded file.
+
+## Submission Confirmation Gate
+
+The SDK requires hosts that submit generations on behalf of a user to
+implement a confirmation gate. Every generation adapter factory accepts a
+`confirm` option (`ConfirmSubmit` from `@higgsfield/fnf`); `jobs.submit` calls
+it once per submission — after validation, before any network call. Resolve to
+proceed (a resolved string rides the create request as `confirmation_token`);
+reject/throw to abort with the typed `confirmation_rejected` error.
+
+In a generated website the submit runs server-side, so split the gate across
+the boundary:
+
+1. Browser: before calling the generate server function, show a Quanta
+   confirmation modal with the model, a settings summary, and the cost preview.
+   Only call the generate function after the user confirms; send
+   `confirmed: true` (or an app-minted confirmation token) in the JSON input.
+2. Server: wire the adapter's `confirm` to that input — resolve when the
+   browser confirmed, throw when it did not:
+
+```ts
+const adapter = createWorkflowPlatformAdapter({
+  baseUrl: 'https://fnf.internal',
+  // Runs during jobs.submit, after validation, before any network call.
+  confirm: async () => {
+    if (!data.confirmed)
+      throw new Error('user did not confirm the submission')
+    return data.confirmationToken // optional; sent as confirmation_token
+  },
+})
+```
+
+Rules:
+
+- Never auto-confirm (`confirm: async () => {}` with no browser modal defeats
+  the gate). The modal is mandatory for real generation websites.
+- Branch on `error.code === 'confirmation_rejected'` and render it as a
+  user-cancelled state (quiet), not an error toast.
+- The confirmation token is a token: never log it or emit it through
+  observability.
 
 ## Generation Result Rendering Contract
 
@@ -510,14 +573,18 @@ For a generated website UI:
 2. Load `/api/user` before enabling SDK-backed controls.
 3. If signed out, show sign-in UI and disable/hide generation, upload, cost,
    feed/history, profile, workspace, and credit actions.
-4. Keep submit/cost/profile/media calls in server functions or safe app-local
+4. Confirm before submit: show the confirmation modal (model + cost) and call
+   the generate function only after the user confirms; wire the adapter
+   `confirm` option server-side (see "Submission Confirmation Gate").
+5. Keep submit/cost/profile/media calls in server functions or safe app-local
    server-only modules.
-5. Re-check auth inside each server function before calling SDK clients.
-6. Return only safe data to the browser: generation ids, statuses, display
+6. Re-check auth inside each server function before calling SDK clients.
+7. Return only safe data to the browser: generation ids, statuses, display
    credits, and sanitized errors.
-7. Use `safeSubmit`/typed error codes when crossing worker/iframe boundaries.
-8. Show validation, cost, upload state, running state, terminal state, and
-   typed errors as real UI states.
+8. Use `safeSubmit`/typed error codes when crossing worker/iframe boundaries.
+9. Show validation, cost, upload state, running state, terminal state,
+   cancelled-confirmation state (`confirmation_rejected`), and typed errors as
+   real UI states.
 
 Do not build anonymous real generation. The only allowed anonymous SDK-looking
 flow is a mock/offline demo the user EXPLICITLY asked for (memory adapters, no

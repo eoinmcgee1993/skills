@@ -97,6 +97,10 @@ For any model form generated from a prompt, the default React structure is:
 - profile/credits/workspace tab or side panel
 - settings form and upload controls
 - cost preview query
+- confirmation modal before submit: `run.start` fires only after the user
+  confirms (model + settings summary + cost preview); the server wires the
+  adapter `confirm` gate — see the fnf-sdk reference, "Submission Confirmation
+  Gate"
 - `useGenerationRun` for submit + poll
 - `jobsFeedQueryOptions` / `jobSetQueryOptions` for feed/history
 - `prependGenerations` after submit when the returned generations should appear
@@ -148,7 +152,9 @@ Never render a completed generation as a blank rectangle that only says
   cost previews. Returned `credits` are display credits.
 - Use `useGenerationRun` for submit-through-poll lifecycle; `run.start()` does
   not throw for normal lifecycle failures, so render from `run.error` and
-  generation statuses.
+  generation statuses. Call `run.start` only after the confirmation modal is
+  accepted; render `run.error?.code === 'confirmation_rejected'` as a quiet
+  user-cancelled state, not an error toast.
 - Use `useAttachments` for uploads and submit-ready `MediaRef` values.
 - The job client passed to React helpers must ultimately call a server-side SDK
   path. If it wraps TanStack server functions or `/api/*` routes, submit, cost,

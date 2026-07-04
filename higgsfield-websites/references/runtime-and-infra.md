@@ -212,12 +212,12 @@ Every site with a public face must include:
    `server.ts` before the SSR handler.
 
 These are not optional for deployed sites. The SEO audit
-(`references/seo-audit.md`) checks them before deploy.
+(`references/seo.md#audit`) checks them before deploy.
 
 ## Worker Security
 
 Every Worker must follow these constraints. Load
-`references/security-worker-hardening.md` for the full rules.
+`references/security.md#worker-hardening` for the full rules.
 
 1. **No global mutable state.** Module-level variables are shared across requests
    in the same V8 isolate. Never store request-scoped data at module scope.
@@ -229,6 +229,6 @@ Every Worker must follow these constraints. Load
    and read them server-side as `bindings().SECRET_NAME` — never hardcode them in source.
 4. **Security headers on every response.** Apply `applySecurityHeaders()`
    (frame-ancestors allowlist, no X-Frame-Options) — see
-   `references/security-worker-hardening.md`.
+   `references/security.md#worker-hardening`.
 5. **Validate server function inputs.** `createServerFn` inputs come from the
    client. Always validate shape and types before processing.

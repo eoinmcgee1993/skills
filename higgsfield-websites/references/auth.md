@@ -176,7 +176,7 @@ feed/history surface automatically.
 The only exception is an offline/mock demo the user EXPLICITLY asked for — memory
 adapters only, never calling fnf.internal, apps-marketplace, media upload, or
 profile endpoints. Never choose a mock as the default: a real SDK app is
-end-to-end, with a real backend and D1 persistence (see SKILL.md rule 3a).
+end-to-end, with a real backend and D1 persistence (see references/app-flow.md rule 3a).
 
 Required flow:
 

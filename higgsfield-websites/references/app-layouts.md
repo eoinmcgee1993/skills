@@ -1,7 +1,7 @@
 # app-layouts — the standard Higgsfield app layouts (`type: "app"` builds ONLY)
 
 A `type: "app"` product must look and feel like a Higgsfield product. Instead of
-inventing app chrome from scratch, START from one of the four standard layouts
+inventing app chrome from scratch, START from one of the five standard layouts
 below — they mirror how Higgsfield's own products are laid out, and each
 one ships as a READY SCAFFOLD in the template under **`app/src/layouts/`** (read
 `app/src/layouts/AGENTS.md`). Copy the closest scaffold into your route and
@@ -11,45 +11,76 @@ wiring recipe. **If the user asks for a different layout, build what they ask
 for** — the standard layouts are the default, not a cage (a custom layout is
 still built with Quanta components + `q-` tokens).
 
+**Apps render INSIDE Higgsfield, so an app NEVER renders its own header/top
+bar** (no brand/logo row, no top nav bar) and never credits/balance or
+sign-out controls — the host chrome provides all of that. In-app navigation
+lives in a Quanta `Sidebar` (cinema studio) or inline controls (tabs, step
+indicators); a page title is just a heading inside the content area.
+
+Two more invariants: **apps are permanently DARK** (`data-theme="default-dark"`
+is pinned on `<html>` in the template — no theme toggle, no light mode, no
+`dark:` variants), and **every generate button shows its credit cost inside
+the button** as `{label} {sparkles icon} {credits}` — the sparkle is the
+branded asset `@/assets/icon-sparkles-soft.svg?react` at 14px, and the
+credits number inherits the button label's font (never a smaller/other
+style), like the scaffolds' submits. Variant colors do NOT follow
+the names: `primary` = flat LIME, `secondary` = solid WHITE, `tertiary` = dark
+white/10 glass. Non-generation buttons use the dark `tertiary`/`ghost`;
+`secondary` (white) only where the real product shows a white button.
+
 Every layout is composed from Quanta (`references/quanta-design.md`,
 `app/packages/quanta/ai/AGENTS.md` for the canonical API) and must be a real
 end-to-end app per `references/fnf-sdk.md`: Higgsfield auth
 (`references/auth.md`), server-side generation submit + poll, results rendered
-with `higgsfield-generation-card.tsx`, and the app's own product state in D1
+as cards composed from quanta `Media`/`Card` (helpers in
+`app/src/lib/higgsfield-generation-results.ts` map a Generation to its
+preview), and the app's own product state in D1
 (saved/favorited, collections, presets, history).
 
 ## Choosing a layout
 
 | Product shape | Layout | Scaffold file |
 |---|---|---|
-| Multi-asset creative workspace: prompt → many generations, browse/organize output | **Marketing studio** | `app/src/layouts/marketing-studio-layout.tsx` |
+| Multi-asset creative workspace: prompt → many generations, browse/organize output | **Cinema studio** | `app/src/layouts/cinema-studio-layout.tsx` |
 | Guided flow with a fixed sequence of choices ending in one result | **Stepper** | `app/src/layouts/stepper-layout.tsx` |
 | One transform, minimal inputs (e.g. swap a face, restyle one photo) | **Simple app** | `app/src/layouts/app-form.tsx` |
 | Enhance/convert ONE uploaded asset with a couple of options | **Upscaler** | `app/src/layouts/upscaler-layout.tsx` |
 | Turn source media into short-form clips with presets + a session library | **Shorts studio** | `app/src/layouts/shorts-studio-layout.tsx` |
 | Anything else the user describes | Custom — compose it from Quanta, keep the anatomy rules below | — |
 
-## 1. Marketing studio — the workspace
+## 1. Cinema studio — the workspace
 
-The full creative-tool layout, mirroring Higgsfield's Marketing Studio
-(higgsfield.ai/marketing-studio/product). Scaffold:
-`app/src/layouts/marketing-studio-layout.tsx`.
+The full creative-tool layout, modeled on Higgsfield's generate page
+(higgsfield.ai/generate). Scaffold: `app/src/layouts/cinema-studio-layout.tsx`.
 
-- **Left rail** — Quanta `Sidebar` (`@higgsfield/quanta/sidebar`): logo/title in
-  the header, nav rows for the app's surfaces (Create, Library/History,
-  Collections, Settings). Collapsible.
-- **Gallery** — a controls row (feed filters, view controls — slot) above a
-  responsive grid of generation results (`higgsfield-generation-card.tsx`;
-  real empty state copy; skeleton `loader` while polling).
-- **Docked floating form** — the signature region: a bottom-centered, floating
-  rounded panel OVER the gallery built from **`PromptBox`**
-  (`@higgsfield/quanta/prompt-box`): `PromptBox.Attachments` (reference/upload
-  chips row), `PromptBox.Input` (auto-grows, Enter submits; placeholder like
-  "Describe the image you want to create..."), settings CHIPS in
-  `PromptBox.Toolbar` (batch size, quality, aspect ratio, brand-kit picks —
-  chips, not full-width selects), and cost + `PromptBox.Counter` +
-  `PromptBox.Submit` in `PromptBox.Actions`. Use PromptBox for the prompt
-  surface in EVERY layout that takes a prompt — never hand-roll it.
+- **Left rail** — Quanta `Sidebar` (`@higgsfield/quanta/sidebar`): nav rows
+  first (Home, My generations, My favorites), then a "Projects" section with
+  the user's projects/collections and a "New project" row.
+- **Feed** — the main area is a masonry-ish generation feed you BUILD from
+  quanta pieces (CSS-columns masonry or `Grid`): image cards plus hover-play
+  video cards (poster swaps to a muted looping video on hover), real empty
+  state copy, in-flight status cards (Loader + "In queue" / "In progress"
+  Badge) while polling, failure cards with retry.
+- **Composer** — the signature region: floating, bottom-centered OVER the feed,
+  a glass card you BUILD from Quanta primitives (the Apps Builder design;
+  there is no prebuilt composer component): outer card `bg-q-background-glass`
+  + `backdrop-blur-2xl` + `rounded-[1.25rem]` with an attachment-thumbnail
+  strip on top (40px `rounded-lg` thumbs, quanta `CloseButton` to remove);
+  inner surface `bg-q-transparent-dark-30 rounded-[1.125rem]` holding an
+  auto-growing transparent textarea (Enter submits, never submits empty; real
+  placeholders: image "Describe what you want to create...", video "Describe
+  your scene - use @ to add characters & locations") over a settings-chips
+  row (quanta `Chip` size="xs" color="neutral" — model / aspect / resolution /
+  duration / batch, not full-width selects), and the tall GENERATE button
+  filling the card's right edge — quanta Button `marketingPrimary` with the
+  uppercase `text-q-accent-xs-bold` label stacked over the branded
+  soft-sparkles icon (`@/assets/icon-sparkles-soft.svg?react`) + credit cost
+  in the same font as the label. The Image/Video mode switcher is a separate small glass rail card
+  (stacked icon-over-caption buttons, selected mode on a white/10 fill +
+  subtle border), passed to `CinemaStudioLayout`'s `modeSwitcher` slot (docks
+  left of the composer, bottom-aligned).
+- No app header/top bar and no credits/balance or sign-out chrome anywhere —
+  the Higgsfield host provides those.
 - Product state in D1: every generation the user keeps, plus
   collections/projects.
 
@@ -82,7 +113,8 @@ the form; you compose the page around it.
 
 - `AppForm` anatomy: input-fields slot → optional mode toggle + settings rows →
   submit row (optional accessory + one full-width `marketingPrimary` Button —
-  the accent generate CTA — with the credit cost) → quiet helper line
+  the accent generate CTA, always showing `{label} {sparkles} {credits}`) →
+  quiet helper line
   ("You have N free generations left").
 - Inputs, face-swap style: two upload cards side by side on desktop
   (`flex flex-col gap-3 md:flex-row`, each `flex-1`), labelled like the real
@@ -109,7 +141,8 @@ One asset in, an enhanced asset out, mirroring Higgsfield's Upscale tool
 - **Settings panel** (right, ~21rem, appears once media is loaded): a header
   with the tool name + a ghost "Reset", scrollable settings (model `Select`,
   scale-factor toggle group, an "Advanced settings" collapsible), and a STICKY
-  full-width `marketingPrimary` submit with the credit cost.
+  full-width `marketingPrimary` submit always showing the credit cost
+  (`{label} {sparkles} {credits}`).
 - Result: a before/after compare (slider where feasible), then download + save.
 - Recent enhancements from D1 below.
 
@@ -133,9 +166,16 @@ Source media in, short-form clips out, mirroring Higgsfield's Shorts Studio
 
 ## Anatomy rules (all layouts, incl. custom)
 
+- Layouts are CONTAINER-WIDTH: `mx-auto w-full max-w-7xl` on the shell (the
+  body background fills the viewport). The ONE exception is cinema studio —
+  a full-bleed workspace (sidebar + edge-to-edge feed under the composer).
 - The GENERATE action always uses Button `variant="marketingPrimary"` (the
-  accent CTA every Higgsfield product uses); plain `primary` is for ordinary
-  actions and navigation. `PromptBox.Submit` already defaults to it.
+  accent CTA every Higgsfield product uses). Quanta variant colors do NOT
+  follow the names — `primary` = flat lime, `secondary` = solid white,
+  `tertiary` = dark white/10 glass: ordinary actions and navigation use the
+  dark `tertiary`/`ghost`; `secondary` only where the product shows a white
+  button; flat lime `primary` is almost never right (the lime CTA is
+  `marketingPrimary`, which is 3D).
 - Quanta components before custom markup: `Button`, `Input`, `Textarea`,
   `Dropdown`, `Select`, `Modal`, `Tabs`, `Sidebar`, `Avatar`, `Badge`,
   `Tooltip`, `sonner` toasts, `loader`. Spacing = native Tailwind (`p-4`,
@@ -144,7 +184,7 @@ Source media in, short-form clips out, mirroring Higgsfield's Shorts Studio
 - The signed-out state, auth guards, `/api/user`, cost preview, submit/poll
   routes, and D1 persistence are MANDATORY — see the checklist in
   `references/fnf-sdk.md`.
-- Generation results always render through `higgsfield-generation-card.tsx`,
-  never a bare `<img>`.
-- Polish per `references/minimalist-ui.md`: real empty/loading/error states,
-  keyboard focus states, responsive down to mobile.
+- Generation results render as designed cards (quanta `Media` inside `Card`
+  or your feed cell, with model/time meta), never a bare `<img>`.
+- Polish per `references/quanta-design.md` Layer 1 (UX craft): real
+  empty/loading/error states, keyboard focus states, responsive down to mobile.

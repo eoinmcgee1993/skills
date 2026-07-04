@@ -10,7 +10,7 @@ components is a failure. Open this file on every build (marketing site, app,
 dashboard, the simplest landing — all of them), pick ingredients that fit the brief,
 and build something that feels expensive and alive. Do not search the skill library
 for other design guidance — everything is here. Use `design-recipe.md` (or
-`minimalist-ui.md` for Higgsfield-SDK apps) for HOW to execute with taste; this file
+`quanta-design.md` for Higgsfield-SDK apps) for HOW to execute with taste; this file
 is WHAT to build with.
 
 ## The minimum wow bar (every site — before it is "done")
