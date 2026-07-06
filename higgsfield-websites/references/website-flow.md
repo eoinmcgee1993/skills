@@ -227,10 +227,10 @@ Then route to the FUNCTIONAL reference for the task:
   conventions, no `app/src/pages`.
 - **Vite 7 + bun**. Build emits `dist/server/server.js` (the Worker) +
   `dist/client` (hashed static assets). Tailwind v4 is wired in `app/src/styles.css`
-  (it also imports Quanta's + HeroUI's Tailwind entries for the template
+  (it also imports Quanta's Tailwind entry for the template
   bundle — leave that wiring alone even though websites use neither). Legacy
   shadcn/ui files may exist from the scaffold. Websites use custom
-  Tailwind/CSS only — never import `@higgsfield/quanta/*` or `@heroui/*`.
+  Tailwind/CSS only — never import `@higgsfield/quanta/*` or `@astryxdesign/*`.
 - **No separate Hono/Express backend.** Server logic is TanStack **server
   functions** (`createServerFn`) and **server routes**. App-local API routes are
   allowed when a platform contract requires them (for example a webhook

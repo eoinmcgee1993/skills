@@ -1,5 +1,5 @@
 ---
-version: 0.8.0
+version: 0.9.0
 name: higgsfield-websites
 description: |
   Build, edit, and deploy full-stack websites via the Higgsfield CLI
@@ -8,7 +8,7 @@ description: |
   `--type` on create: `website` (standalone, NO Higgsfield integration,
   independent brand, custom CSS — the image-grounded pipeline in
   references/website-flow.md) vs `app` (Sign in with Higgsfield + fnf SDK,
-  Quanta + HeroUI + app layouts per references/app-flow.md). This file routes to
+  Quanta + Astryx + app layouts per references/app-flow.md). This file routes to
   the right flow; each flow carries its own workflow, references, hard rules,
   and deploy/publish gates.
   Use when: "build me a website", "make a landing page", "create a web app",
@@ -36,20 +36,21 @@ there.
 when the request doesn't make it obvious, ask the user before creating (one
 question, up front):
 
-- **`--type website`** — a standalone product with NO Higgsfield integration:
-  no "Sign in with Higgsfield", no requests to Higgsfield, no fnf SDK. Every
-  website gets a fully independent brand: own palette, type, and chrome from a
-  design brief, custom Tailwind/CSS only — never import `@higgsfield/quanta/*`.
-  Do NOT use q-prefixed tokens anywhere on a website, and no "Powered by /
-  Built on Higgsfield" badges or mentions in page content. The user's brand is
-  the only brand on the page.
+- **`--type website`** — a standalone product with NO Higgsfield integration
+  and **NO AI generation of any kind** (no image/video/audio/text generation —
+  not via Higgsfield, and not via some other provider): no "Sign in with
+  Higgsfield", no requests to Higgsfield, no fnf SDK. Every website gets a
+  fully independent brand: own palette, type, and chrome from a design brief,
+  custom Tailwind/CSS only — never import `@higgsfield/quanta/*` or use
+  q-prefixed tokens anywhere, and no "Powered by / Built on Higgsfield" badges
+  or mentions in page content. The user's brand is the only brand on the page.
   ```bash
   higgsfield website create --type website
   ```
 - **`--type app`** — a product tightly integrated with Higgsfield: its users
   Sign in with Higgsfield and generate images/videos through the fnf SDK (the
   full auth + D1 contract applies). An app must look and feel like a Higgsfield
-  product: UI built with **Quanta** (`references/quanta-design.md`) + **HeroUI**
+  product: UI built with **Quanta** (`references/quanta-design.md`) + **Astryx**
   for component gaps, starting from a standard app layout
   (`references/app-layouts.md`). Quanta and the app layouts are app-only — never
   applied to a `--type website` build. The independent-brand rule and the wow
@@ -59,9 +60,19 @@ question, up front):
   higgsfield website create --type app
   ```
 
+**Generation is ALWAYS an app.** Any product that generates images, video,
+audio, or other AI media runs on Higgsfield — build it as `--type app` (Sign
+in with Higgsfield, generation on the user's Higgsfield credits). NEVER offer
+the user an option to "bring your own image/video API" or plug in their own
+generation key for a website — that path does not exist. `--type website` is
+ONLY for sites with no generation and no tie to Higgsfield or any other
+generation service. (A website may still use ordinary non-generation
+third-party APIs — payments, maps, email — with the user's own keys; that is
+unrelated to this rule.)
+
 Quick tells: "landing page / portfolio / marketing site / SaaS with its own
-users" → website. "generator / AI tool / anything with Higgsfield models,
-credits, or generation history" → app.
+users, no AI generation" → website. "generates images/video/audio, or anything
+with Higgsfield models, credits, or generation history" → app.
 
 ## Prerequisites
 
@@ -86,7 +97,7 @@ credits, or generation history" → app.
 | Type | Flow |
 |---|---|
 | `--type website` | **`references/website-flow.md`** — phased pipeline: intake → concept → reference boards → asset system → build-to-boards → motion → mechanical gate → adversarial review |
-| `--type app` | **`references/app-flow.md`** — the Quanta + HeroUI toolkit, the five app layouts, fnf SDK + auth + D1 contract, brand-review self-check, publish gate |
+| `--type app` | **`references/app-flow.md`** — the Quanta + Astryx toolkit, the four reference layouts, fnf SDK + auth + D1 contract, launch cover + metadata, brand-review self-check, publish gate |
 
 Both flows share the same platform mechanics (SSR Worker, `app.manifest.json`
 infra, preview-first deploys via `higgsfield website deploy … --env preview`,
@@ -108,6 +119,24 @@ flow restates what it needs, so you never have to read the other one.
 Do NOT search the skill library for other design guidance — everything is
 under this skill.
 
+## Talking to the user — no technical/plumbing language
+
+Most users are not technical. Never expose the build plumbing in what you SAY
+to them. Do NOT mention the git repository, cloning, branches, commits,
+pushing, pulling, or the deploy pipeline in user-facing messages — those are
+internal mechanics you just perform. Speak in product terms about what the
+user cares about:
+
+- "Setting up your site…" — not "cloning the repo" / "scaffolding the project".
+- "Saving your changes…" / "Updating the site…" — not "committing" / "pushing".
+- "Your preview is ready: <url>" — not "deployed the branch" / "the build passed".
+- "Publishing your site…" — not "merging to main" / "pushing to production".
+
+This is about the WORDS in chat only — keep doing the real steps behind the
+scenes; just don't narrate them in developer terms. (The one exception: a user
+who is clearly technical and explicitly asks about the repo, branch, or deploy
+mechanics — then answer plainly. CLI flags and code stay English.)
+
 ## Reference index (what's in this bundle)
 
 The two flow files pull in the rest as needed — you don't read these directly
@@ -124,6 +153,6 @@ unless a flow sends you there.
 `references/seo.md`.
 
 **App flow:** `references/quanta-design.md`, `references/app-layouts.md`,
-`references/heroui-fallback.md`, `references/brand-review.md`,
+`references/astryx-fallback.md`, `references/brand-review.md`,
 `references/fnf-sdk.md`, `references/fnf-react.md`, `references/auth.md`,
 `references/containers.md`.

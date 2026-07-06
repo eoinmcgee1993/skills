@@ -1,4 +1,4 @@
-# App flow — `type: "app"` (Higgsfield-integrated, Quanta + HeroUI)
+# App flow — `type: "app"` (Higgsfield-integrated, Quanta + Astryx)
 
 You are building ONE per-website Cloudflare Worker: a **React 19 + TanStack
 Start** app that is **server-rendered (SSR)** and deploys as a single Worker
@@ -21,16 +21,17 @@ there.
   `references/quanta-design.md` is the working guide (tokens, components,
   UX-craft rules, the Higgsfield integration rules); the canonical API
   reference is `app/packages/quanta/ai/AGENTS.md`.
-- **The five layout scaffolds** (`references/app-layouts.md` +
-  `app/src/layouts/AGENTS.md`) — cinema studio / stepper / simple app (form) /
-  upscaler / shorts studio, each modeled on a live Higgsfield product. Start
-  from the closest; a custom layout is fine when the user asks. The composer,
-  feed, and result cards are BUILT per app from Quanta primitives — the same
-  reference carries their anatomy.
-- **HeroUI fallback** (`references/heroui-fallback.md`) — `@heroui/react` is
-  preinstalled and themed to the brand for components Quanta lacks (date
-  picker, calendar, data table, …). Never where Quanta has the component;
-  never restyled.
+- **The four reference layouts** (`references/app-layouts.md` +
+  `app/src/layouts/AGENTS.md`) — simple-app / preset-app / complex-app /
+  studio-app, each a SCREENSHOT of a real Higgsfield app hosted at
+  `https://static.higgsfield.ai/website-builder/layout-references/<name>.png`.
+  There are no prebuilt scaffolds: pick the closest, VIEW its image, and build
+  the whole screen (chrome, composer, feed, result cards) from Quanta
+  primitives. A custom layout is fine when the user asks.
+- **Astryx fallback** (`references/astryx-fallback.md`) — `@astryxdesign/core`
+  (Meta's open-source React + StyleX DS, MIT) is preinstalled and themed to the
+  brand for components Quanta lacks (date picker, calendar, data table, …).
+  Never where Quanta has the component; never restyled.
 - **Icons** — Google Material Symbols outlined 400, imported per icon
   (`@material-symbols/svg-400/outlined/<name>.svg?react`). The generate-button
   sparkle is the branded `@/assets/icon-sparkles-soft.svg?react`.
@@ -65,7 +66,7 @@ Higgsfield CLI generation commands — never stock, never placeholders.
 These come from `references/quanta-design.md` — read it before building:
 
 1. **Never customize Quanta styles** — compose, don't restyle. Rebuild missing
-   small pieces from Quanta primitives; complex gaps go to the HeroUI fallback.
+   small pieces from Quanta primitives; complex gaps go to the Astryx fallback.
 2. **No app header/top bar** — apps render inside Higgsfield; the host chrome
    provides the global header and account controls. Never credits/balance or
    sign-out UI. In-app navigation is a Quanta `Sidebar` or inline controls.
@@ -87,13 +88,13 @@ These come from `references/quanta-design.md` — read it before building:
    brand-critical. Never a second round — pick sensible defaults and state
    them.
 2. **Create** — `higgsfield website create --type app`.
-3. **Plan the screens** — pick the closest layout scaffold in
-   `references/app-layouts.md`; list the screens/states (including first-run/
-   empty state) and the app's own product state for D1.
-4. **Build with Quanta** — copy the scaffold into routes and adapt; compose
-   screens from Quanta components per `references/quanta-design.md`; HeroUI
-   only for gaps. Real copy in every state (empty, busy, error) — no
-   placeholders.
+3. **Plan the screens** — pick the closest of the four reference layouts in
+   `references/app-layouts.md` and VIEW its image (open the URL) to read the
+   real composition; list the screens/states (including first-run/empty state)
+   and the app's own product state for D1.
+4. **Build with Quanta** — build the layout from the reference image using
+   Quanta components per `references/quanta-design.md`; Astryx only for gaps.
+   Real copy in every state (empty, busy, error) — no placeholders.
 5. **Wire fnf end-to-end** — auth first (`references/auth.md`), then
    generation/media through server functions per `references/fnf-sdk.md` +
    `references/fnf-react.md`, product state in D1 (rules 3/3a below). Poll
@@ -106,8 +107,17 @@ These come from `references/quanta-design.md` — read it before building:
    brand-review self-check (`references/brand-review.md`) against the
    screenshots — fix confident flags, redeploy once; if you cannot, say the
    visual review was skipped. Report the preview URL.
-8. **Publish only when asked** — then the publish gate below (cover, og
-   metadata) applies.
+8. **Cover + metadata — ALWAYS, as part of building (not just at publish).**
+   Every app ships with a launch cover and filled feed-card metadata. Generate
+   them per `references/app-cover.md`: the branded 3:2 cover + stadium-capsule
+   OG image, then fill `app/src/app-meta.json` — `og_title`, `og_description`,
+   `og_image_url` (the OG file), `marketplace_cover_url` (the plain cover),
+   `favicon_url`. This is NOT optional and NOT gated on the user asking: do it
+   without prompting, the same way you write real copy. (Only the cover VIDEO,
+   `og_video_url`, needs the user's permission — it costs credits.) An app you
+   present as done with an empty cover or empty `og_title` is INCOMPLETE.
+9. **Publish only when asked** — then the publish gate below re-checks the
+   cover + metadata are filled.
 
 ---
 
@@ -117,7 +127,7 @@ These come from `references/quanta-design.md` — read it before building:
 |---|---|
 | fnf SDK: generation jobs, media upload, profile/workspace/credits, adapters | `references/fnf-sdk.md` + `references/auth.md` + `references/runtime-and-infra.md` |
 | React query/cache/controllers for fnf | `references/fnf-react.md` + `references/auth.md` |
-| Higgsfield-SDK app UI (generation console, fnf-backed tool) | `references/app-layouts.md` + `references/quanta-design.md` + `references/fnf-sdk.md` + `references/fnf-react.md` + `references/auth.md` (component gaps: `references/heroui-fallback.md`) |
+| Higgsfield-SDK app UI (generation console, fnf-backed tool) | `references/app-layouts.md` + `references/quanta-design.md` + `references/fnf-sdk.md` + `references/fnf-react.md` + `references/auth.md` (component gaps: `references/astryx-fallback.md`) |
 | Design self-review before delivery | `references/brand-review.md` — the 7-criteria Higgs taste rubric |
 | Cover / OG image ("cover", "обложка", "OG image", publish prep) | `references/app-cover.md` — branded 3:2 cover + capsule OG mask |
 | Auth, current user, login/logout, `/api/user`, `__auth` routes | `references/auth.md` + `references/runtime-and-infra.md` |
@@ -284,12 +294,12 @@ Durable Object for strong consistency.
 - Components → Quanta components first (`@higgsfield/quanta/*` — Button,
   Input, Textarea, Dropdown, Modal, Tabs, Sidebar, Chip, …), app-local
   composition in `app/src/components/**`; layout per
-  `references/app-layouts.md`; HeroUI for gaps.
+  `references/app-layouts.md`; Astryx for gaps.
 - Generation result UI → compose from Quanta `Media`/`Card` +
   `app/src/lib/higgsfield-generation-results.ts`.
-- Styles / theme → `app/src/styles.css` (Tailwind v4 + Quanta + HeroUI wiring —
-  leave it alone). Quanta's `q-` tokens ARE the theme; the app is permanently
-  dark.
+- Styles / theme → `app/src/styles.css` (Tailwind v4 + Quanta wiring; Astryx
+  themes via its own `<Theme>` provider — leave it alone). Quanta's `q-` tokens
+  ARE the theme; the app is permanently dark.
 - D1 schema → `app/migrations/000N_*.sql` (additive; see rule 5).
 
 ## Verify + deploy
