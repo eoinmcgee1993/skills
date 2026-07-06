@@ -162,29 +162,19 @@ classes** (bespoke-chrome violation); **opacity-0 + whileInView** combinations;
 section plan honored; copy self-audit. This is a completion gate — do not
 deploy with a failing item.
 
-### Phase 6 — Deploy + adversarial review (default verdict: NEEDS_WORK)
+### Phase 6 — Deploy
 
 1. `higgsfield website deploy <website_id>` — this ships the live public site
    immediately; there is no preview stage.
-2. If you can screenshot the deployed live site (e.g. a browser or screenshot
-   tool is available), capture it: full-page desktop ~1440px AND mobile ~390px.
-   If you cannot, state plainly in your report that the visual review was
-   skipped — do not silently drop it.
-3. Review as a **skeptical outside reviewer whose default verdict is
-   NEEDS_WORK**: grade §B of `references/review-rubric.md` (8 items) AND
-   board-faithfulness per section (does the built section still feel like its
-   reference board, or did it drift to template?). You are hunting for reasons
-   it reads as AI output — a review that waves everything through is itself a
-   failure.
-4. Grade the FULL rubric before touching any code — do not fix finding #1
-   before finding #4 exists. Then collect ALL findings into ONE batch fix,
-   apply, redeploy once. A second loop only for broken layout,
-   not taste nits.
-5. Report: live URL (from `higgsfield website status`) + one-line concept
-   statement + anything honestly skipped.
+2. Report: live URL (from `higgsfield website status`) — "Your site is live:
+   <url>" — + one-line concept statement + anything honestly skipped. Speak in
+   product terms — no repo/commit/deploy jargon (see the SKILL.md "Talking to
+   the user" rule).
 
-Do NOT publish/list on the community feed unless the user explicitly asks to
-publish/go live on the feed.
+Do NOT navigate to, screenshot, or run image analysis on the deployed site —
+the mechanical gates (`bun run typecheck`, `bun run qa:fill -- --strict`) are
+the only verification. Do NOT publish/list on the community feed unless the user
+explicitly asks to publish/go live on the feed.
 
 ---
 
@@ -199,8 +189,7 @@ publish/go live on the feed.
 4. **`references/asset-system.md`** — Phase 2: the Higgsfield asset kit.
 5. **`references/image-to-code.md`** — Phase 3: faithful implementation +
    bespoke chrome + the CTA garment catalog.
-6. **`references/review-rubric.md`** — Phases 5-6: mechanical gate + visual
-   rubric.
+6. **`references/review-rubric.md`** — Phase 5: the mechanical gate.
 7. `references/wow-maker.md` — ingredient directory: motion/3D libs (§4),
    component registries (§5), signature effect patterns (§2), SSR pattern (§6).
    Only listed free/permissive sources may be used.
@@ -233,7 +222,7 @@ Then route to the FUNCTIONAL reference for the task:
   (it also imports Quanta's Tailwind entry for the template
   bundle — leave that wiring alone even though websites use neither). Legacy
   shadcn/ui files may exist from the scaffold. Websites use custom
-  Tailwind/CSS only — never import `@higgsfield/quanta/*` or `@astryxdesign/*`.
+  Tailwind/CSS only — never import `@higgsfield/quanta/*`.
 - **No separate Hono/Express backend.** Server logic is TanStack **server
   functions** (`createServerFn`) and **server routes**. App-local API routes are
   allowed when a platform contract requires them (for example a webhook
@@ -379,9 +368,8 @@ Cloudflare token); the trusted platform CI does that.
 
 **Default: run the pipeline, pass the Phase 5 gate, deploy**
 (`higgsfield website deploy <website_id>` — this ships the live site
-immediately), then run the Phase 6 adversarial review against the live site.
-Never publish/list on the community feed unless the user explicitly asked to
-publish.
+immediately). Never publish/list on the community feed unless the user
+explicitly asked to publish.
 
 **Publishing ("show in feed").** When the user asks to publish / share / put the
 site on the feed, run `higgsfield website publish <website_id>` — it deploys the
@@ -434,9 +422,7 @@ a build/type error, or a command genuinely needs `node_modules`.
 
 **Small edits to an existing site** (copy tweak, one component, styling fix): the
 pipeline does not restart. Make the edit, run `bun run qa:fill -- --strict`,
-deploy. Run the Phase 6 screenshot loop only when the edit changed
-layout/visual structure (new section, hero change, theme change) — not for a
-typo fix.
+deploy.
 
 **Before claiming a build done / deploying, no placeholders may remain.** Run
 `bun run qa:fill -- --strict` (add `--url <live-url>` to also scan the rendered

@@ -14,7 +14,8 @@ Two hard rules, no exceptions:
    breakdown of where the form / canvas / feed / composer sit, so you CANNOT
    build the screen without viewing it. Open the URL (fetch / view the image),
    read the real composition — spacing, structure, the controls — then reproduce
-   it with Quanta components (Astryx only for gaps). Building from the layout's
+   it with Quanta components (build any gap as your own component from Quanta
+   primitives — never a third-party UI library). Building from the layout's
    name alone, without opening the image, is wrong.
 
 There are NO prebuilt layout scaffolds — you compose the screen yourself.
@@ -57,8 +58,9 @@ writing any layout code.
   `Modal`, `Tabs`, `Sidebar`, `Avatar`, `Badge`, `Tooltip`, `sonner` toasts,
   `Loader`, `Media`, `Grid`. Spacing = native Tailwind (`p-4`, `gap-3`);
   semantics = `q-` utilities (`bg-q-background-primary`,
-  `text-q-body-md-regular`). Astryx only for components Quanta lacks
-  (`references/astryx-fallback.md`).
+  `text-q-body-md-regular`). For anything Quanta lacks, build your own
+  component from Quanta primitives (`references/quanta-design.md` rule 5) —
+  never a third-party UI library.
 - **Real end-to-end app** — Higgsfield auth (`references/auth.md`), server-side
   generation submit + poll, and the app's own product state in D1
   (saved/favorited, collections, presets, history). The signed-out state, auth

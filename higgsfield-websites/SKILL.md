@@ -1,5 +1,5 @@
 ---
-version: 0.11.0
+version: 0.12.0
 name: higgsfield-websites
 description: |
   Build, edit, and deploy full-stack websites via the Higgsfield CLI
@@ -8,7 +8,7 @@ description: |
   `--type` on create: `website` (standalone, NO Higgsfield integration,
   independent brand, custom CSS — the image-grounded pipeline in
   references/website-flow.md) vs `app` (Sign in with Higgsfield + fnf SDK,
-  Quanta + Astryx + app layouts per references/app-flow.md). This file routes to
+  Quanta + app layouts per references/app-flow.md). This file routes to
   the right flow; each flow carries its own workflow, references, hard rules,
   and deploy/publish gates.
   Use when: "build me a website", "make a landing page", "create a web app",
@@ -50,8 +50,9 @@ question, up front):
 - **`--type app`** — a product tightly integrated with Higgsfield: its users
   Sign in with Higgsfield and generate images/videos through the fnf SDK (the
   full auth + D1 contract applies). An app must look and feel like a Higgsfield
-  product: UI built with **Quanta** (`references/quanta-design.md`) + **Astryx**
-  for component gaps, starting from a standard app layout
+  product: UI built with **Quanta** (`references/quanta-design.md`) — and, for
+  anything Quanta lacks, your own component built from Quanta primitives (never a
+  third-party UI library) — starting from a standard app layout
   (`references/app-layouts.md`). Quanta and the app layouts are app-only — never
   applied to a `--type website` build. The independent-brand rule and the wow
   pipeline (`design-taste-frontend`, boards, wow catalog) are the website path;
@@ -96,8 +97,8 @@ with Higgsfield models, credits, or generation history" → app.
 
 | Type | Flow |
 |---|---|
-| `--type website` | **`references/website-flow.md`** — phased pipeline: intake → concept → reference boards → asset system → build-to-boards → motion → cover + metadata → mechanical gate → adversarial review |
-| `--type app` | **`references/app-flow.md`** — the Quanta + Astryx toolkit, the four reference layouts, fnf SDK + auth + D1 contract, launch cover + metadata, brand-review self-check, publish gate |
+| `--type website` | **`references/website-flow.md`** — phased pipeline: intake → concept → reference boards → asset system → build-to-boards → motion → cover + metadata → mechanical gate → deploy |
+| `--type app` | **`references/app-flow.md`** — the Quanta toolkit, the four reference layouts, fnf SDK + auth + D1 contract, launch cover + metadata, publish gate |
 
 Both flows share the same platform mechanics (SSR Worker, `app.manifest.json`
 infra, a single live deploy via `higgsfield website deploy <website_id>`,
@@ -174,6 +175,5 @@ unless a flow sends you there.
 `references/seo.md`.
 
 **App flow:** `references/quanta-design.md`, `references/app-layouts.md`,
-`references/astryx-fallback.md`, `references/brand-review.md`,
 `references/fnf-sdk.md`, `references/fnf-react.md`, `references/auth.md`,
 `references/containers.md`.
