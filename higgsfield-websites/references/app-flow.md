@@ -82,6 +82,13 @@ These come from `references/quanta-design.md` — read it before building:
 
 ## How to build an app
 
+**Plan first, then narrate progress.** Right after intake, post a short plan
+to the user — the screens/features you're about to build, in product terms
+(per the SKILL.md "Talking to the user" rule). As you work, send a one-line
+update whenever a step completes ("Screens are built — wiring up generation
+next", "4 of 6 done") so the user always knows how much work remains. Never
+go silent for a long stretch of the build.
+
 1. **Intake** (ONE batched round — ask the user only for what the brief doesn't
    answer): confirm `type: "app"` is what the user wants (it is the USER'S
    choice), what the app does (which generation models/flows), and anything

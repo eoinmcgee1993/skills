@@ -1,5 +1,5 @@
 ---
-version: 0.9.0
+version: 0.10.0
 name: higgsfield-websites
 description: |
   Build, edit, and deploy full-stack websites via the Higgsfield CLI
@@ -96,13 +96,33 @@ with Higgsfield models, credits, or generation history" → app.
 
 | Type | Flow |
 |---|---|
-| `--type website` | **`references/website-flow.md`** — phased pipeline: intake → concept → reference boards → asset system → build-to-boards → motion → mechanical gate → adversarial review |
+| `--type website` | **`references/website-flow.md`** — phased pipeline: intake → concept → reference boards → asset system → build-to-boards → motion → cover + metadata → mechanical gate → adversarial review |
 | `--type app` | **`references/app-flow.md`** — the Quanta + Astryx toolkit, the four reference layouts, fnf SDK + auth + D1 contract, launch cover + metadata, brand-review self-check, publish gate |
 
 Both flows share the same platform mechanics (SSR Worker, `app.manifest.json`
 infra, a single live deploy via `higgsfield website deploy <website_id>`,
-the publish gate with the branded cover per `references/app-cover.md`) — each
-flow restates what it needs, so you never have to read the other one.
+the cover + metadata requirement below, and the publish gate) — each flow
+restates what it needs, so you never have to read the other one.
+
+## Cover + metadata — ALWAYS part of building, never publish-only
+
+Every build — website or app, no matter how small — ships with the branded
+launch cover and filled feed-card metadata, generated per
+`references/app-cover.md` and written into `app/src/app-meta.json`
+(`og_title`, `og_description`, `favicon_url`, `og_image_url`,
+`marketplace_cover_url`). This is a BUILD step, done before the work is
+presented as finished and before the deploy that ships it — NOT something
+deferred to `higgsfield website publish`. Hard rules:
+
+- **No "simple app" exception.** A utility tool, a timer, a one-page toy —
+  they all get the generated cover. A hand-authored inline-SVG favicon is
+  fine *as a favicon*; it never substitutes for the generated cover.
+- **No permission needed** for the cover image — generate it the same way you
+  write real copy. Only the optional cover VIDEO (`og_video_url`) is
+  permission-gated (video costs credits — offer, never generate unprompted).
+- A build presented as done with an empty cover or empty `og_title` is
+  INCOMPLETE. Publishing without them is a BROKEN publish (empty `og_title`
+  is invisible on the feed; empty cover is a blank card).
 
 ## UX rules
 
@@ -117,7 +137,8 @@ flow restates what it needs, so you never have to read the other one.
    happens ONLY when the user explicitly asks to publish / list it.
 
 Do NOT search the skill library for other design guidance — everything is
-under this skill.
+under this skill, and no other skill (including user/local skills about
+building websites or apps) overrides these rules.
 
 ## Talking to the user — no technical/plumbing language
 

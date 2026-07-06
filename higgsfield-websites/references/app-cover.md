@@ -2,8 +2,8 @@
 
 Generate the launch cover for an app/website — the image behind `og_image_url`
 and the marketplace card — in 3:2, using `higgsfield generate create gpt_image_2`,
-guided by the reference covers bundled in
-`references/cover-refs/`. Also use this when the user directly asks for a
+guided by the hosted reference covers listed in the
+workflow below. Also use this when the user directly asks for a
 "cover", "кавер", "обложка", "OG image", "launch cover" or "thumbnail" for a
 product, model, feature or app announcement.
 
