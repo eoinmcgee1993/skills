@@ -1,37 +1,67 @@
 # app-layouts — the standard Higgsfield app layouts (`type: "app"` builds ONLY)
 
 A `type: "app"` product must look and feel like a Higgsfield product, so you do
-NOT invent app chrome. Every `type: "app"` build starts from ONE of the four
-reference layouts below — each is a screenshot of a real Higgsfield app.
+NOT invent app chrome. The template ships the standard layouts and the UI they
+are built from as **real code** — you build by copying/composing those, not by
+reproducing a screenshot.
 
 Two hard rules, no exceptions:
 
-1. **You MUST pick one of the four layouts.** Match the app to the CLOSEST one;
-   an unusual request still maps to the nearest layout — adapt within it, never
-   invent a different app shell.
-2. **You MUST open the picked layout's reference image and build from it.** The
-   image is the ONLY description of the layout — there is deliberately no text
-   breakdown of where the form / canvas / feed / composer sit, so you CANNOT
-   build the screen without viewing it. Open the URL (fetch / view the image),
-   read the real composition — spacing, structure, the controls — then reproduce
-   it with Quanta components (build any gap as your own component from Quanta
-   primitives — never a third-party UI library). Building from the layout's
-   name alone, without opening the image, is wrong.
+1. **Start from one of the three shipped layouts — Studio, Preset, or App
+   detail.** Match the app to whichever is closest (`app/src/layouts/studio.tsx`,
+   `preset.tsx`, or `app-detail.tsx`) and adapt it; an unusual request still maps
+   to the nearest one — adapt within it, never invent a different app shell. A
+   fully custom layout is fine only when the user asks for something none covers.
+2. **Read the code, then build.** After `higgsfield website repo-access` + clone, read
+   `app/src/layouts/AGENTS.md` (the scaffold catalog — anatomy + rules for each)
+   and open the layout/component files you'll use. They are the source of truth
+   for structure; build from them, not from memory.
 
-There are NO prebuilt layout scaffolds — you compose the screen yourself.
+Everything is code in the repo — there are no external reference images to open.
 
-## The four reference layouts
+## The three layouts (`app/src/layouts/`)
 
-The table only tells you WHICH image to open — the "when to pick" column is a
-selector, not a build spec. The image is what you build from; open it before
-writing any layout code.
+The template ships **three** ready-made layout screens as real code —
+**prefer one of them**. Copy the closest one into your route (or compose it from
+a route file) and adapt freely. See `app/src/layouts/AGENTS.md` for each one's
+anatomy.
 
-| Layout | Reference image — OPEN IT before building | When to pick |
-|---|---|---|
-| **Simple app** | `https://static.higgsfield.ai/website-builder/layout-references/simple-app.png` | A one-shot transform: a few inputs and a single action (e.g. Face Swap). |
-| **Preset app** | `https://static.higgsfield.ai/website-builder/layout-references/preset-app.png` | Browsing a gallery of styles/templates is the main surface (e.g. Shorts Studio). |
-| **Complex app** | `https://static.higgsfield.ai/website-builder/layout-references/complex-app.png` | Editing ONE asset with many controls/parameters (e.g. Relight). |
-| **Studio app** | `https://static.higgsfield.ai/website-builder/layout-references/studio-app.png` | A full multi-project creative workspace (e.g. Cinema Studio). |
+| Layout | When to pick |
+|---|---|
+| `studio.tsx` (`StudioTemplate`) | A full creative workspace: projects-first `Sidebar` + hero + a floating prompt dock (`@/components/prompt-box` — mode toggle, inline setting pills, lime GENERATE) over an edge-to-edge generations feed. The richest shell — for multi-project generation tools. |
+| `preset.tsx` (`PresetTemplate`) | A **preset app**: a persistent left creation rail (`@/components/composer` + `@/components/setting-trigger` rows + costed Generate) beside a browsable preset gallery (Presets/History/How-it-works tabs + search + media grid). |
+| `app-detail.tsx` (`AppDetailTemplate`) | A single app's **public landing page**: a centered `max-w-7xl` scroll page with a two-column generator hero (`@/components/dropzone` inputs on the left, a large `Media` preview on the right, costed Generate) and a "how it works in 3 steps" explainer. For a marketing/detail page around one tool, not a full workspace. |
+
+Map any request to the closest of the three; only build a fully custom shell
+when the user asks for something none covers.
+
+## Reusable UI components (`app/src/components/`)
+
+Build the moving parts from these instead of hand-rolling them (they compose
+Quanta and match the product):
+
+- `prompt-box/` — the studio prompt dock (caption, textarea, inline setting
+  pills that open as `Select` dropdowns, a tall marketing-primary Generate).
+- `composer/` — a simpler prompt-input pane (caption + borderless textarea +
+  footer action pills) for form-style builders.
+- `setting-trigger/` — a compact labelled picker row (label + current value +
+  chevron) for builder panels; compose with Modal/Vault/Dropdown/Select.
+- `generation-card/` — a single generation-result tile (`ready` shows the
+  cover; `generating` shows a pulsing brand-glow placeholder + status pill).
+- `history-grid.tsx` — a generation feed/grid of `generation-card`s.
+- `media-card/` — a framed gallery/cover tile (bordered frame + bottom title +
+  optional glass action chip).
+- `asset-library.tsx` — the assets modal (folder tree + tabbed media grid) for
+  attach/reference flows.
+- `generation-detail.tsx` — the full-view lightbox for a single generation
+  (stage + info panel + actions).
+- `template-picker.tsx` — the full-screen template/preset picker modal.
+- `template-modal/` — a compact modal for picking a template/preset option.
+- `dropzone/` — a file-drop upload area (`Dropzone`) + its selected-file
+  preview (`DropzonePreview`), for the app-detail input hero.
+
+Anything these don't cover, build your own component from Quanta primitives
+(`references/quanta-design.md` rule 5) — never a third-party UI library.
 
 ## Invariants (every layout)
 
@@ -56,43 +86,13 @@ writing any layout code.
   white button.
 - **Quanta first** — `Button`, `Input`, `Textarea`, `Dropdown`, `Select`,
   `Modal`, `Tabs`, `Sidebar`, `Avatar`, `Badge`, `Tooltip`, `sonner` toasts,
-  `Loader`, `Media`, `Grid`. Spacing = native Tailwind (`p-4`, `gap-3`);
-  semantics = `q-` utilities (`bg-q-background-primary`,
-  `text-q-body-md-regular`). For anything Quanta lacks, build your own
-  component from Quanta primitives (`references/quanta-design.md` rule 5) —
-  never a third-party UI library.
+  `Loader`, `Media`, `Grid`, plus the app components above. Spacing = native
+  Tailwind (`p-4`, `gap-3`); semantics = `q-` utilities
+  (`bg-q-background-primary`, `text-q-body-md-regular`). For anything Quanta
+  lacks, build your own component from Quanta primitives — never a third-party
+  UI library.
 - **Real end-to-end app** — Higgsfield auth (`references/auth.md`), server-side
   generation submit + poll, and the app's own product state in D1
   (saved/favorited, collections, presets, history). The signed-out state, auth
   guards, `/api/user`, cost preview, submit/poll routes, and D1 persistence are
   MANDATORY — see the checklist in `references/fnf-sdk.md`.
-
-## Building the moving parts (studio / preset composer, feeds, results)
-
-These recur across the layouts; build them from Quanta:
-
-- **Prompt composer** (studio, and any prompt surface): a glass card —
-  `bg-q-background-glass` + `backdrop-blur-2xl` + `rounded-[1.25rem]` — with an
-  attachment-thumbnail strip on top (40px `rounded-lg` thumbs, quanta
-  `CloseButton` to remove); an inner surface `bg-q-transparent-dark-30
-  rounded-[1.125rem]` holding an auto-growing transparent textarea (Enter
-  submits, never empty; real placeholders: image "Describe what you want to
-  create...", video "Describe your scene - use @ to add characters &
-  locations") over a settings-chips row (quanta `Chip` size="xs"
-  color="neutral" — model / aspect / resolution / duration / batch, not
-  full-width selects); and the tall GENERATE button filling the right edge
-  (marketingPrimary, uppercase `text-q-accent-xs-bold` label stacked over the
-  sparkle + credit cost). The studio's Image/Video mode switcher is a small
-  separate glass rail card (stacked icon-over-caption buttons, selected mode on
-  a white/10 fill), docked left of the composer.
-- **Generation feed**: build from quanta pieces (CSS-columns masonry or `Grid`
-  `cols="auto-fit"`, resize `minColWidth` rather than breakpoint ladders):
-  image cards plus hover-play video cards (poster swaps to a muted looping
-  video on hover), real empty-state copy, in-flight status cards (Loader +
-  "In queue" / "In progress" Badge) while polling, failure cards with retry.
-- **Results**: designed cards composed from quanta `Media` inside `Card` (or
-  your feed cell) with a model/time meta strip — never a bare `<img>`. The
-  helpers in `app/src/lib/higgsfield-generation-results.ts` map a Generation to
-  its preview URL with the right precedence.
-- **Polish** per `references/quanta-design.md` Layer 1: real empty/loading/error
-  states, keyboard focus states, responsive down to mobile.
