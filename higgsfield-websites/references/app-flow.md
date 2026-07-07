@@ -92,6 +92,23 @@ update whenever a step completes ("Screens are built — wiring up generation
 next", "4 of 6 done") so the user always knows how much work remains. Never
 go silent for a long stretch of the build.
 
+**Read the guides, then BUILD — do not spelunk the package source.** Your whole
+API surface is already written down: `references/app-quickstart.md` (the
+copy-paste critical path — auth, generation submit/poll, result rendering, and
+the common Quanta components — READ IT FIRST), `references/quanta-design.md`
+plus the in-repo `app/packages/quanta/ai/AGENTS.md` for component props/tokens,
+and `references/fnf-sdk.md` + `references/fnf-react.md` (canonical in-repo
+mirrors: `app/packages/fnf/ai/AGENTS.md` and `.../fnf-react/ai/AGENTS.md`) for
+the SDK + hooks. Those guides plus the one layout reference image are ENOUGH to
+build the whole app. **Do NOT open, `cat`, or `grep`
+`app/packages/{quanta,fnf,fnf-react}/src/**`** — every prop and method you need
+is in the guides, and reading package source is the single biggest time sink in
+a build (it also bloats context and slows every later step). If a specific prop
+or field is genuinely missing from a guide, make the reasonable call and let
+`bun run typecheck` catch a mistake — do NOT dig through `src/` to pre-confirm
+it; note the doc gap in your final summary instead. Once you have read the
+guides + the layout image, you have enough — start writing.
+
 1. **Intake** (ONE batched round — ask the user only for what the brief doesn't
    answer): confirm `type: "app"` is what the user wants (it is the USER'S
    choice), what the app does (which generation models/flows), and anything
