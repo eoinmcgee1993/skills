@@ -75,6 +75,22 @@ Quick tells: "landing page / portfolio / marketing site / SaaS with its own
 users, no AI generation" → website. "generates images/video/audio, or anything
 with Higgsfield models, credits, or generation history" → app.
 
+## Always set a subdomain on create
+
+`higgsfield website create` takes an optional `--subdomain` — it becomes the
+site's slug, so the live URL is `<subdomain>.<host>`. **Always set it:** pick
+one from the product's name or purpose; only omit it (which yields a random
+slug) if the user explicitly wants a random one. Rules for a good subdomain:
+
+- **More than 4 characters** — short single words are reserved, so go a bit longer.
+- **Memorable** — derive it from the product name/purpose (e.g. `lumen-notes`,
+  `pixelforge`), not a random string.
+- **Allowed characters only** — lowercase letters, digits, and single hyphens
+  (DNS-safe). No spaces, underscores, uppercase, or leading/trailing hyphens.
+
+A few reserved labels (e.g. `api`, `www`, `app`) and already-taken subdomains
+are rejected — if that happens, try a close variant.
+
 ## Prerequisites
 
 1. If `higgsfield` is not on `$PATH`, install it:
@@ -174,6 +190,8 @@ unless a flow sends you there.
 `references/design-taste-frontend.md`, `references/review-rubric.md`,
 `references/seo.md`.
 
-**App flow:** `references/quanta-design.md`, `references/app-layouts.md`,
+**App flow:** `references/app-quickstart.md` (START HERE — the working critical
+path: auth, generation submit/poll, result rendering, common Quanta components),
+`references/quanta-design.md`, `references/app-layouts.md`,
 `references/fnf-sdk.md`, `references/fnf-react.md`, `references/auth.md`,
 `references/containers.md`.

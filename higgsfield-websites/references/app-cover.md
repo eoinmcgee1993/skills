@@ -65,7 +65,15 @@ You need: the **product/feature name** (exact spelling — it will be rendered
 as text), a **hero concept** (the focal scene), and a **typography treatment**
 matching the vibe (see the style section — vary it between covers). For an app
 build, derive the name from `og_title` and the hero concept from what the app
-does. If the user gave only a name, invent a hero concept that fits the
+does.
+
+**Keep `og_title` SHORT — at most 3–4 words, and ideally ONE word.** It is the
+feed-card title and the browser tab title, and it's the dominant text on the
+cover, so a punchy one- or two-word product/brand name reads best (e.g. `Lumen`,
+`PixelForge`, `Recipe Vault`). Put the pitch/tagline in `og_description`, never
+in `og_title` — an `og_title` that's a full sentence is wrong.
+
+If the user gave only a name, invent a hero concept that fits the
 product's vibe (playful spectacle > generic tech imagery). Optional: accent
 color, partner lockup, CTA text override.
 

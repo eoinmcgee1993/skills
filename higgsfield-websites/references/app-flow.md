@@ -137,6 +137,7 @@ go silent for a long stretch of the build.
 
 | Task | Read |
 |---|---|
+| **START HERE** — the working critical path: auth, generation submit/poll, result rendering, the common Quanta components | **`references/app-quickstart.md`** |
 | fnf SDK: generation jobs, media upload, profile/workspace/credits, adapters | `references/fnf-sdk.md` + `references/auth.md` + `references/runtime-and-infra.md` |
 | React query/cache/controllers for fnf | `references/fnf-react.md` + `references/auth.md` |
 | Higgsfield-SDK app UI (generation console, fnf-backed tool) | `references/app-layouts.md` + `references/quanta-design.md` + `references/fnf-sdk.md` + `references/fnf-react.md` + `references/auth.md` (component gaps: build from Quanta primitives) |
