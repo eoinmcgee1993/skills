@@ -152,6 +152,8 @@ have read the guides + the chosen code layout, you have enough — start writing
 | React query/cache/controllers for fnf | `references/fnf-react.md` + `references/auth.md` |
 | Higgsfield-SDK app UI (generation console, fnf-backed tool) | `references/app-layouts.md` + `references/quanta-design.md` + `references/fnf-sdk.md` + `references/fnf-react.md` + `references/auth.md` (component gaps: build from Quanta primitives) |
 | Cover / OG image ("cover", "обложка", "OG image", publish prep) | `references/app-cover.md` — branded 3:2 cover + capsule OG mask |
+| Cover video / "animate the cover" (`og_video_url`, permission-gated) | `references/cover-animator.md` — ~5s end-frame reveal via `seedance_2_0` |
+| App contest ("enter the contest", "$100k contest", `higgsfield website contest`) | `references/contest.md` — publish first, then submit with social links |
 | Auth, current user, login/logout, `/api/user`, `__auth` routes | `references/auth.md` + `references/runtime-and-infra.md` |
 | TanStack Start routes, SSR, server functions, Cloudflare Worker runtime | `references/runtime-and-infra.md` |
 | Heavy / long-running work (ffmpeg, headless browser, background jobs), containers | `references/containers.md` |
@@ -340,8 +342,12 @@ pushed your changes to the remote repository before deploying. Never publish/lis
 on the community feed unless the user explicitly asked to publish.
 
 **Publishing ("show in feed").** When the user asks to publish / share / put
-the app on the feed, run `higgsfield website publish <website_id>` — it deploys
-the pushed `main` and lists the app on the Higgsfield community feed.
+the app on the feed, run `higgsfield website publish <website_id>` — it lists
+the app on the Higgsfield community feed. **Publishing no longer deploys**: it
+lists whatever is already live, so run `higgsfield website deploy <website_id>`
+FIRST — and after ANY later change, deploy again to ship it (re-publishing does
+not re-deploy and won't pick up un-deployed changes). Never list the app on the
+community feed unless the user explicitly asked to publish.
 
 **HARD GATE — the cover is NOT optional. Running `higgsfield website publish` while
 `og_image_url` or `marketplace_cover_url` is empty is a BROKEN publish** (the
@@ -351,7 +357,9 @@ sequence is: (a) READ `app/src/app-meta.json`; (b) if `og_image_url` or
 `marketplace_cover_url` is empty → STOP, read `references/app-cover.md` and
 generate + upload the cover NOW — do not skip this because the user "only asked
 to publish", the cover IS part of publishing; (c) fill ALL fields below with
-real values (never placeholders); (d) commit + push; (e) only then run
+real values (never placeholders); (d) commit + push; (e) run
+`higgsfield website deploy <website_id>` to ship the pushed changes (publish no
+longer deploys — it lists what's already live); (f) only then run
 `higgsfield website publish`:
 
 1. `og_title` — the card's title (also the browser tab title).
@@ -368,13 +376,25 @@ real values (never placeholders); (d) commit + push; (e) only then run
 6. `og_video_url` — the **cover video**, OPTIONAL and permission-gated: OFFER
    it to the user ("want a short cover video for the feed card?") and ASK
    PERMISSION FIRST — generating a video costs credits; never generate it
-   unprompted. If they say yes, follow "Cover video" in `references/seo.md`.
+   unprompted. If they say yes, follow `references/cover-animator.md` (the ~5s
+   end-frame reveal of the launch cover via `seedance_2_0`).
 
 (1–5 are generated without asking — they are part of the publish, not a
 separate credit decision; only the cover VIDEO (6) needs permission.)
 
 `higgsfield website deploy <website_id>` remains the way to ship the live site
 WITHOUT a feed listing.
+
+**Entering the app contest.** If the user asks to enter the app in the
+Higgsfield contest ("enter the contest", "submit to the $100k contest"), run
+`higgsfield website contest <website_id> --url <link>` — but it requires the app
+to be **published** first. If it isn't published yet, run
+`higgsfield website publish <website_id>` first (don't make the user do a
+separate step), then submit. The submission needs one or more public
+social-media links (Instagram / TikTok / YouTube / X) with the app link and
+`#HiggsfieldApp` — the user posts those themselves, so ask for the URL(s). Full
+rules, prizes, and how the contest shapes the build are in
+`references/contest.md`.
 
 **Run the local checks only when you actually need them** — from `app/`:
 ```bash

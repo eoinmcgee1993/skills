@@ -194,4 +194,6 @@ unless a flow sends you there.
 path: auth, generation submit/poll, result rendering, common Quanta components),
 `references/quanta-design.md`, `references/app-layouts.md`,
 `references/fnf-sdk.md`, `references/fnf-react.md`, `references/auth.md`,
-`references/containers.md`.
+`references/containers.md`, `references/cover-animator.md` (permission-gated
+~5s cover video → `og_video_url`), `references/contest.md` (the $100k app
+contest — publish first, then submit with social links).

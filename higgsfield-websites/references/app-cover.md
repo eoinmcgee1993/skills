@@ -38,15 +38,26 @@ user asks to deviate:
   a cinematic/photoreal scene, a clean studio composition, or a playful 3D
   render.
 - **Big display typography** for the product name — the name is the loudest
-  element after the hero, in the accent color (e.g., lime text on dark scene)
-  or dark text on light scene. The typeface treatment VARIES between covers
-  and should match the product's vibe — don't default to the same condensed
-  uppercase every time. Treatments seen across the brand: bold condensed
-  uppercase (sporty/loud launches), glossy chrome bubble lowercase (Y2K/cute),
-  elegant serif with italic accents (editorial/analytical), pixelated 8-bit
-  lettering (techy/retro), clean modern sans lowercase (product/utility),
-  stencil or slab (industrial). Pick one deliberately and describe it
-  explicitly in the prompt.
+  element after the hero. This is where covers most often die into AI slop, so
+  treat type as a designed composition, not a caption. Three hard rules:
+  1. **Typeface**: vary deliberately between covers — bold condensed uppercase
+     is ALLOWED ONLY for genuinely loud/sporty launches and must not be the
+     default. The palette of treatments: glossy chrome bubble lowercase
+     (Y2K/cute), elegant serif with italic accents (editorial/analytical),
+     pixelated 8-bit (techy/retro), clean modern grotesk lowercase
+     (product/utility), stencil/slab (industrial), handwritten brush
+     (personal/creative), whimsical storybook serif (kids/cozy). Name the
+     treatment explicitly in the prompt.
+  2. **Type composition**: don't just park one straight line of text on the
+     left. Compose: stack words in two-three lines with contrasting sizes (one
+     word huge, the rest small), mix filled and outlined letters, tilt or arc a
+     word, let one word sit inside/behind the hero so the subject overlaps a
+     letter (depth), run the tagline vertically or as a small badge, put one
+     word in a contrasting color. Pick ONE such compositional idea per cover
+     and describe it concretely.
+  3. **Title color comes from the scene's palette** — not automatically acid
+     lime. Lime titles only when the scene is genuinely dark/neutral and lime
+     fits the vibe.
 - **A small rounded pill CTA** reading "Available now at higgsfield.ai" in
   small clean type.
 - **Higgsfield logo** (squiggle mark + wordmark) placed near the title, small.
@@ -56,6 +67,30 @@ user asks to deviate:
   humor or spectacle (goalkeeper diving, office slapstick, neon subway,
   claymation shark). One clear focal subject — never a collage of equal
   elements.
+
+## Anti-slop rules (composition)
+
+These are the patterns that make AI covers look cheap — actively design
+against them:
+
+- **No default layout.** "Hero on the right, straight title on the left,
+  everything vertically centered" is the slop baseline. Vary: hero breaking
+  through the center with type wrapped around it, title huge across the whole
+  width with the subject in front of it, low horizon with type in the sky,
+  extreme close-up hero with a small precise type block in a corner of the safe
+  zone.
+- **Scale contrast.** Something should be dramatically big against something
+  small — a giant hero vs a tiny type block, or a massive one-word title vs a
+  small scene.
+- **Depth, not decals.** Let the hero overlap a letter or the title cast onto
+  the scene; text should feel placed IN the world's lighting, not pasted on
+  top.
+- **Restraint with effects.** No generic glows, lens flares, floating sparks,
+  or particle confetti "for energy" unless the concept demands them. One strong
+  lighting idea beats five effects.
+- **Specific beats generic.** In the scene description name concrete materials,
+  a concrete camera angle, and one concrete lighting setup — vague words
+  ("epic", "dynamic") produce slop.
 
 ## Workflow
 
@@ -128,16 +163,22 @@ sentence is what protects the OG mask step; keep it:
 > Full-bleed promo artwork in the visual style of the scenes inside the
 > reference images' capsules, edge-to-edge composition filling the entire
 > canvas, NO border, NO frame, NO rounded capsule, NO corner dots. Scene:
-> [HERO CONCEPT — one focal subject, dramatic lighting, high production
-> value]. Huge title "[PRODUCT NAME]" as the dominant text, [TYPOGRAPHY
-> TREATMENT — e.g. "glossy chrome bubble lowercase lettering" / "elegant
-> serif with italic accents" / "pixelated 8-bit lettering" / "bold condensed
-> uppercase"], [TITLE COLOR] color. Small rounded pill button with the text
-> "Available now at higgsfield.ai". Small Higgsfield logo near the title.
-> IMPORTANT: keep the title, tagline, button, logo and the focal subject
-> inside the central safe zone — nothing closer than 10% to any edge, corners
-> empty (background only) — the outer edges will be cropped by a rounded
-> mask. 3:2 landscape composition, punchy contrast, premium promo art.
+> [HERO CONCEPT — one focal subject, concrete materials, concrete camera
+> angle, one concrete lighting setup]. Title "[PRODUCT NAME]" in [TYPOGRAPHY
+> TREATMENT], [TITLE COLOR drawn from the scene palette]; type composition:
+> [TYPE COMPOSITION — e.g. "stacked in two lines, first word three times
+> larger than the second" / "the hero overlaps the bottom of the letters" /
+> "one word tilted 4 degrees, outlined, the rest filled"]. Small tagline
+> "[TAGLINE]". Small rounded pill button with the text "Available now at
+> higgsfield.ai". Small Higgsfield logo near the title. IMPORTANT: keep the
+> title, tagline, button, logo and the focal subject inside the central safe
+> zone — nothing closer than 10% to any edge, corners empty (background only)
+> — the outer edges will be cropped by a rounded mask. 3:2 landscape
+> composition, punchy contrast, premium promo art.
+
+Before generating, sanity-check your own plan: if the draft is "condensed caps,
+lime, left-aligned, hero on the right" — that's the slop baseline, redesign the
+type composition first.
 
 Text rendering matters: repeat the exact product name in quotes and keep other
 text minimal — GPT Image renders short strings well but degrades with many

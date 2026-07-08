@@ -89,12 +89,28 @@ export const Route = createFileRoute('/api/user')({
 Server routes are part of the same Worker. Do not add Hono/Express or a second
 backend process.
 
-Do not manually edit or hand-write `app/src/routeTree.gen.ts`. After adding nested
-routes such as `app/src/routes/api/user.tsx` or
-`app/src/routes/api/media/upload.tsx`, let the TanStack Router plugin regenerate the
-route tree. A stale route tree that imports nested routes but never adds them as
-children can make `/api/user` or `/api/media/upload` look like backend failures
-when the route was never registered.
+`app/src/routeTree.gen.ts` is GENERATED — normally you don't hand-write it.
+After adding a route (`app/src/routes/api/user.ts`,
+`app/src/routes/api/media/upload.tsx`, …) the TanStack Router plugin
+regenerates it on `bun run dev`/`bun run build`; a stale tree that imports a
+nested route but never registers it as a child makes `/api/user` etc. look like
+backend failures when the route was simply never registered.
+
+**But the deploy build typechecks against the COMMITTED tree.** `createFileRoute("/api/user")`
+type-checks its path string against `routeTree.gen.ts`, and the CI `build` runs
+`tsc` and `vite` **in parallel** — so `tsc` sees whatever route tree you
+committed, before Vite regenerates it. If you add a route, commit a stale tree,
+and can't run the toolchain in the sandbox (no `bun`, or the npm registry is
+blocked), CI fails with `TS2345: '"/api/user"' is not assignable to keyof
+FileRoutesByPath`. Two ways out, in order:
+
+1. **Regenerate locally and commit the result** — run `bun run dev` (or `build`)
+   so the plugin rewrites `routeTree.gen.ts`, then commit it. Preferred.
+2. **Hand-register the route** when you genuinely can't run the toolchain. The
+   file is deterministic: add the `*RouteImport`, the route const, all three
+   route maps, the `FileRoutesByPath` module augmentation, and the
+   `rootRouteChildren` entry — mirroring an existing route exactly. Then it
+   typechecks and the plugin will just reproduce the same tree on the CI build.
 
 ## Binary Upload Routes
 

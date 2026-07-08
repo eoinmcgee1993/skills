@@ -202,6 +202,18 @@ Cloudflare bindings (D1 `DB`, R2 `STORAGE`, KV `KV`) are read server-side via
 only exist if declared in `app/app.manifest.json` (`"db": true`, etc.). Guard
 before use. Runtime detail in `references/runtime-and-infra.md`.
 
+**Return flat, fully-typed DTOs — never a raw SDK object.** TanStack Start
+compile-time-checks that every server-function return value is serializable, and
+SDK types like `Generation` carry `input.settings: Record<string, unknown>` —
+`unknown` fails that check and breaks the build. Map the SDK object to a small
+DTO with only the fields the client needs (`{ id, status, previewUrl, … }`),
+typed explicitly. Same rule for anything you hand back across the server/client
+boundary: no `unknown`, no class instances, plain JSON-shaped data.
+
+**`import type` React types.** In module files there is no `React` UMD global,
+so bare `React.ReactNode` / `React.CSSProperties` fail to compile — write
+`import type { ReactNode, CSSProperties } from "react"` and use them unqualified.
+
 ## 8. The Quanta components you'll actually use
 
 All dark, composed — never restyled. Props reference:

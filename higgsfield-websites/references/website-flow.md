@@ -371,9 +371,11 @@ immediately). Never publish/list on the community feed unless the user
 explicitly asked to publish.
 
 **Publishing ("show in feed").** When the user asks to publish / share / put the
-site on the feed, run `higgsfield website publish <website_id>` — it deploys the
-pushed `main` (a publish always includes a deploy; no separate deploy command
-needed) and lists the website on the Higgsfield community feed.
+site on the feed, run `higgsfield website publish <website_id>` — it lists the
+site on the Higgsfield community feed. **Publishing no longer deploys**: it
+lists whatever is already live, so run `higgsfield website deploy <website_id>`
+FIRST — and after ANY later change, deploy again to ship it (re-publishing does
+not re-deploy and won't pick up un-deployed changes).
 
 **HARD GATE — the cover is NOT optional. Running `higgsfield website publish` while
 `og_image_url` or `marketplace_cover_url` is empty is a BROKEN publish** (the
@@ -383,7 +385,9 @@ sequence is: (a) READ `app/src/app-meta.json`; (b) if `og_image_url` or
 `marketplace_cover_url` is empty → STOP, read `references/app-cover.md` and
 generate + upload the cover NOW — do not skip this because the user "only asked
 to publish", the cover IS part of publishing; (c) fill ALL fields below with
-real values (never placeholders); (d) commit + push; (e) only then run
+real values (never placeholders); (d) commit + push; (e) run
+`higgsfield website deploy <website_id>` to ship the pushed changes (publish no
+longer deploys — it lists what's already live); (f) only then run
 `higgsfield website publish`:
 
 1. `og_title` — the card's title (also the browser tab title).

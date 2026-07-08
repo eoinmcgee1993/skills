@@ -25,6 +25,22 @@ names (it's already documented there, and re-deriving it wastes time). This
 skill explains how this template must compose Quanta into generated fnf-SDK app
 UIs.
 
+**One exception to "don't read the source": compound-component parts.** For a
+prop on a compound part (`Modal.Header`, `Modal.Footer`, `Card.*`, `Vault.*`,
+`Grid`) whose mistake is a HARD compile error — or worse, a SILENT one — a
+10-second look at that one component file is worth it. Known traps:
+
+- **`Modal.Header` has NO `title` prop; `Modal.Footer` has NO `actions` prop.**
+  Compose them: `<Modal.Header><Modal.Title>…</Modal.Title><Modal.CloseButton/></Modal.Header>`
+  and `<Modal.Footer><Modal.FooterActions>…buttons…</Modal.FooterActions></Modal.Footer>`.
+  `Modal.Footer actions={…}` is a hard error; `Modal.Header title="…"` is the
+  dangerous one — `title` type-checks as a native HTML attribute (it renders as
+  a hover tooltip) so the build passes but no heading shows. (`Vault.Footer` and
+  `Card.Footer` DO take `actions` — the parts are not uniform, which is exactly
+  why you check.)
+- **`Grid`/`VirtualGrid` `minColWidth` is a CSS length STRING** (`"13rem"`), not
+  a number — `minColWidth={200}` fails to type-check.
+
 ---
 
 # LAYER 1 — UX CRAFT
