@@ -1,5 +1,5 @@
 ---
-version: 0.12.0
+version: 0.13.0
 name: higgsfield-websites
 description: |
   Build, edit, and deploy full-stack websites via the Higgsfield CLI
@@ -8,11 +8,13 @@ description: |
   `--type` on create: `website` (standalone, NO Higgsfield integration,
   independent brand, custom CSS — the image-grounded pipeline in
   references/website-flow.md) vs `app` (Sign in with Higgsfield + fnf SDK,
-  Quanta + app layouts per references/app-flow.md). This file routes to
+  including Elements/character training for photobooth apps; Quanta + app
+  layouts per references/app-flow.md). This file routes to
   the right flow; each flow carries its own workflow, references, hard rules,
   and deploy/publish gates.
   Use when: "build me a website", "make a landing page", "create a web app",
-  "build a SaaS dashboard / tool / portfolio", "deploy this site", "edit my
+  "build a SaaS dashboard / tool / portfolio", "build a photobooth/photo-dump
+  app", "use my Elements or train a character", "deploy this site", "edit my
   site", "publish", "ship to production".
   NOT for: single image/video/audio generation (higgsfield-generate), product
   photos (higgsfield-product-photoshoot), marketplace cards
@@ -49,8 +51,11 @@ question, up front):
   ```
 - **`--type app`** — a product tightly integrated with Higgsfield: its users
   Sign in with Higgsfield and generate images/videos through the fnf SDK (the
-  full auth + D1 contract applies). An app must look and feel like a Higgsfield
-  product: UI built with **Quanta** (`references/quanta-design.md`) — and, for
+  full auth + D1 contract applies). Apps can browse the signed-in user's
+  Elements library and train reusable Soul characters through the fnf SDK,
+  which is the foundation for photobooth/photo-dump products. An app must look
+  and feel like a Higgsfield product: UI built with **Quanta**
+  (`references/quanta-design.md`) — and, for
   anything Quanta lacks, your own component built from Quanta primitives (never a
   third-party UI library) — starting from a standard app layout
   (`references/app-layouts.md`). Quanta and the app layouts are app-only — never
@@ -72,8 +77,9 @@ third-party APIs — payments, maps, email — with the user's own keys; that is
 unrelated to this rule.)
 
 Quick tells: "landing page / portfolio / marketing site / SaaS with its own
-users, no AI generation" → website. "generates images/video/audio, or anything
-with Higgsfield models, credits, or generation history" → app.
+users, no AI generation" → website. "generates images/video/audio, browses
+Elements, trains characters, builds a photobooth/photo dump, or anything with
+Higgsfield models, credits, or generation history" → app.
 
 ## Always set a subdomain on create
 

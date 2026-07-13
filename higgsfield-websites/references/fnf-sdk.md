@@ -71,7 +71,7 @@ For prompts like "create a Nano Banana generation app", "build a Seedance form",
   `/__auth/login?return=<current path>`.
 - Logout action to `/__auth/logout?return=/`.
 - Server-side auth guard before every SDK submit, upload, cost, feed, profile,
-  credits, and workspace operation.
+  credits, workspace, Elements, and character-training operation.
 - Profile tab/panel showing safe user fields, current workspace, and display
   credits from profile APIs.
 - Model form with validated settings for the requested model.
@@ -107,6 +107,92 @@ For prompts like "create a Nano Banana generation app", "build a Seedance form",
 Omission is a bug. The ONLY exception is when the user EXPLICITLY asks for an
 offline/mock demo (memory adapters, no network) — never choose a mock as the
 default; the default is a real, end-to-end app with a real backend and D1.
+
+## Photobooth apps — Elements + character training + Soul generation
+
+Use this flow for photobooth/photo-dump products. Keep the concepts distinct:
+
+- **Elements** are the signed-in user's reusable asset library. A Character is
+  one kind of Element. Browse Elements with `createReferenceClient` from
+  `@higgsfield/fnf/references`; do not call them all characters and do not
+  invent app-local copies of the library.
+- **Character training** is a separate multi-image custom-reference operation.
+  Use `createCharacterClient` from `@higgsfield/fnf/characters`. Training
+  creates a processing Character Element and returns a custom-reference id.
+- **Generation** uses that custom-reference id as
+  `settings.customReferenceId` on a compatible Soul job. Presets are not part
+  of this flow.
+
+All calls stay server-side after the Higgsfield auth guard and reuse the same
+`createWorkflowPlatformAdapter({ baseUrl: 'https://fnf.internal' })`:
+
+```ts
+import { createCharacterClient } from '@higgsfield/fnf/characters'
+import { createJobClient } from '@higgsfield/fnf/client'
+import { soulV2Image } from '@higgsfield/fnf/jobs'
+import { createReferenceClient } from '@higgsfield/fnf/references'
+import { createWorkflowPlatformAdapter } from '@higgsfield/fnf/workflow-platform'
+
+const adapter = createWorkflowPlatformAdapter({
+  baseUrl: 'https://fnf.internal',
+  confirm: async () => confirmationToken,
+})
+
+const elements = createReferenceClient({ adapter })
+const characters = createCharacterClient({ adapter })
+const jobs = createJobClient({ adapter, jobs: [soulV2Image] })
+
+const library = await elements.list({ category: 'character', size: 50 })
+
+// images are MediaRef values returned by media.upload(...) or compatible
+// image job refs. Upload browser Files with multipart FormData first.
+const pending = await characters.create({
+  name: 'My character',
+  type: 'soul_2',
+  images,
+})
+const character = await characters.wait(pending)
+if (character.status === 'failed')
+  throw new Error(character.failReason ?? 'Character training failed')
+
+const result = await jobs.submit({
+  model: 'text2image_soul_v2',
+  prompt: { instruction: 'Candid flash photo at a late-night diner' },
+  settings: {
+    customReferenceId: character.id,
+    aspectRatio: '3:4',
+    batchSize: 4,
+  },
+})
+```
+
+Character contract:
+
+- Supported training types are `soul`, `soul_2` (default), and
+  `soul_cinematic`. Expose the requested types; do not hard-code a
+  `/soul-v2` transport or reimplement one backend variant.
+- Training accepts 1–100 image references. `soul` accepts uploaded
+  `media_input` refs only; `soul_2` and `soul_cinematic` also accept
+  compatible image job refs whose type ends in `_job`.
+- Poll `characters.get(id)` or `characters.wait(character)` until
+  `completed` or `failed`. On completion, refresh the Elements list; the
+  result may also expose `elementId`.
+- Existing Character Elements expose `reference.characterId`; use that value
+  as `customReferenceId`. The Element id and custom-reference character id
+  are different ids.
+- `references.list({ cursor, size, category })`,
+  `references.get(elementId)`, `characters.create(...)`, and
+  `characters.get(characterId)` are the public SDK operations. Never
+  hand-write `/reference-elements` or `/custom-references` fetches.
+- Do not add a custom per-image/per-job approval workaround around character
+  training. Reuse platform auth, upload, submission, and approval
+  infrastructure; the normal confirmation gate still applies to the Soul
+  generation submission.
+
+A complete photobooth app therefore ships: auth/profile/credits, existing
+Elements picker, multipart multi-image upload, create + poll character states,
+Elements refresh, Soul form using `customReferenceId`, the normal
+confirmation/cost flow, generation polling, and history/result rendering.
 
 ## Common Imports
 
@@ -195,6 +281,8 @@ clients, and let `createWorkflowPlatformAdapter` send the correct operation:
 | job set get | `GET /jobs/sets/{id}` |
 | job list/feed | `GET /jobs?gen_type=...&size=...` |
 | media get/list | `GET /jobs/media/{id}` / `GET /jobs/media?...` |
+| Element get/list | `GET /reference-elements/{id}` / `GET /reference-elements?...` |
+| character train/read | `POST /custom-references` / `GET /custom-references/{id}` |
 | profile user | `GET /user` |
 | workspace list/current/wallet | `GET /workspaces`, `/workspaces/current`, `/workspaces/wallet` |
 | workspace switch | `POST /workspaces/switch` |

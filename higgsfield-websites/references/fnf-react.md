@@ -56,6 +56,8 @@ Provider hooks:
 
 - `useFnf()` returns the composed client bundle.
 - `useFnfJobClient()` returns the SDK job client.
+- `useFnfCharacterClient()` returns the character-training client.
+- `useFnfReferenceClient()` returns the signed-in user's Elements client.
 - `useFnfMediaClient()` returns the SDK media client.
 - `useFnfProfileClient()` returns the SDK profile client.
 - `useFnfJobs()` returns the registered model entries.
@@ -78,6 +80,9 @@ references stable. Do not create a new adapter or new job array on every render.
 Common query helpers:
 
 ```ts
+characterQueryOptions(characterClient, characterId, { scopeKey })
+referenceQueryOptions(referenceClient, elementId, { scopeKey })
+referencesQueryOptions(referenceClient, { category: 'character' }, { scopeKey })
 generationQueryOptions(jobClient, id, { scopeKey })
 jobSetQueryOptions(jobClient, jobSetId, { scopeKey })
 jobsFeedQueryOptions(jobClient, { type: 'image', size: 20 }, { scopeKey })
@@ -85,6 +90,14 @@ profileSnapshotQueryOptions(profileClient, { scopeKey })
 profileCreditsQueryOptions(profileClient, { scopeKey, includeOnDemand: true })
 costQueryOptions(jobClient, input, { scopeKey, enabled })
 ```
+
+For a photobooth flow, use `referencesQueryOptions` for the Elements picker
+and `characterQueryOptions` to poll newly trained characters. After training
+completes, invalidate the matching `fnfKeys.references(...)` query so the new
+Character Element appears. The Element id and `reference.characterId` are
+different; Soul generation uses `characterId` as
+`settings.customReferenceId`. Full server recipe:
+`references/fnf-sdk.md` → "Photobooth apps".
 
 Use `flattenFeedPages` with infinite feeds. Use `applyGenerations`,
 `prependGenerations`, and `removeGenerationQueries` for generation cache writes.
