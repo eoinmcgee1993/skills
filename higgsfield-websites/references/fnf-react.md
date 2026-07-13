@@ -91,13 +91,14 @@ profileCreditsQueryOptions(profileClient, { scopeKey, includeOnDemand: true })
 costQueryOptions(jobClient, input, { scopeKey, enabled })
 ```
 
-For a photobooth flow, use `referencesQueryOptions` for the Elements picker
-and `characterQueryOptions` to poll newly trained characters. After training
+For Elements and character workflows, use `referencesQueryOptions` for the
+Elements picker and `characterQueryOptions` to poll newly trained characters.
+After training
 completes, invalidate the matching `fnfKeys.references(...)` query so the new
 Character Element appears. The Element id and `reference.characterId` are
 different; Soul generation uses `characterId` as
 `settings.customReferenceId`. Full server recipe:
-`references/fnf-sdk.md` → "Photobooth apps".
+`references/fnf-sdk.md` → "Elements and custom-reference character training".
 
 Use `flattenFeedPages` with infinite feeds. Use `applyGenerations`,
 `prependGenerations`, and `removeGenerationQueries` for generation cache writes.

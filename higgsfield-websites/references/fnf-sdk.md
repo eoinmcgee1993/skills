@@ -108,9 +108,10 @@ Omission is a bug. The ONLY exception is when the user EXPLICITLY asks for an
 offline/mock demo (memory adapters, no network) — never choose a mock as the
 default; the default is a real, end-to-end app with a real backend and D1.
 
-## Photobooth apps — Elements + character training + Soul generation
+## Elements and custom-reference character training
 
-Use this flow for photobooth/photo-dump products. Keep the concepts distinct:
+Use these capabilities when an app needs reusable user assets or a consistent
+trained subject. Keep the concepts distinct:
 
 - **Elements** are the signed-in user's reusable asset library. A Character is
   one kind of Element. Browse Elements with `createReferenceClient` from
@@ -189,10 +190,11 @@ Character contract:
   infrastructure; the normal confirmation gate still applies to the Soul
   generation submission.
 
-A complete photobooth app therefore ships: auth/profile/credits, existing
-Elements picker, multipart multi-image upload, create + poll character states,
-Elements refresh, Soul form using `customReferenceId`, the normal
-confirmation/cost flow, generation polling, and history/result rendering.
+A complete Elements-and-character flow includes auth/profile/credits, an
+existing Elements picker, multipart multi-image upload, create + poll character
+states, Elements refresh, Soul generation using `customReferenceId`, the
+normal confirmation/cost flow, generation polling, and history/result
+rendering.
 
 ## Common Imports
 
