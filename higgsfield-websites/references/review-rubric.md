@@ -1,8 +1,10 @@
 # review-rubric — Phase 5 mechanical gate
 
-§A runs BEFORE deploy (grep/read the code — every item is mechanically
-checkable). It is a completion gate, not a suggestion. There is no post-deploy
-visual/screenshot review — this mechanical gate is the only verification.
+§A runs BEFORE deploy and is a completion gate, not a suggestion. Most items
+are verified by grep/code inspection; when the brief selects A4, item 9e also
+requires its interactive runtime checks in local preview before the final
+deploy. There is no post-deploy visual/screenshot review — this mechanical
+gate is the only verification.
 
 ## §A. Mechanical gate (pre-deploy, code-level)
 
@@ -73,6 +75,20 @@ Check each item; fix every hit before deploying.
    flood-fill, framed block) appear at most once page-wide combined; the
    Tier-1 technique carries a `wow-catalog.md` ID and is interactive (not a
    passive loop) on cinema/spectacle.
+9e. **A4 seam-locked scroll scrub (conditional)** — when the brief selects
+   A4, verify every media segment has a first-frame poster extracted from the
+   exact deployed clip; chapter copy is server-rendered in semantic document
+   flow (not hidden until a viewport callback); `prefers-reduced-motion`
+   performs no video fetch and shows the complete static story; desktop and
+   lighter mobile encodes are wired; connector/leg handoffs use the neighboring
+   rendered clips' ACTUAL boundary frames; camera velocity does not reverse
+   accidentally; initialization runs only in an effect; and teardown aborts
+   fetches, removes listeners/video nodes, cancels RAF, and revokes Blob URLs.
+   Scrub videos directly from seekable MP4/Blob URLs, ensure CSP `media-src`
+   permits `blob:`, and ensure no second ScrollTrigger timeline drives the same
+   media. Inspect each seam immediately before/after in both scroll directions
+   and test source swapping, a fast mobile flick, and unmount/remount in local
+   preview before final deploy.
 10. **Section plan honored** — the built page matches `app/design-brief.md`'s
     section plan (families, order, no consecutive family repeats). If the plan
     changed during the build, the brief was updated to match.

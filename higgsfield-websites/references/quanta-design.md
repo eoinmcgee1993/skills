@@ -100,6 +100,22 @@ labeling). Meaningful images get alt text; decorative ones get `alt=""`.
 3–5s with an action button when there is something to act on.
 - Don't convey state by color alone: pair color with an icon, label, or `Badge`.
 
+## Overlay Layering (CRITICAL)
+
+- Use Quanta `Select`, `Dropdown`, `Popover`, `Modal`, and `Vault` with the
+  portal/layer behavior documented in `app/packages/quanta/ai/AGENTS.md`.
+  Popup content must escape a scrolling or `overflow-*` clipping ancestor; do
+  not render a selector menu as an inline absolutely-positioned child of a
+  creation rail, sticky footer, Modal, or Vault.
+- Preserve the semantic layer stack. Use only documented Quanta z-layer
+  utilities for app-local surfaces; never patch one collision with arbitrary
+  `z-[9999]`, and never assign every popup `z-q-modal`. Avoid accidental local
+  stacking contexts (`transform`, `filter`, `opacity`, `isolation`, or a
+  positioned element with `z-index`) on wrappers around selector triggers.
+- In nested overlays, `Esc` closes the selector/popover first, then the parent
+  Modal/Vault. Test pointer, keyboard, focus trap/restore, and click-outside
+  behavior with the selector open near every viewport edge.
+
 ## Forms & Feedback (HIGH)
 
 - Every input has a visible label (Quanta `Input`/`Textarea` `label` prop), not a
@@ -129,6 +145,10 @@ respect safe areas on mobile.
 hover; back navigation preserves scroll and filter state.
 - Breakpoint behavior: sidebars collapse behind `Tabs`/`Vault` below desktop;
 verify at 375px, tablet, and desktop before delivery.
+- Generated-media grids use responsive `auto-fit` columns and each card's real
+  result/submitted aspect ratio. Keep the full image/video visible; one shared
+  16:9 or square cover crop is only for curated marketing/preset thumbnails,
+  never Results, History, or a Simple app's generated output.
 
 ## Motion (MEDIUM)
 
@@ -563,6 +583,8 @@ Then verify by hand:
   visible `:focus-visible` ring
 - [ ] Touch targets ≥ 44px; icon-only controls have accessible labels
 - [ ] `Esc` closes overlays; modals trap and restore focus
+- [ ] Select/Dropdown/Popover content portals above its owning Modal/Vault and
+  is neither clipped by a scroll rail nor hidden behind a sticky surface
 - [ ] Forms: visible labels, validation on blur/submit, error under field with a
   fix, focus moves to first invalid field
 - [ ] Async: triggers disable while pending; >300ms shows skeleton; success and
@@ -571,6 +593,8 @@ Then verify by hand:
 - [ ] Destructive actions: danger variant, separated, confirmed or undoable
 - [ ] No page-level horizontal scroll; text truncates with `min-w-0`/`truncate`;
   checked at 375px, tablet, desktop
+- [ ] Mixed 1:1, 4:3, 16:9, and 9:16 generation cards reflow with `auto-fit`
+  columns and preserve complete media instead of inheriting one preset crop
 - [ ] Motion 150–300ms, transform/opacity only, `prefers-reduced-motion`
   respected
 - [ ] State never conveyed by color alone

@@ -116,3 +116,39 @@ Anything these don't cover, build your own component from Quanta primitives
   (saved/favorited, collections, presets, history). The signed-out state, auth
   guards, `/api/user`, cost preview, submit/poll routes, and D1 persistence are
   MANDATORY — see the checklist in `references/fnf-sdk.md`.
+
+## Cross-template acceptance outcomes (after clone)
+
+The cloned repo's layout and component guides remain the source of truth for
+implementation mechanics. Regardless of the chosen template, enforce these
+outcomes:
+
+- **Accepted generation becomes visible immediately.** Once confirmation is
+  accepted and submit returns queued/running generations, add those real
+  generations to the visible result set and move focus to it. `preset` must
+  activate History/Results instead of leaving the user on the preset gallery;
+  inline-feed layouts scroll or focus the new card. Render the pending state
+  immediately and poll it in place. Validation errors and confirmation cancel
+  stay on the current form; a post-submit failure remains on Results as a
+  failed card with retry. Preserve the chosen preset and composer state.
+- **Generated-media galleries are responsive and uncropped.** Every generated
+  output gallery — including Simple app output, History, and Results — adapts
+  to its container and to mixed media geometry. Derive each pending/ready
+  card's aspect ratio from result dimensions or the canonical submitted
+  `aspectRatio`, and preserve the complete image/video with contain or natural
+  sizing. Never force 1:1, 4:3, 16:9, and 9:16 outputs into one crop. Fixed
+  crops are only for curated preset or marketing thumbnails.
+- **Settings stay usable at every viewport.** Keep primary controls visible and
+  put secondary settings behind progressive disclosure. A tall settings panel
+  must be a real `min-h-0 overflow-y-auto overscroll-contain` region with a
+  visible scrollbar or edge-fade/“more settings” cue; hidden, non-obvious
+  scrolling is a bug. A pinned Generate action must not cover the final field
+  and must respect mobile safe areas. Below desktop, stack settings above the
+  result or move them into the repo-prescribed mobile sheet instead of
+  squeezing the desktop rail. Verify expanded settings at 375px, tablet, and
+  desktop with keyboard and touch access.
+- **History stays inspectable in place.** Every ready History card opens the
+  repo's detail view without leaving History. Detail provides Previous/Next
+  plus Left/Right arrow keys over the current filtered/sorted results. Closing
+  returns to the same History tab, filters, sort, and scroll position; never
+  require the user to exit History and reopen generations one by one.

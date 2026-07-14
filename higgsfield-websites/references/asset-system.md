@@ -112,6 +112,15 @@ same-origin. Downscale: hero ≤2k, cutouts ~800px, icons ~256px.
      (dense collage heroes) or video generation failed per the failure rules;
      say so in the report. A mid-page band may still use a loop freely.
 
+For **A4 — Seam-locked scroll scrub**, read
+`references/scroll-scrub.md` and let its entry still, exact deployed-segment
+posters, and chained MP4s replace the ordinary single hero scrub above. Those
+posters also satisfy hero/content imagery for their chapters. Continue the
+logo/icon, section-UI, head-kit, and OG work, but do not generate a redundant
+second hero film. Batch independent B stills/dives; keep A's exact-frame leg
+handoffs sequential even though the default Phase 2 rule prefers submitting
+early.
+
 **Spectacle tier adds:**
 
 8. **3D subject** — approved hero image → `multi_image_to_3d` → `.glb`

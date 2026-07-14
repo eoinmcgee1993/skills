@@ -156,6 +156,13 @@ In-app, compose result cards from `app/src/lib/higgsfield-generation-results.ts`
 union). A completed generation with no `rawUrl` must show an explicit
 "preview unavailable" state with refresh — never a blank card.
 
+Carry media geometry across the server/client boundary as part of the flat DTO:
+prefer result `width`/`height` when available, otherwise retain the canonical
+submitted `aspectRatio`. Use that geometry for both the pending skeleton and the
+ready card. Preview optimization may change encoding, never composition: preserve
+the whole result and do not hardcode `square`, `16:9`, or `object-cover` for a
+generation gallery.
+
 ## 5. React wiring (fnf-react hooks)
 
 - **`useGenerationRun(client, opts?)`** — drives one submission end-to-end.
@@ -222,7 +229,6 @@ All dark, composed — never restyled. Props reference:
 ```tsx
 import { Button } from '@higgsfield/quanta/button'
 import { Textarea } from '@higgsfield/quanta/textarea'
-import { Media } from '@higgsfield/quanta/media'
 import { Loader } from '@higgsfield/quanta/loader'
 import { toast } from '@higgsfield/quanta/sonner'
 
@@ -234,17 +240,31 @@ import { toast } from '@higgsfield/quanta/sonner'
 // Prompt field: helper/error props are `description`/`error` (NOT helperText/errorText)
 <Textarea label="Prompt" description="Describe your meme" value={v} onChange={e => setV(e.target.value)} />
 
-// Result tile:
-<Media.Root ratio="square" rounded="lg">
-  {phase === 'completed'
-    ? <Media.Image src={getPreviewUrl(gen)} alt={prompt} />
-    : <Media.Fallback><Loader variant="stars" /></Media.Fallback>}
-</Media.Root>
+// Mixed-ratio result tile: keep the submitted/result frame and the whole media.
+// Put this app-local component in app/src/components/; it uses Quanta tokens.
+const cssRatio = (ratio: string) => {
+  const [width, height] = ratio.split(':').map(Number)
+  return width > 0 && height > 0 ? `${width} / ${height}` : '1 / 1'
+}
+
+<div
+  className="grid w-full place-items-center overflow-hidden rounded-lg bg-q-background-secondary"
+  style={{ aspectRatio: cssRatio(result.aspectRatio) }}
+>
+  {phase === 'completed' && result.previewUrl
+    ? <img
+        className="block h-full w-full object-contain"
+        src={result.previewUrl}
+        alt={prompt}
+      />
+    : <Loader variant="stars" />}
+</div>
 ```
 
 Reach for: `Button` (actions/CTA), `Textarea`/`Input` (prompt/fields),
 `Select`/`Dropdown` (options), `Slider`/`Switch`/`Chip` (settings), `Media`
-(result tiles), `Card`/`Glass` (surfaces), `Grid`/`VirtualGrid` (feeds),
+(canonical-ratio media), an app-local ratio-preserving frame for mixed generation
+results, `Card`/`Glass` (surfaces), `Grid`/`VirtualGrid` (feeds),
 `Loader`/`Progress` (busy), `Modal`/`Vault` (dialogs/sheets), `toast` (notices).
 For a gap, build a small component from Quanta primitives in
 `app/src/components/` — never a third-party UI library, never restyle Quanta.

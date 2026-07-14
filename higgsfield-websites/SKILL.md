@@ -193,7 +193,11 @@ unless a flow sends you there.
 `references/wow-maker.md`, `references/reference-boards.md`,
 `references/asset-system.md`, `references/image-to-code.md`,
 `references/design-taste-frontend.md`, `references/review-rubric.md`,
-`references/seo.md`.
+`references/seo.md`, `references/scroll-scrub.md` (A4 seam-locked journey),
+`references/scroll-scrub-asset-react.md`,
+`references/scroll-scrub-asset-css.md`, and
+`references/scroll-scrub-asset-video.md` (bundled Markdown code assets loaded
+only when A4 is selected).
 
 **App flow:** `references/app-quickstart.md` (START HERE — the working critical
 path: auth, generation submit/poll, result rendering, common Quanta components),

@@ -37,6 +37,15 @@ generation: the wow is bespoke media responding to input, not a CSS trick.
 - **A3 — Product turntable.** Multi-angle generated shots of the SAME product
   (reference-driven so identity holds) or a short orbit clip → frame scrub =
   the user rotates the product by scrolling. For physical-product briefs.
+- **A4 — Seam-locked scroll scrub.** A full-site camera journey through 4–7
+  generated scenes. Chain each leg from the previous rendered leg's ACTUAL
+  boundary frame (grounded continuous-forward architecture), or join
+  miniature/isometric dives with start/end-frame-locked aerial connectors.
+  Scrub optimized MP4 segments directly while semantic chapter copy remains in
+  normal document flow. Use for "scrollable world", diorama fly-through,
+  continuous camera journey, or browse-through-an-industry briefs. This is a
+  specialized pipeline: read and follow **`references/scroll-scrub.md`** before
+  boards/assets/code.
 
 ### B. Layered depth family (one image becomes a 3D-feeling scene)
 

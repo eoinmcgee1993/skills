@@ -100,6 +100,10 @@ For prompts like "create a Nano Banana generation app", "build a Seedance form",
   `getJobPhase`, `hasResult`, `isTerminalJobStatus`).
 - Show prompt, model, status, created time, and failure reason where available.
   Do not render completed jobs as blank cards with only status/id text.
+- Keep one truthful export-format contract for every media type. Preserve and
+  label provider-native output, or carry a supported model format field through
+  preview, confirmation, submit, and download. Never fake PNG/JPEG/WebP
+  consistency by renaming a URL or filename.
 - Request/debug logs on server SDK routes: method, logical operation/path,
   response status, SDK error code/status/message. Never log prompts, raw params,
   headers, tokens, cookies, upload URLs, filenames, emails, workspace names, or
@@ -108,6 +112,36 @@ For prompts like "create a Nano Banana generation app", "build a Seedance form",
 Omission is a bug. The ONLY exception is when the user EXPLICITLY asks for an
 offline/mock demo (memory adapters, no network) — never choose a mock as the
 default; the default is a real, end-to-end app with a real backend and D1.
+
+## Output and download format contract
+
+Choose the app's public export behavior once and apply it to every submit and
+download path:
+
+- If the registered model's documented schema exposes an output-format field,
+  offer only its supported values, choose one app default, and carry that field
+  in the same canonical SDK input used by `getWirePreview`, confirmation, and
+  submit. Do not invent a universal `outputFormat` key; use the exact current
+  job-schema field.
+- Treat optimized previews as display derivatives only. `getPreviewUrl()` may
+  legitimately resolve to WebP or another optimized encoding even when the
+  raw/export asset is PNG or JPEG. Use `getRawUrl()` for open/download, or the
+  URL of bytes the app genuinely transcoded server-side.
+- Make bytes, MIME type, and filename agree. Derive the extension and
+  `Content-Type` from trusted result metadata or the fetched raw response; a
+  download proxy must forward/set matching `Content-Type` and
+  `Content-Disposition`. Never save WebP bytes under `.png`, or infer format
+  from the preview URL's suffix.
+- If the product promises a fixed format that the model cannot guarantee,
+  transcode the raw bytes in a real server-side path that supports the codec
+  (a container when Worker-native capabilities are insufficient). If that path
+  is not built, label and preserve the provider-native format instead of
+  advertising a false fixed format.
+
+For protected app-local downloads inside the Higgsfield iframe, also follow
+`references/auth.md` → "Authenticated File Downloads". A direct raw link is
+valid only when it is public or a self-contained signed URL requiring no
+session.
 
 ## Elements and custom-reference character training
 

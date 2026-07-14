@@ -160,8 +160,11 @@ import { jobsFeedQueryOptions, flattenFeedPages, useGenerationRun } from "@higgs
 Required behavior:
 
 - Use `useGenerationRun` for submit + polling until terminal status.
-- Insert submitted generations into the visible feed with `prependGenerations`
-  when the UX should show them immediately.
+- After EVERY accepted submit, insert the returned queued/running generations
+  into the visible feed with `prependGenerations` before polling completes.
+  `preset` activates History/Results in the same transition; inline-feed
+  layouts scroll or focus the inserted card. Never leave an accepted submit
+  visible only on the form or preset screen.
 - Use `applyGenerations` or the built-in run/cache helpers to fold polling
   updates into generation caches.
 - Load history with `jobsFeedQueryOptions` and `flattenFeedPages`; refresh by
@@ -175,6 +178,11 @@ Required behavior:
 - Completed jobs with no result URL show an explicit preview-unavailable state
   plus refresh/get behavior.
 - Show prompt, model, status, created time, and failure reason where available.
+- Opening a ready History generation keeps the feed mounted and presents its
+  image/video and metadata in the shipped detail surface. Previous/Next moves
+  through the current filtered/sorted feed without closing. Close restores the
+  History tab, search/filter state, and scroll position; changing detail
+  selection must not refetch or reset the feed.
 
 Never render a completed generation as a blank rectangle that only says
 `completed` or only shows an id. That means the website ignored SDK

@@ -169,6 +169,7 @@ have read the guides + the chosen code layout, you have enough — start writing
 | Cover video / "animate the cover" (`og_video_url`, permission-gated) | `references/cover-animator.md` — ~5s end-frame reveal via `seedance_2_0` |
 | App contest ("enter the contest", "$100k contest", `higgsfield website contest`) | `references/contest.md` — entry auto-publishes; submit with social links |
 | Auth, current user, login/logout, `/api/user`, `__auth` routes | `references/auth.md` + `references/runtime-and-infra.md` |
+| Protected/authenticated `/api/...` file downloads inside the Higgsfield iframe | `references/auth.md` — credentialed fetch → Blob download; signed URLs for large files |
 | TanStack Start routes, SSR, server functions, Cloudflare Worker runtime | `references/runtime-and-infra.md` |
 | Heavy / long-running work (ffmpeg, headless browser, background jobs), containers | `references/containers.md` |
 
