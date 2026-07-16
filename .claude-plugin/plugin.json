@@ -1,7 +1,7 @@
 {
   "name": "higgsfield",
   "version": "0.12.0",
-  "description": "Higgsfield AI skills: generate images and videos with 35+ models, create branded marketing assets via Marketing Studio, analyze video engagement with Brain Activity, and train Soul Character (face-faithful identity).",
+  "description": "Higgsfield AI skills for images, videos, narrated explainers, Marketing Studio, engagement analysis, and Soul Character training.",
   "author": {
     "name": "Higgsfield AI",
     "url": "https://higgsfield.ai"
@@ -21,6 +21,7 @@
     "img2img",
     "img2vid",
     "ugc",
-    "avatar"
+    "avatar",
+    "video-explainer"
   ]
 }

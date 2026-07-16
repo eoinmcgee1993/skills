@@ -60,6 +60,6 @@ If anything fails:
 
 ## Step 5 — Done
 
-Report to the user: "Skills installed. Try: 'Generate me a [thing]' or 'Train my Soul on these photos'."
+Report to the user: "Skills installed. Try generating media, making a narrated explainer, or training a Soul Character."
 
 Do NOT explain the internals (skill paths, file structure). Just confirm install + give starter prompts.

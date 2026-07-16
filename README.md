@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 [![Version](https://img.shields.io/badge/version-0.3.0-green.svg)](./VERSION)
-[![Skills](https://img.shields.io/badge/skills-5-blueviolet.svg)](#skills)
+[![Skills](https://img.shields.io/badge/skills-6-blueviolet.svg)](#skills)
 [![Discord](https://img.shields.io/badge/discord-join-5865F2?logo=discord&logoColor=white)](https://discord.com/invite/higgsfield)
 
 AI agent skills for image/video generation via [Higgsfield AI](https://higgsfield.ai), including Marketing Studio and Virality Predictor video scoring. Works with Claude Code, Cursor, Codex, and other AI coding agents that load Markdown-based skills.
@@ -55,6 +55,7 @@ More options in [INSTALL.md](./INSTALL.md). Agent-driven install (paste into you
 | [`higgsfield-product-photoshoot`](./higgsfield-product-photoshoot) | `/higgsfield:product-photoshoot` | Brand-quality product imagery with mode-specific prompt enhancement. 10 modes (studio, lifestyle, Pinterest, hero banner, ad packs, virtual try-on, …) backed by `gpt_image_2`. |
 | [`higgsfield-marketplace-cards`](./higgsfield-marketplace-cards) | `/higgsfield:marketplace-cards` | Marketplace product cards: compliant main image, secondary product images, and A+ style modules via backend prompt enhancement. |
 | [`higgsfield-websites`](./higgsfield-websites) | `/higgsfield:websites` | Build, edit, and deploy full-stack websites — React 19 + TanStack Start, server-rendered as one Cloudflare Worker with D1 / R2 / KV / Durable Objects / Containers. Create → get git repo access → edit locally → push → deploy preview/production, all via `higgsfield website …`. |
+| [`higgsfield-video-explainer`](./higgsfield-video-explainer) | `/higgsfield:video-explainer` | Create a narrated non-photoreal explainer as matched Seed Audio + Gemini Omni blocks, then assemble the final MP4 with `explainer_video`. |
 
 The skills chain: train Soul → use the reference id in `generate` (including Marketing Studio jobs). `product-photoshoot` and `marketplace-cards` are self-contained — backend enhances prompts before submitting image jobs. `websites` chains with `generate` to embed bespoke hero images, video loops, and OG assets in the site.
 
@@ -103,6 +104,7 @@ The skills chain: train Soul → use the reference id in `generate` (including M
 | Train a custom face identity | `higgsfield-soul-id` | 5–20 photos, returns `reference_id` |
 | Image-to-video animation | `higgsfield-generate` | Prefer `seedance_2_0` with `--start-image`; use `kling3_0` as lower-cost fallback |
 | Build / edit / deploy a website, web app, landing page, or dashboard | `higgsfield-websites` | Full-stack React 19 + TanStack Start on Cloudflare; `higgsfield website create/repo-access/deploy` |
+| Create a narrated explainer from a topic or document | `higgsfield-video-explainer` | Resolves a live style, generates audio then video per block, and assembles with `explainer_video` |
 
 ## License
 

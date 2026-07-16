@@ -19,8 +19,8 @@ description: |
   Virality Predictor (`brain_activity`).
   Chain with higgsfield-soul-id for face/identity consistency.
   NOT for: Soul Character training (use higgsfield-soul-id),
-  product photoshoots, marketplace listing cards,
-  text/chat/TTS tasks.
+  product photoshoots, cards, or explainers
+  (use higgsfield-video-explainer); no TTS tasks.
 argument-hint: "[prompt-or-analysis-request] [--model <name>] [--image|--video <path-or-id>]"
 allowed-tools: Bash
 ---
@@ -91,6 +91,7 @@ If the user says "analyze this video", "score this ad", "evaluate the hook", or 
    - **Default for everything else → GPT Image 2.** Graphic design, UI, banners, typography, and high-fidelity general generation.
 
    **Video:**
+   - Complete narrated explainer from a topic, story, or document → use `higgsfield-video-explainer`, not generic video generation.
    - All advertising / commercial / branded ad video → Marketing Studio (see Marketing Studio below)
    - Edit existing video from sketch/timestamp, or reframe to another aspect ratio → workflow (`draw_to_video` or `reframe`), not a model. See `references/workflows.md`.
    - **Default all-purpose serious video (multi-shot, consistent identity, motion-heavy, image-to-video, 4–15s requests) → Seedance 2.0.** SOTA. Do not downgrade to Seedance 1.5 just because its duration enum is easier to read; validate Seedance 2.0 first.

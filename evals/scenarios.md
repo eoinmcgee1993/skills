@@ -1,6 +1,6 @@
 # Scenarios
 
-11 starter scenarios across the 3 skills. Each is one user request + what the agent should do + how to score it.
+12 starter scenarios across the 6 skills. Each is one user request + what the agent should do + how to score it.
 
 These exist to be run by a human (or by another agent acting as the user) in a fresh session with skills installed.
 
@@ -247,6 +247,29 @@ These exist to be run by a human (or by another agent acting as the user) in a f
 
 ---
 
+## Scenario 12 — Video explainer preset selection
+
+**User request:**
+
+> Make a one-minute narrated explainer in Russian about how neural networks learn. Show me the available visual styles first.
+
+**Expected behavior:**
+
+- Routes to `higgsfield-video-explainer`, not generic video generation.
+- Runs `higgsfield preset list video-explainer --json` and shows current preview links.
+- Waits for style selection, then resolves its UUID with `higgsfield preset resolve video-explainer`.
+- Lets the user choose one voice and creates six Russian `seed_audio` narration jobs first.
+- Creates six matching 10-second `gemini_omni` clips second, all with the resolved style key.
+- Builds ordered `blocks.json` pairs and finishes with one `explainer_video` generation job.
+
+**Score:**
+
+- Pass: live preset and voice selection, six matched audio/video blocks, final assembled MP4.
+- Partial: correct block pipeline but chooses a requested option without showing it or loses a block pairing.
+- Fail: embeds a preset list, fabricates an ID, uses `video_explainer`, or returns loose clips.
+
+---
+
 ## Round template (copy when recording results)
 
 ```
@@ -260,6 +283,7 @@ Scenario 2: ...
 ...
 Scenario 10: ...
 Scenario 11: ...
+Scenario 12: ...
 
 Aggregate: <P pass / Q partial / F fail>
 Time-to-result mean: <Ns>

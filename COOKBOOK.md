@@ -1,6 +1,6 @@
 # Higgsfield Skills — Cookbook
 
-Real workflows that combine the three skills end-to-end. Each recipe is what you say to the agent + what the agent runs + tips.
+Real workflows across the Higgsfield skills. Each recipe is what you say to the agent, what the agent runs, and practical tips.
 
 ---
 
@@ -208,6 +208,41 @@ higgsfield generate create soul_cinematic \
 
 ---
 
+## Recipe 4 — Narrated Explainer from a Document
+
+**What you say:**
+
+```text
+Turn report.pdf into a one-minute vertical explainer in Spanish. Show me the available styles first.
+```
+
+**What the agent does:**
+
+```bash
+higgsfield preset list video-explainer --json
+higgsfield preset resolve video-explainer <selected_preset_id> --json
+higgsfield voices list --json
+
+# Generate every narration block first with one selected voice.
+higgsfield generate create seed_audio \
+  --prompt "<Block 1 Spanish narration>" \
+  --voice_type preset --voice_id <voice_id> --wait --json
+
+# After all audio completes, generate every matching 10-second clip.
+higgsfield generate create gemini_omni \
+  --prompt "<Block 1 visual prompt>" \
+  --image <resolved_style_media_id> \
+  --duration 10 --resolution 720p --aspect_ratio 9:16 --wait --json
+
+# blocks.json pairs every clip job with its matching audio job.
+higgsfield generate create explainer_video \
+  --items @blocks.json --width 720 --height 1280 --wait --json
+```
+
+For one minute, create six narration/video pairs. Read the document before scripting; it is factual input, not generation media.
+
+---
+
 ## Quick reference — which recipe for what
 
 | Goal | Recipe | Skills used |
@@ -215,6 +250,7 @@ higgsfield generate create soul_cinematic \
 | Launch a campaign with the founder's face | #1 Brand Campaign | `higgsfield-soul-id` → `higgsfield-product-photoshoot` → `higgsfield-generate` |
 | Generate paid-social ads from a URL | #2 UGC Ad Batch | `higgsfield-generate` (Marketing Studio) |
 | Async team updates without recording | #3 Founder Video | `higgsfield-soul-id` → `higgsfield-generate` |
+| Turn a topic or document into a narrated explainer | #4 Narrated Explainer | `higgsfield-video-explainer` |
 
 ## Patterns these recipes share
 

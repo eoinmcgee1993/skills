@@ -1,7 +1,7 @@
 {
   "name": "higgsfield",
   "version": "0.12.0",
-  "description": "Image/video generation, branded Marketing Studio, video engagement analysis, and Soul Character training via Higgsfield AI.",
+  "description": "Image/video generation, narrated explainers, Marketing Studio, engagement analysis, and Soul Character training via Higgsfield AI.",
   "author": {
     "name": "Higgsfield AI",
     "email": "support@higgsfield.ai",
@@ -17,13 +17,14 @@
     "soul-character",
     "product-photography",
     "marketing-studio",
-    "marketplace-cards"
+    "marketplace-cards",
+    "video-explainer"
   ],
   "skills": "./",
   "interface": {
     "displayName": "Higgsfield AI",
     "shortDescription": "Train Soul Characters and generate powerful AI visuals",
-    "longDescription": "Higgsfield AI Skills turn Codex into a creative production agent. Train reusable Soul Characters from real photos, generate high-quality images and videos across Higgsfield models, create polished product photoshoots, build marketplace-ready product cards, produce branded ad assets through Marketing Studio, and score finished videos with Brain Activity engagement analysis. The plugin uses the Higgsfield CLI for authenticated workflows and returns ready-to-use result URLs or text analysis reports.",
+    "longDescription": "Higgsfield AI Skills turn Codex into a creative production agent. Train reusable Soul Characters, generate images and videos, create narrated explainers, produce product and marketplace visuals, create branded Marketing Studio ads, and score finished videos. The plugin uses the Higgsfield CLI for authenticated workflows and returns ready-to-use URLs or reports.",
     "developerName": "Higgsfield AI",
     "category": "Design",
     "capabilities": [
@@ -35,7 +36,8 @@
       "Train a Soul Character from these photos",
       "Generate a cinematic product image with Higgsfield",
       "Analyze this ad video for engagement and hook strength",
-      "Create marketplace-ready product cards for this item"
+      "Create marketplace-ready product cards for this item",
+      "Turn this document into a narrated explainer"
     ],
     "brandColor": "#D1FE17",
     "composerIcon": "./assets/icon.svg",

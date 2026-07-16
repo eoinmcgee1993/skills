@@ -1,6 +1,6 @@
 # Evals
 
-Test scenarios for the three skills. **Dev-only** — not shipped to end users.
+Test scenarios for the six skills. **Dev-only** — not shipped to end users.
 
 ## Why
 

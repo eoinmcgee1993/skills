@@ -2,7 +2,7 @@
 
 ## What this is
 
-Five skills that drive the [`higgsfield` CLI](https://github.com/higgsfield-ai/cli) to call Higgsfield API endpoints — image/video generation, Marketing Studio, Virality Predictor video scoring, Soul Character training, branded product photography, marketplace product cards, and full-stack website building.
+Six skills that drive the [`higgsfield` CLI](https://github.com/higgsfield-ai/cli) — image/video generation, narrated explainers, Marketing Studio, Virality Predictor scoring, Soul Character training, branded product photography, marketplace cards, and full-stack websites.
 
 ```
 higgsfield-soul-id     →  trains identity, returns reference_id
@@ -10,6 +10,7 @@ higgsfield-generate →  consumes reference_id, plus 30+ models, plus Marketing 
 higgsfield-product-photoshoot  →  self-contained, brand visuals via gpt_image_2
 higgsfield-marketplace-cards  →  marketplace main, secondary, and A+ style images
 higgsfield-websites  →  build/edit/deploy full-stack sites via `higgsfield website …`
+higgsfield-video-explainer  →  audio + video blocks assembled by `explainer_video`
 ```
 
 ## Repository structure
@@ -57,6 +58,9 @@ skills/
 ├── higgsfield-websites/
 │   ├── SKILL.md
 │   └── references/                    # stack, wow-maker, auth, fnf-sdk, seo-*, security-*
+├── higgsfield-video-explainer/
+│   ├── SKILL.md
+│   └── references/prompts.md
 ├── evals/                             # dev-only test infrastructure
 │   ├── README.md
 │   └── scenarios.md
@@ -74,6 +78,7 @@ All skills route through one binary: the [`higgsfield` CLI](https://github.com/h
 - Machine output: add `--json` to any command for parseable output.
 - Media inputs: every `--image`, `--start-image`, `--video`, etc. flag accepts a local path (auto-uploaded) OR a UUID (upload id or previous job id).
 - Source of truth: never invent model or workflow names. Run `higgsfield model list` for the live model catalog and `higgsfield workflow list` for public workflows. Reference catalogs in `references/model-catalog.md` and `references/workflows.md` are mappings (intent → command), not the database.
+- Explainer presets are live CMS data: list them with `higgsfield preset list video-explainer` and import a chosen style with `higgsfield preset resolve video-explainer <id>`. Never embed the catalog in a skill.
 
 ## Model and workflow knowledge
 
@@ -122,13 +127,14 @@ If two skills happen to share a doc (e.g. both `higgsfield-generate` and `higgsf
 
 ## Version sync
 
-A single repo-wide version (currently `0.3.0`) lives in 9 places. They must all match:
+A single repo-wide version must match every skill and plugin manifest:
 
 - `VERSION` — the source of truth.
 - `higgsfield-generate/SKILL.md` — `version:` in frontmatter.
 - `higgsfield-soul-id/SKILL.md` — `version:` in frontmatter.
 - `higgsfield-product-photoshoot/SKILL.md` — `version:` in frontmatter.
 - `higgsfield-marketplace-cards/SKILL.md` — `version:` in frontmatter.
+- `higgsfield-video-explainer/SKILL.md` — `version:` in frontmatter.
 - `.claude-plugin/marketplace.json` — `plugins[0].version`.
 - `.claude-plugin/plugin.json` — top-level `version`.
 - `.codex-plugin/plugin.json` — top-level `version`.
@@ -144,6 +150,7 @@ Skills communicate through return values, not implicit state.
 - `higgsfield-generate` consumes it via `--soul-id` for Soul-aware models (`text2image_soul_v2`, `soul_cinematic`) or as `custom` avatar in Marketing Studio.
 - `higgsfield-product-photoshoot` does not chain — it owns its own pipeline.
 - `higgsfield-marketplace-cards` does not chain by default; it can reuse an existing main image job through `--main-job`.
+- `higgsfield-video-explainer` owns complete narrated explainers: live style resolve, Seed Audio blocks, Gemini Omni clips, then `explainer_video` assembly. Generic short video generation stays in `higgsfield-generate`.
 
 When the user asks for both identity AND output in one request ("train Soul on these photos AND make a video of me"), run `higgsfield-soul-id` first, then `higgsfield-generate`. Don't batch-ask questions across skills — finish Soul, then start the video conversation.
 
