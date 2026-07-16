@@ -3,7 +3,7 @@
   "name": "higgsfield",
   "displayName": "Higgsfield AI",
   "version": "0.12.0",
-  "description": "Image/video generation, narrated explainers, Marketing Studio, engagement analysis, and Soul Character training via Higgsfield AI.",
+  "description": "Image/video generation, narrated explainers, browser games, Marketing Studio, engagement analysis, and Soul Character training via Higgsfield AI.",
   "author": {
     "name": "Higgsfield AI",
     "email": "support@higgsfield.ai"
@@ -22,6 +22,7 @@
     "marketing-studio",
     "ai-video",
     "ai-image",
-    "video-explainer"
+    "video-explainer",
+    "game-generation"
   ]
 }

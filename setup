@@ -95,7 +95,7 @@ case "$HOST" in
     ;;
 esac
 
-SKILLS=(higgsfield-generate higgsfield-soul-id higgsfield-product-photoshoot higgsfield-marketplace-cards higgsfield-websites higgsfield-video-explainer)
+SKILLS=(higgsfield-generate higgsfield-soul-id higgsfield-product-photoshoot higgsfield-marketplace-cards higgsfield-websites higgsfield-video-explainer higgsfield-game-generation)
 
 ok "Detected host: $HOST"
 ok "Target install path: $TARGET_DIR/<skill-name>"
@@ -186,6 +186,7 @@ Try one of these in your agent:
   "Train my Soul on these photos: [photo1.jpg, photo2.jpg, ...]"
   "Make a Pinterest pin of my product [bottle.jpg]"
   "Turn this document into a one-minute narrated explainer."
+  "Build and deploy a small browser game about a fox collecting stars."
 
 Documentation:
   README.md             — overview and skills table

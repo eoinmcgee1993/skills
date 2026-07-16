@@ -1,6 +1,6 @@
 # Install Higgsfield Skills
 
-Six skills ship in this repo:
+Seven skills ship in this repo:
 
 - **`higgsfield-generate`** — image and video generation, 30+ models, plus Marketing Studio (branded ads with avatars, products, hooks, and settings) and Virality Predictor scoring
 - **`higgsfield-soul-id`** — train a face-faithful Soul Character
@@ -8,6 +8,7 @@ Six skills ship in this repo:
 - **`higgsfield-marketplace-cards`** — marketplace main, secondary, and A+ style product cards with backend prompt enhancement
 - **`higgsfield-websites`** — build, edit, and deploy full-stack websites (React 19 + TanStack Start on Cloudflare) via `higgsfield website …`
 - **`higgsfield-video-explainer`** — complete narrated explainers with live style-preset selection
+- **`higgsfield-game-generation`** — playable browser games and game-specific 2D/3D/audio assets
 
 They chain: `higgsfield-soul-id` returns a Soul ID consumable by `higgsfield-generate` (Soul models and identity-aware Marketing Studio jobs). `higgsfield-product-photoshoot` is the single entry point for professional brand product visuals; `higgsfield-marketplace-cards` is the marketplace product card pipeline. Both use backend prompt enhancement before submitting image jobs. `higgsfield-websites` chains with `higgsfield-generate` to embed bespoke hero images, video loops, and OG assets in a site.
 
@@ -30,7 +31,7 @@ Works with Claude Code, Cursor, Codex, and any agent that picks up `~/.<agent>/s
 npx skills add higgsfield-ai/skills
 ```
 
-Installs all six skills. The `skills` CLI auto-detects the host agent and writes each skill to the right path.
+Installs all seven skills. The `skills` CLI auto-detects the host agent and writes each skill to the right path.
 
 ## Option 2 — `gh skill install`
 
@@ -40,7 +41,7 @@ GitHub CLI v2.90+ extension. Same coverage as `npx skills`.
 gh skill install higgsfield-ai/skills
 ```
 
-Installs all six skills.
+Installs all seven skills.
 
 ## Option 3 — Claude Code marketplace
 
@@ -51,7 +52,7 @@ Claude Code only. Inside Claude Code:
 /plugin install higgsfield@higgsfield
 ```
 
-Pulls the plugin manifest from `.claude-plugin/marketplace.json` and registers all six skills, including `/higgsfield:video-explainer`.
+Pulls the plugin manifest from `.claude-plugin/marketplace.json` and registers all seven skills, including `/higgsfield:video-explainer` and `/higgsfield:game-generation`.
 
 ## Option 4 — Setup script
 

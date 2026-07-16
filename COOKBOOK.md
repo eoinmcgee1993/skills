@@ -1,6 +1,6 @@
 # Higgsfield Skills — Cookbook
 
-Real workflows across the Higgsfield skills. Each recipe is what you say to the agent, what the agent runs, and practical tips.
+Real workflows across the seven skills. Each recipe is what you say to the agent, what the agent runs, and practical tips.
 
 ---
 
@@ -243,6 +243,32 @@ For one minute, create six narration/video pairs. Read the document before scrip
 
 ---
 
+## Recipe 5 — Build and Deploy a Browser Game
+
+**What you say:**
+
+```text
+Build a small browser game where a robot collects batteries while avoiding drones. Desktop and mobile, then give me a play link.
+```
+
+**What the agent does:**
+
+1. Uses `higgsfield-game-generation` to lock the game profile, STYLE FORMULA, and `design/assets.csv`.
+2. Generates the declared assets and builds `index.html` plus `logic.js`.
+3. Runs the game locally and verifies the complete loop on keyboard and touch.
+4. Packages and deploys:
+
+   ```bash
+   higgsfield game deploy ./game.zip \
+     --title "Battery Run" \
+     --description "Collect batteries and dodge patrol drones." \
+     --json
+   ```
+
+Marketplace publication is separate and happens only when the user asks for it.
+
+---
+
 ## Quick reference — which recipe for what
 
 | Goal | Recipe | Skills used |
@@ -251,6 +277,7 @@ For one minute, create six narration/video pairs. Read the document before scrip
 | Generate paid-social ads from a URL | #2 UGC Ad Batch | `higgsfield-generate` (Marketing Studio) |
 | Async team updates without recording | #3 Founder Video | `higgsfield-soul-id` → `higgsfield-generate` |
 | Turn a topic or document into a narrated explainer | #4 Narrated Explainer | `higgsfield-video-explainer` |
+| Build and deploy a playable browser game | #5 Browser Game | `higgsfield-game-generation` |
 
 ## Patterns these recipes share
 

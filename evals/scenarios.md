@@ -1,6 +1,6 @@
 # Scenarios
 
-12 starter scenarios across the 6 skills. Each is one user request + what the agent should do + how to score it.
+13 starter scenarios across the 7 skills. Each is one user request + what the agent should do + how to score it.
 
 These exist to be run by a human (or by another agent acting as the user) in a fresh session with skills installed.
 
@@ -270,6 +270,28 @@ These exist to be run by a human (or by another agent acting as the user) in a f
 
 ---
 
+## Scenario 13 — Playable browser game
+
+**User request:**
+
+> Build a small mobile-friendly browser game where a fox collects stars, then give me a play link.
+
+**Expected behavior:**
+
+- Routes to `higgsfield-game-generation`.
+- Produces a STYLE FORMULA and `design/assets.csv` before visuals/code.
+- Builds responsive touch + keyboard controls and a complete win/lose/restart loop.
+- Verifies locally, packages the required root layout, and runs `higgsfield game deploy`.
+- Does not run `higgsfield game publish` unless marketplace publication is requested.
+
+**Score:**
+
+- Pass: coherent game, manifest-driven assets, local verification, returned deploy URL.
+- Partial: playable and deployed but missing one planning artifact or mobile verification.
+- Fail: returns only concept art/code, constructs a URL manually, or publishes publicly without consent.
+
+---
+
 ## Round template (copy when recording results)
 
 ```
@@ -284,6 +306,7 @@ Scenario 2: ...
 Scenario 10: ...
 Scenario 11: ...
 Scenario 12: ...
+Scenario 13: ...
 
 Aggregate: <P pass / Q partial / F fail>
 Time-to-result mean: <Ns>

@@ -8,7 +8,7 @@
     {
       "name": "higgsfield",
       "source": "./",
-      "description": "Image/video generation, narrated explainers, Marketing Studio, video engagement analysis, and Soul Character training via the Higgsfield CLI.",
+      "description": "Image/video generation, narrated explainers, browser games, Marketing Studio, video engagement analysis, and Soul Character training via the Higgsfield CLI.",
       "version": "0.12.0",
       "skills": [
         {
@@ -40,6 +40,11 @@
           "name": "video-explainer",
           "path": "higgsfield-video-explainer",
           "invoke": "/higgsfield:video-explainer"
+        },
+        {
+          "name": "game-generation",
+          "path": "higgsfield-game-generation",
+          "invoke": "/higgsfield:game-generation"
         }
       ]
     }

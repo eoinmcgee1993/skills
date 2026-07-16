@@ -2,7 +2,7 @@
 
 ## What this is
 
-Six skills that drive the [`higgsfield` CLI](https://github.com/higgsfield-ai/cli) — image/video generation, narrated explainers, Marketing Studio, Virality Predictor scoring, Soul Character training, branded product photography, marketplace cards, and full-stack websites.
+Seven skills that drive the [`higgsfield` CLI](https://github.com/higgsfield-ai/cli) — image/video generation, narrated explainers, browser games, Marketing Studio, Virality Predictor scoring, Soul Character training, branded product photography, marketplace cards, and full-stack websites.
 
 ```
 higgsfield-soul-id     →  trains identity, returns reference_id
@@ -11,6 +11,7 @@ higgsfield-product-photoshoot  →  self-contained, brand visuals via gpt_image_
 higgsfield-marketplace-cards  →  marketplace main, secondary, and A+ style images
 higgsfield-websites  →  build/edit/deploy full-stack sites via `higgsfield website …`
 higgsfield-video-explainer  →  audio + video blocks assembled by `explainer_video`
+higgsfield-game-generation  →  game design + assets + browser build + deploy
 ```
 
 ## Repository structure
@@ -61,6 +62,10 @@ skills/
 ├── higgsfield-video-explainer/
 │   ├── SKILL.md
 │   └── references/prompts.md
+├── higgsfield-game-generation/
+│   ├── SKILL.md
+│   ├── references/                    # design, build, 2D/3D, texture, audio, multiplayer
+│   └── scripts/                       # deterministic texture/GLB/rig helpers
 ├── evals/                             # dev-only test infrastructure
 │   ├── README.md
 │   └── scenarios.md
@@ -79,6 +84,7 @@ All skills route through one binary: the [`higgsfield` CLI](https://github.com/h
 - Media inputs: every `--image`, `--start-image`, `--video`, etc. flag accepts a local path (auto-uploaded) OR a UUID (upload id or previous job id).
 - Source of truth: never invent model or workflow names. Run `higgsfield model list` for the live model catalog and `higgsfield workflow list` for public workflows. Reference catalogs in `references/model-catalog.md` and `references/workflows.md` are mappings (intent → command), not the database.
 - Explainer presets are live CMS data: list them with `higgsfield preset list video-explainer` and import a chosen style with `higgsfield preset resolve video-explainer <id>`. Never embed the catalog in a skill.
+- Animation actions are live server-managed data: search them with `higgsfield preset list animation-action`; never embed the catalog in a skill.
 
 ## Model and workflow knowledge
 
@@ -135,6 +141,7 @@ A single repo-wide version must match every skill and plugin manifest:
 - `higgsfield-product-photoshoot/SKILL.md` — `version:` in frontmatter.
 - `higgsfield-marketplace-cards/SKILL.md` — `version:` in frontmatter.
 - `higgsfield-video-explainer/SKILL.md` — `version:` in frontmatter.
+- `higgsfield-game-generation/SKILL.md` — `version:` in frontmatter.
 - `.claude-plugin/marketplace.json` — `plugins[0].version`.
 - `.claude-plugin/plugin.json` — top-level `version`.
 - `.codex-plugin/plugin.json` — top-level `version`.
@@ -151,6 +158,7 @@ Skills communicate through return values, not implicit state.
 - `higgsfield-product-photoshoot` does not chain — it owns its own pipeline.
 - `higgsfield-marketplace-cards` does not chain by default; it can reuse an existing main image job through `--main-job`.
 - `higgsfield-video-explainer` owns complete narrated explainers: live style resolve, Seed Audio blocks, Gemini Omni clips, then `explainer_video` assembly. Generic short video generation stays in `higgsfield-generate`.
+- `higgsfield-game-generation` may use generation models internally, but owns the game-wide design, asset, build, verification, and deployment contract.
 
 When the user asks for both identity AND output in one request ("train Soul on these photos AND make a video of me"), run `higgsfield-soul-id` first, then `higgsfield-generate`. Don't batch-ask questions across skills — finish Soul, then start the video conversation.
 
