@@ -3,7 +3,7 @@
 §A runs BEFORE deploy and is a completion gate, not a suggestion. Most items
 are verified by grep/code inspection. **Item 9f is the hard machine gate for the
 animated-website default: a website that ships without the scroll-scrub component
-+ scene media (and without an explicit `override` in the brief) FAILS, no matter
++ scene media (and without an explicit `non-animated` choice in the brief) FAILS, no matter
 how polished the rest is** — this is the single most common miss, so run 9f every
 time. For the animated website, item 9e adds its interactive runtime checks in
 local preview before the final deploy. There is no post-deploy visual/screenshot
@@ -76,7 +76,7 @@ Check each item; fix every hit before deploying.
    architecture, Tier-1 technique, CTA garments, corner language) and this
    build differs on ≥4; the rationed garments (drawing underline, hover
    flood-fill, framed block) appear at most once page-wide combined. On the
-   `override` path the Tier-1 technique carries a `wow-catalog.md` ID and is
+   `non-animated` path the Tier-1 technique carries a `wow-catalog.md` ID and is
    interactive (not a passive loop); on the default `animated-website` path the
    Tier-1 technique IS the scroll-scrub animated website (enforced by 9f) — a
    generic wow-catalog ID does NOT satisfy the default path.
@@ -112,11 +112,12 @@ Check each item; fix every hit before deploying.
       A website on this path with no scroll-scrub component or no scene MP4s is
       the failure mode this gate exists to catch — do NOT deploy it; go build the
       camera journey.
-   3. If the value is **`override — "..."`**, the line MUST quote the user's
-      explicit request verbatim. No scroll-scrub artifacts are required; instead
-      confirm the chosen `wow-catalog.md` technique is actually built (9d). An
-      `override` with no quoted user request → FAIL (treat as `animated-website`
-      and go back to step 2).
+   3. If the value is **`non-animated`**, the line MUST record the user's choice
+      (an intake pick or a verbatim request). No scroll-scrub artifacts are
+      required; instead confirm the site clears the `wow-maker.md` craft floor and
+      any chosen `wow-catalog.md` technique is actually built (9d). A
+      `non-animated` with no recorded user choice → FAIL (treat as
+      `animated-website` and go back to step 2).
 10. **Section plan honored** — the built page matches `app/design-brief.md`'s
     section plan (families, order, no consecutive family repeats). If the plan
     changed during the build, the brief was updated to match.

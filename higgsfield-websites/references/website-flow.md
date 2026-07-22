@@ -39,15 +39,29 @@ pipeline — see "Small edits" at the bottom.)
 
 The `type` is already resolved (the main skill also asks, in that first round,
 whether to publish to the community feed when ready — remember that for Phase
-6). The only other thing worth one question is **brand constraints** — an
-existing brand to honor (ask
-for colors/fonts/logo/photos/links) vs. free rein ("design the brand for me").
-Whatever they don't have, you generate: the full identity kit plus the
-personalization ladder in `references/asset-system.md` (logo family, icon set,
-patterns, illustrations, state artwork, product universe). Free rein is the
-richer path, not the degraded one. Skip the round entirely when the brief
-already answers it. If the user skips or is unreachable: choose sensible
-defaults, state them in one line, and proceed. Never ask a second round.
+6). This single intake round carries the two website-specific questions worth
+asking; put both in the ONE batched round and never ask a second round.
+
+1. **Animation — ASK on every `--type website` build** (unless the user's
+   request already makes the choice obvious — e.g. "an animated site" or "a plain
+   static page" — then skip and record it). Offer exactly two options:
+   - **Animated (recommended)** → sets `Animation mode: animated-website` — the
+     scroll-scrub camera journey (the product default; mark it Recommended).
+   - **Non-animated** → sets `Animation mode: non-animated` — a well-crafted site
+     with lighter/optional motion, no mandatory camera journey.
+
+   Record the picked value on the brief's `Animation mode` line (Phase 0). If the
+   user skips / is unreachable, default to **Animated** and say so in one line.
+2. **Brand constraints** — an existing brand to honor (ask for
+   colors/fonts/logo/photos/links) vs. free rein ("design the brand for me").
+   Whatever they don't have, you generate: the full identity kit plus the
+   personalization ladder in `references/asset-system.md` (logo family, icon set,
+   patterns, illustrations, state artwork, product universe). Free rein is the
+   richer path, not the degraded one.
+
+Skip the round entirely when the brief already answers both. If the user skips or
+is unreachable: choose sensible defaults (Animated), state them in one line, and
+proceed. Never ask a second round.
 
 ### Phase 0 — Concept (`app/design-brief.md`, committed, BEFORE any code)
 
@@ -76,33 +90,37 @@ clean", "Inter", "blue accent") means the brief is not done:
   See `references/reference-boards.md` for what to reach for instead.
 - **Locked type** — pairing from the recipe's tables; serif only with a written
   brand justification.
-- **`Animation mode` — MANDATORY explicit state, exactly one value. HARD STOP.**
-  The brief MUST contain a literal line `Animation mode: <value>` and you may not
-  leave Phase 0 without it. Only two values are legal:
-  - **`animated-website`** (the DEFAULT — use this unless the rule below fires):
+- **`Animation mode` — MANDATORY explicit state, set from the intake answer.
+  HARD STOP.** The brief MUST contain a literal line `Animation mode: <value>`
+  (the value the user picked at intake — see "Before Phase 0"; default Animated
+  if they skipped) and you may not leave Phase 0 without it. Only two values are
+  legal:
+  - **`animated-website`** (the recommended default — from "Animated" at intake):
     the seam-locked scroll-scrub camera journey (**A4**), where the visitor's
-    scroll flies the page through several connected generated scenes. Choosing
-    this OBLIGATES you to also write the journey block into the brief NOW, before
+    scroll flies the page through several connected generated scenes. This value
+    OBLIGATES you to also write the journey block into the brief NOW, before
     boards or generation: read **`references/scroll-scrub.md`** and add its
     **Journey** (4–7 named scenes), **Camera architecture** (A or B), **seam
     direction**, and **mobile framing**, plus one sentence on how the journey
     enacts the concept spine. `Animation mode: animated-website` with no journey
-    block is an INCOMPLETE brief — a hard stop, not a proceed-anyway.
-  - **`override — "<verbatim quote of the user's explicit request>"`**: legal
-    ONLY when the user EXPLICITLY asked, in their own words, for something other
-    than a scroll-driven animated website. You must quote their request verbatim
-    on the line. A brief that reads as "calm/minimal/B2B", your own taste, or
-    "it's just a simple landing page" is NOT an override — that is still
-    `animated-website`. When (and only when) this value is set, open
-    **`references/wow-catalog.md`**, pick another technique named with its
-    catalog ID + one sentence defending the spine pairing, and apply the full
-    ledger (≥4 of 6 axes differ).
+    block is an INCOMPLETE brief — a hard stop, not a proceed-anyway. On this
+    value, do NOT shop the wow-catalog — the animated website IS the technique;
+    the anti-convergence "no repeat" rule does NOT force you off it (differ on the
+    OTHER five axes instead: world/subject, journey shape, palette, type, CTA
+    garments, corner language).
+  - **`non-animated`** (from "Non-animated" at intake, or a request that clearly
+    asked for it): a well-crafted site with lighter/optional motion and NO
+    mandatory camera journey. Legal ONLY as the user's own choice — append the
+    reason on the line, e.g. `non-animated — user picked Non-animated at intake`
+    or `non-animated — "<verbatim request>"`. Your own taste, "calm/minimal/B2B",
+    or "it's just a simple landing page" is NOT a reason to pick this — when in
+    doubt it is `animated-website`. On this value the site still clears the
+    `wow-maker.md` craft floor (bespoke assets, motivated micro-motion, real
+    typography); reach into **`references/wow-catalog.md`** for a lighter Tier-1
+    technique (named with its catalog ID) or run the editorial tier. Never ship a
+    dead flat page.
 
-  Do NOT shop the wow-catalog on the default path — the animated website IS the
-  technique. The anti-convergence "no repeat of the previous technique" rule does
-  NOT force you off the animated website: instead differ on the OTHER five
-  identity axes (world/subject, journey shape, palette, type, CTA garments,
-  corner language). Either way, a passive autoplay loop is never the mechanic.
+  Either way, a passive autoplay loop is never the Tier-1 mechanic.
 - **Section plan** — ordered, one layout family per section, no consecutive
   repeats, ≥4 families for 6+ sections, eyebrow budget ceil(sections/3).
 - **Asset plan** — the full kit per `references/asset-system.md` (hero visual,

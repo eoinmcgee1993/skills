@@ -26,8 +26,8 @@ brief committed to — nothing lighter:
    items below are the craft AROUND it, not a substitute: a ticker, hover motion,
    entrance transitions, animated numbers, a shader gradient, or any single §2
    effect DO NOT satisfy the animated-website requirement. Only when the brief
-   records `Animation mode: override — "<user request>"` does a §2 signature
-   effect become the Tier-1 wow.
+   records `Animation mode: non-animated` (the user picked Non-animated at intake)
+   does a §2 signature effect / lighter technique become the Tier-1 wow.
 2. **≥1 bespoke generated asset**, downloaded into `app/public/` and actually
    referenced — never stock, picsum, an icon-font hero, or a CSS-only hero. (§1)
 3. **Motivated entrance motion** (scroll reveals / spring transitions via
@@ -49,8 +49,8 @@ plan to "add the animation later" — you won't, and the gate will fail it.
 "minimal", "trustworthy", "Linear-like", "Notion-like" briefs are STILL
 `Animation mode: animated-website` — restraint means the journey is *calm and
 deliberate* (slower camera, quieter scenes), not absent. A minimal or serious
-brief is never an `override`; only the user's explicit request for a different
-treatment is. Never use "it's minimal" as cover to ship a plain page or downgrade
+brief does NOT make it `non-animated`; only the user's own Non-animated choice
+does. Never use "it's minimal" as cover to ship a plain page or downgrade
 the animated website to a soft effect.
 
 ## Rules (short)
