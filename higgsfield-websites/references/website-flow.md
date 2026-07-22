@@ -42,16 +42,21 @@ whether to publish to the community feed when ready — remember that for Phase
 6). This single intake round carries the two website-specific questions worth
 asking; put both in the ONE batched round and never ask a second round.
 
-1. **Animation — ASK on every `--type website` build** (unless the user's
-   request already makes the choice obvious — e.g. "an animated site" or "a plain
-   static page" — then skip and record it). Offer exactly two options:
+1. **Animation — MANDATORY, ALWAYS ask on every `--type website` build.** This
+   question is NEVER skipped — ask it even when the request seems to imply a
+   choice ("an animated site", "a plain static page"), even for a "simple" or
+   "quick" site, even when you think you already know the answer. The user must
+   make this call, not you. Offer exactly two options:
    - **Animated (recommended)** → sets `Animation mode: animated-website` — the
      scroll-scrub camera journey (the product default; mark it Recommended).
    - **Non-animated** → sets `Animation mode: non-animated` — a well-crafted site
      with lighter/optional motion, no mandatory camera journey.
 
-   Record the picked value on the brief's `Animation mode` line (Phase 0). If the
-   user skips / is unreachable, default to **Animated** and say so in one line.
+   If the request already leans one way, still ask — just point the Recommended
+   marker at the implied option. Record the picked value on the brief's
+   `Animation mode` line (Phase 0). ONLY if the user is genuinely unreachable /
+   never answers do you proceed on the default (**Animated**) and say so in one
+   line — never as a shortcut to avoid asking.
 2. **Brand constraints** — an existing brand to honor (ask for
    colors/fonts/logo/photos/links) vs. free rein ("design the brand for me").
    Whatever they don't have, you generate: the full identity kit plus the
@@ -59,9 +64,10 @@ asking; put both in the ONE batched round and never ask a second round.
    patterns, illustrations, state artwork, product universe). Free rein is the
    richer path, not the degraded one.
 
-Skip the round entirely when the brief already answers both. If the user skips or
-is unreachable: choose sensible defaults (Animated), state them in one line, and
-proceed. Never ask a second round.
+The Animation question (1) is always asked — never skip the round to avoid it.
+You may drop only question 2 when the brief already answers the brand question. If
+the user skips or is unreachable, default to **Animated** and say so in one line.
+Never ask a second round.
 
 ### Phase 0 — Concept (`app/design-brief.md`, committed, BEFORE any code)
 

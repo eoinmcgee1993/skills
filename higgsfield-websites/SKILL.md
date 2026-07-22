@@ -116,12 +116,13 @@ are rejected — if that happens, try a close variant.
    type, including its own references, hard rules, editing map, and
    deploy/publish gates:
 
-For every `--type website` build the intake asks the user to choose between an
-**Animated (recommended)** website — a scroll-driven, seam-locked camera journey
-through several generated scenes (`references/scroll-scrub.md`) — and a
-**Non-animated** one. Animated is the recommended default (used when the user
-skips or their request already implies it); the flow below carries both paths and
-the full pipeline.
+For every `--type website` build the intake ALWAYS asks the user to choose
+between an **Animated (recommended)** website — a scroll-driven, seam-locked
+camera journey through several generated scenes (`references/scroll-scrub.md`) —
+and a **Non-animated** one. This question is mandatory: never skip it, even when
+the request seems to imply a choice. Animated is the recommended default (used
+only when the user is unreachable / doesn't answer); the flow below carries both
+paths and the full pipeline.
 
 | Type | Flow |
 |---|---|
