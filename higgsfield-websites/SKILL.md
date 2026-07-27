@@ -117,12 +117,17 @@ are rejected — if that happens, try a close variant.
    deploy/publish gates:
 
 For every `--type website` build the intake ALWAYS asks the user to choose
-between an **Animated (recommended)** website — a scroll-driven, seam-locked
-camera journey through several generated scenes (`references/scroll-scrub.md`) —
-and a **Non-animated** one. This question is mandatory: never skip it, even when
-the request seems to imply a choice. Animated is the recommended default (used
-only when the user is unreachable / doesn't answer); the flow below carries both
-paths and the full pipeline.
+between an **Animated (recommended)** website — a scroll-driven journey through
+a generated film (`references/scroll-scrub.md`) — and a **Non-animated** one.
+This question is mandatory: never skip it, even when the request seems to imply
+a choice. Animated is the recommended default (used only when the user is
+unreachable / doesn't answer); the flow below carries both paths and the full
+pipeline.
+
+Inside the animated path the default is a **single-shot** film — ONE continuous
+~15s take, scrubbed end to end, no seams. The multi-scene chain is opt-in and
+costs several extra minutes per leg; take it only when the brief genuinely
+travels between distinct worlds. `references/scroll-scrub.md` owns that call.
 
 | Type | Flow |
 |---|---|
