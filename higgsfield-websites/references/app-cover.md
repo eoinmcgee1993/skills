@@ -40,11 +40,16 @@ Division of labor:
    empty room, never a lone subject floating on a bare seamless, never a "moody
    teal void". One person on an empty backdrop reads as AI slop even when
    bright — stage a world, not a portrait.
-2. **One structured type lockup**, left-anchored or centered: the real
-   Higgsfield wordmark (bundled squiggle glyph + "Higgsfield", drawn
-   automatically by the script) → HUGE display-caps title (2 lines max; aim for
-   the official scale — the title is the loudest thing on the cover) →
-   `( Available now at higgsfield.ai )` pill. NO tagline — the reference lockup
+2. **One structured type lockup**, left-anchored or centered: the wordmark
+   (bundled squiggle glyph + `--wordmark`, which DEFAULTS to "Higgsfield") →
+   HUGE display-caps title (2 lines max; aim for the official scale — the title
+   is the loudest thing on the cover) → CTA pill (`--cta`, default
+   `( Available now at higgsfield.ai )`). **On a `--type website` build you MUST
+   pass `--wordmark "<the site's own brand name>"` and `--cta "<the site's own
+   CTA>"`** — both defaults are Higgsfield's own marketing, and this composed
+   image is wired as the site's `og:image`, so the defaults ship a Higgsfield
+   mark on a standalone brand's social card (rule 9c forbids it). Apps keep the
+   defaults. NO tagline — the reference lockup
    is wordmark → title → CTA, three rows, nothing else. Tight, aligned, flat
    white. It reads as ONE unit, not scattered captions.
 3. **Text is the LAST layer — always.** The full lockup renders on top of
@@ -186,6 +191,8 @@ asset base on first run and caches them):
 python3 compose_cover.py \
   --art scene.png --cutout cutout.png \
   --title "DreamCut" \
+  --wordmark "DreamCut" \
+  --cta "Try DreamCut free" \
   --title-width 0.48 \
   --anchor left --block-x 0.07 --block-y 0.30 \
   --frame-color "#D23B2E" \

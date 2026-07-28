@@ -149,9 +149,12 @@ Use the Higgsfield CLI already used by the website flow.
      resolution, and audio off — the page scrubs frames, not sound.
    - Name the grade and the hexes; restate "no cuts, no camera shake, slow
      steady motion only, locked exposure, no on-screen text".
-3. **In the SAME beat as submitting the film, also kick off the launch
-   cover/OG generation** (`references/app-cover.md`) — it renders concurrently
-   with the film instead of serializing a second wait at the end. Build the
+3. **In the SAME beat as submitting the film, start the launch cover/OG —
+   exactly ONCE** (`references/app-cover.md`) — it renders concurrently with the
+   film instead of serializing a second wait at the end. This is its single
+   start point: starting it any earlier, before the look is locked, is what
+   makes a build render the cover twice and abandon the first one. Never restart
+   it just because `app-meta.json` still looks empty — finish the run you have. Build the
    page (scenes data, chapters, copy, styles) WHILE both render, then
    `higgsfield generate wait <job_id>` ONCE per job, at the moment its output
    is the next input. Download, encode (below), and wire the files in. Do NOT
