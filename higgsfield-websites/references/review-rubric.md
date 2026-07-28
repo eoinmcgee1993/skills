@@ -62,12 +62,7 @@ Check each item; fix every hit before deploying.
    mount. Video elements need a `poster` (or a rendered first frame) so
    headless shots never show a black box. A full-page headless screenshot
    must show every section.
-9c. **No Higgsfield branding on `type: "website"` builds** — this includes the
-   LAUNCH COVER: `compose_cover.py`'s `--wordmark` defaults to `Higgsfield` and
-   `--cta` to `Available now at higgsfield.ai`, and the composed image is wired
-   as the site's `og:image` — so a cover built without those overrides ships a
-   Higgsfield mark on the site's own social card. Verify the brand name, not
-   `Higgsfield`, reads on the cover. Then:
+9c. **No Higgsfield branding on `type: "website"` builds** —
    `grep -rin "higgsfield\|quanta" app/src/` returns no user-visible strings,
    no Quanta imports, no q-prefixed tokens, no "Powered by / Built on" badge,
    no Higgsfield marks in page chrome. fnf/auth strings in server/service
