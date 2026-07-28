@@ -124,8 +124,11 @@ single 16:9 image laying the film out as **6 keyframes of one continuous move,
 in a 6-panel grid** — it pins palette, look, lens, and camera progression for
 the price of one image, before you spend on video. Prompt it explicitly as one
 continuous move ("NOT six different scenes") and with no text anywhere in the
-image. Show it to the user as you keep working; do NOT block the build waiting
-for a reply. Budget 2 re-rolls.
+image. Show it to the user (its result URL) as you keep working; do NOT block
+the build waiting for a reply — and do NOT download it or vision-inspect it
+yourself: you just generated it from your own prompt, and re-viewing your own
+render tells you nothing the prompt didn't. The user is the reviewer. Budget 2
+re-rolls.
 
 ### Phase 2 — generate the film
 
@@ -146,8 +149,15 @@ Use the Higgsfield CLI already used by the website flow.
      resolution, and audio off — the page scrubs frames, not sound.
    - Name the grade and the hexes; restate "no cuts, no camera shake, slow
      steady motion only, locked exposure, no on-screen text".
-3. `higgsfield generate wait <job_id>`, download, then encode (below). That is
-   the whole media chain — there are no seams to lock.
+3. **In the SAME beat as submitting the film, also kick off the launch
+   cover/OG generation** (`references/app-cover.md`) — it renders concurrently
+   with the film instead of serializing a second wait at the end. Build the
+   page (scenes data, chapters, copy, styles) WHILE both render, then
+   `higgsfield generate wait <job_id>` ONCE per job, at the moment its output
+   is the next input. Download, encode (below), and wire the files in. Do NOT
+   vision-inspect the film, its frames, or its posters — single-shot has no
+   seams to verify, and the footage contract was enforced by the prompt. That
+   is the whole media chain — there are no seams to lock.
 
 #### `multi-leg` — the seam-locked chain
 

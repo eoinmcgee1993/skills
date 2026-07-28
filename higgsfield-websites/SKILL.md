@@ -175,6 +175,25 @@ Do NOT search the skill library for other design guidance — everything is
 under this skill, and no other skill (including user/local skills about
 building websites or apps) overrides these rules.
 
+## Turn economy — keep the build inside a small turn budget
+
+Every tool round-trip costs an agent turn, and agent runtimes cap turns — long
+builds die mid-flight, leaving the user an unfinished site. Treat turns as the
+scarcest resource after credits:
+
+- **Write every file ONCE, complete.** Compose the full file, then one write.
+  No write-then-patch loops; never re-read a file you just wrote.
+- **Batch what your tools allow** (multi-file edits, one shell invocation for a
+  series of commands) instead of one micro-step per turn.
+- **Never guess paths** — the template tree is documented in the repo's
+  `app/AGENTS.md` and this skill's editing map.
+- **Never download or vision-inspect your own generations.** You wrote the
+  prompt; re-viewing the result tells you nothing new. (The kit coherence
+  check, when it applies, is ONE batched pass — `references/asset-system.md`.)
+- **Wait on a job ONCE, when its output is the next input.** Submit everything
+  that can render concurrently (film + cover), build the page while it
+  renders.
+
 ## Talking to the user — no technical/plumbing language
 
 Most users are not technical. Never expose the build plumbing in what you SAY
