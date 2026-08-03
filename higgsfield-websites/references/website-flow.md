@@ -39,15 +39,35 @@ pipeline — see "Small edits" at the bottom.)
 
 The `type` is already resolved (the main skill also asks, in that first round,
 whether to publish to the community feed when ready — remember that for Phase
-6). The only other thing worth one question is **brand constraints** — an
-existing brand to honor (ask
-for colors/fonts/logo/photos/links) vs. free rein ("design the brand for me").
-Whatever they don't have, you generate: the full identity kit plus the
-personalization ladder in `references/asset-system.md` (logo family, icon set,
-patterns, illustrations, state artwork, product universe). Free rein is the
-richer path, not the degraded one. Skip the round entirely when the brief
-already answers it. If the user skips or is unreachable: choose sensible
-defaults, state them in one line, and proceed. Never ask a second round.
+6). This single intake round carries the two website-specific questions worth
+asking; put both in the ONE batched round and never ask a second round.
+
+1. **Animation — MANDATORY, ALWAYS ask on every `--type website` build.** This
+   question is NEVER skipped — ask it even when the request seems to imply a
+   choice ("an animated site", "a plain static page"), even for a "simple" or
+   "quick" site, even when you think you already know the answer. The user must
+   make this call, not you. Offer exactly two options:
+   - **Animated (recommended)** → sets `Animation mode: animated-website` — the
+     scroll-scrub camera journey (the product default; mark it Recommended).
+   - **Non-animated** → sets `Animation mode: non-animated` — a well-crafted site
+     with lighter/optional motion, no mandatory camera journey.
+
+   If the request already leans one way, still ask — just point the Recommended
+   marker at the implied option. Record the picked value on the brief's
+   `Animation mode` line (Phase 0). ONLY if the user is genuinely unreachable /
+   never answers do you proceed on the default (**Animated**) and say so in one
+   line — never as a shortcut to avoid asking.
+2. **Brand constraints** — an existing brand to honor (ask for
+   colors/fonts/logo/photos/links) vs. free rein ("design the brand for me").
+   Whatever they don't have, you generate: the full identity kit plus the
+   personalization ladder in `references/asset-system.md` (logo family, icon set,
+   patterns, illustrations, state artwork, product universe). Free rein is the
+   richer path, not the degraded one.
+
+The Animation question (1) is always asked — never skip the round to avoid it.
+You may drop only question 2 when the brief already answers the brand question. If
+the user skips or is unreachable, default to **Animated** and say so in one line.
+Never ask a second round.
 
 ### Phase 0 — Concept (`app/design-brief.md`, committed, BEFORE any code)
 
@@ -58,11 +78,16 @@ clean", "Inter", "blue accent") means the brief is not done:
 - **Concept spine** — a nameable narrative idea threading the whole page (e.g.
   "the site is a calibration instrument", "an archive dossier", "a stage").
   Pick from `references/reference-boards.md`'s spine list or invent better.
-- **Delivery tier** — `editorial` (calm/minimal/B2B: typography + imagery +
-  bespoke chrome, micro-motion only) · `cinema` (**default** for marketing/
-  portfolio/brand: Lenis+GSAP, Tier-1 hero, scroll chapters) · `spectacle`
-  (briefs saying awwwards/webgl/3d/immersive: cinema + WebGL/3D/scrub + custom
-  cursor + a second beat).
+- **Delivery tier** — `cinema` (**default**: Lenis+GSAP, Tier-1 hero, scroll
+  chapters — carries the animated website) · `spectacle` (briefs saying
+  awwwards/webgl/3d/immersive: cinema + WebGL/3D/scrub + custom cursor + a
+  second beat) · `editorial` (calm/minimal/B2B: typography + imagery + bespoke
+  chrome, micro-motion only). The animated website is the default Tier-1
+  experience regardless of tier, so cinema/spectacle is the normal home for it.
+  `editorial` drops the scroll-scrub journey to micro-motion — treat choosing it
+  as one of the "user explicitly asked for something other than an animated
+  website" cases, not a default an ordinary B2B/minimal brief falls into on its
+  own.
 - **Locked palette** — exact hexes + a one-line defense. Hard bans (mechanical,
   gate-checked): (1) graphite/near-black + orange/amber/ember accent, (2)
   near-black + neon cyan/blue/green accent, (3) beige/cream + brass/clay/
@@ -71,16 +96,37 @@ clean", "Inter", "blue accent") means the brief is not done:
   See `references/reference-boards.md` for what to reach for instead.
 - **Locked type** — pairing from the recipe's tables; serif only with a written
   brand justification.
-- **Tier-1 technique** — chosen from **`references/wow-catalog.md`** (read it
-  at this step), named with its catalog ID, with one sentence defending why
-  it enacts the concept spine. Cinema/spectacle require an interactive
-  technique (film scrub, layered depth, canvas/pixel, spatial layout) — a
-  passive autoplay loop is the documented fallback only. The catalog's
-  anti-convergence ledger applies: no repeat of the previous build's
-  technique, and ≥4 of the 6 identity axes must differ. For **A4 —
-  Seam-locked scroll scrub**, read `references/scroll-scrub.md` NOW and add
-  its journey, camera architecture, seam direction, and mobile framing to the
-  brief before boards or generation.
+- **`Animation mode` — MANDATORY explicit state, set from the intake answer.
+  HARD STOP.** The brief MUST contain a literal line `Animation mode: <value>`
+  (the value the user picked at intake — see "Before Phase 0"; default Animated
+  if they skipped) and you may not leave Phase 0 without it. Only two values are
+  legal:
+  - **`animated-website`** (the recommended default — from "Animated" at intake):
+    the seam-locked scroll-scrub camera journey (**A4**), where the visitor's
+    scroll flies the page through several connected generated scenes. This value
+    OBLIGATES you to also write the journey block into the brief NOW, before
+    boards or generation: read **`references/scroll-scrub.md`** and add its
+    **Journey** (4–7 named scenes), **Camera architecture** (A or B), **seam
+    direction**, and **mobile framing**, plus one sentence on how the journey
+    enacts the concept spine. `Animation mode: animated-website` with no journey
+    block is an INCOMPLETE brief — a hard stop, not a proceed-anyway. On this
+    value, do NOT shop the wow-catalog — the animated website IS the technique;
+    the anti-convergence "no repeat" rule does NOT force you off it (differ on the
+    OTHER five axes instead: world/subject, journey shape, palette, type, CTA
+    garments, corner language).
+  - **`non-animated`** (from "Non-animated" at intake, or a request that clearly
+    asked for it): a well-crafted site with lighter/optional motion and NO
+    mandatory camera journey. Legal ONLY as the user's own choice — append the
+    reason on the line, e.g. `non-animated — user picked Non-animated at intake`
+    or `non-animated — "<verbatim request>"`. Your own taste, "calm/minimal/B2B",
+    or "it's just a simple landing page" is NOT a reason to pick this — when in
+    doubt it is `animated-website`. On this value the site still clears the
+    `wow-maker.md` craft floor (bespoke assets, motivated micro-motion, real
+    typography); reach into **`references/wow-catalog.md`** for a lighter Tier-1
+    technique (named with its catalog ID) or run the editorial tier. Never ship a
+    dead flat page.
+
+  Either way, a passive autoplay loop is never the Tier-1 mechanic.
 - **Section plan** — ordered, one layout family per section, no consecutive
   repeats, ≥4 families for 6+ sections, eyebrow budget ceil(sections/3).
 - **Asset plan** — the full kit per `references/asset-system.md` (hero visual,
@@ -113,10 +159,10 @@ logo/monogram + favicon, the OG card — plus video loop (cinema) / GLB
 (spectacle). Poll between build steps; download into `app/public/assets/`;
 verify kit coherence when it lands (re-generate anything whose grade fights the
 boards). Never idle waiting on renders; never fall back to stock/picsum/CSS-only.
-For A4, follow `references/scroll-scrub.md`'s specialized scene/clip chain:
-independent stills/dives may batch, but exact-frame forward legs are
-intentionally sequential. The normal "submit everything up front" rule never
-overrides a real rendered-frame dependency.
+For the animated website (A4, the default), follow `references/scroll-scrub.md`'s
+specialized scene/clip chain: independent stills/dives may batch, but exact-frame
+forward legs are intentionally sequential. The normal "submit everything up
+front" rule never overrides a real rendered-frame dependency.
 
 ### Phase 3 — Build to the boards, section by section
 
@@ -131,21 +177,33 @@ utility classes. Registry components (`references/wow-maker.md` §5) remain
 available as raw material — restyled to the boards, never default-skinned.
 Build static-but-complete; motion is the next phase.
 
+**HARD STOP for `Animation mode: animated-website` — build the journey as the
+spine, not an afterthought.** The scroll-scrub scene media (Phase 2) and the
+scroll-scrub component (`app/src/components/scroll-scrub/scroll-scrub.tsx` +
+`.css`, per `references/scroll-scrub.md` Phase 3) ARE the page — the semantic
+chapters are the page structure, not decoration added later. Materialize the
+scroll-scrub component and wire the real scene data in THIS phase. Do NOT build a
+generic static page of sections and plan to "add the camera journey later" — that
+is the exact failure this flow guards against, and it is caught by the Phase 5
+gate. If the scene MP4 chain is still rendering, build the scroll-scrub component
+against its posters and swap the clips in when they land — never substitute a
+plain static layout for the animated website.
+
 ### Phase 4 — Motion pass (tier-mandated, one focused pass)
 
 - **cinema/spectacle:** Lenis smooth scroll bridged to GSAP ScrollTrigger
   (`autoRaf: false` + `gsap.ticker` — without the bridge, scrub stutters).
 - The **Tier-1 hero mechanic** from the brief, fully executed — a half-wired
   version fails review. The hero is the wow carrier and it must respond to
-  the USER'S INPUT: for cinema/spectacle that means the scroll-scrubbed hero
-  film per `asset-system.md` §7 (scroll plays the movie), not a passive
-  autoplay loop. Passive motion the user can't influence does not count as
-  the Tier-1 mechanic.
-- **A4 exception:** the full-site seam-locked MP4 chain from
-  `references/scroll-scrub.md` replaces the ordinary single hero frame
-  sequence. Let its controller own scroll-to-video time; keep the Lenis/GSAP
-  bridge for surrounding motion, and never drive the same media with a second
-  ScrollTrigger timeline.
+  the USER'S INPUT (scroll plays the movie), never a passive autoplay loop.
+  Passive motion the user can't influence does not count as the Tier-1 mechanic.
+- **Animated website (default):** the full-site seam-locked MP4 chain from
+  `references/scroll-scrub.md` IS the hero mechanic — it replaces the ordinary
+  single hero frame sequence. Let its controller own scroll-to-video time; keep
+  the Lenis/GSAP bridge for surrounding motion, and never drive the same media
+  with a second ScrollTrigger timeline. Only when the user explicitly asked for
+  a non-animated-website treatment do you instead wire the chosen catalog
+  technique — e.g. the single scroll-scrubbed hero film per `asset-system.md` §7.
 - Scroll-chapter reveals: staggered headline builds (`split-type` + GSAP or
   registry text components), per-section distinct timing; work rows / cards
   with hover reveals; magnetic nav/CTA physics via `useMotionValue`, never
@@ -178,6 +236,10 @@ deploy with a failing item.
 
 ### Phase 6 — Deploy
 
+0. `bun run typecheck` once, from `app/` — ~15s locally vs a failed deploy
+   round-trip plus a fix-and-redeploy loop. Fix what it finds, then deploy.
+   This is the ONE pre-deploy local check; do not also run `bun run build`
+   unless typecheck passed and the deploy still failed.
 1. `higgsfield website deploy <website_id>` — this ships the live public site
    immediately; there is no preview stage.
 2. Report: live URL (from `higgsfield website status`) — "Your site is live:
@@ -203,11 +265,12 @@ the only verification.
 ## Design references — read order
 
 1. **`references/design-recipe.md`** — craft floor (ALWAYS read; short).
-2. **`references/wow-catalog.md`** — Phase 0: Tier-1 technique selection +
-   the anti-convergence ledger; Phase 4: implementation contracts.
-   If the selected technique is A4, read **`references/scroll-scrub.md`** next;
-   it owns the specialized boards/assets/runtime sequence and bundled Markdown
-   code references for that build.
+2. **`references/scroll-scrub.md`** — the **animated website**, which is the
+   DEFAULT Tier-1 experience for every website: read it in Phase 0. It owns the
+   specialized boards/assets/runtime sequence and bundled Markdown code
+   references for that build. Only read **`references/wow-catalog.md`** (Tier-1
+   technique menu + anti-convergence ledger + Phase 4 implementation contracts)
+   when the user explicitly asked for something other than an animated website.
 3. **`references/reference-boards.md`** — Phase 1: per-section design boards.
 4. **`references/asset-system.md`** — Phase 2: the Higgsfield asset kit.
 5. **`references/image-to-code.md`** — Phase 3: faithful implementation +
@@ -230,7 +293,7 @@ Then route to the FUNCTIONAL reference for the task:
 
 | Task | Read |
 |---|---|
-| Scrollable world / continuous camera journey / diorama fly-through / browse-through-an-industry site | `references/scroll-scrub.md` — seam-locked media pipeline + React/CSS Markdown assets + mobile/QA contract |
+| **Any website (the DEFAULT — animated website)** / scrollable world / continuous camera journey / diorama fly-through / browse-through-an-industry site | `references/scroll-scrub.md` — seam-locked media pipeline + React/CSS Markdown assets + mobile/QA contract |
 | TanStack Start routes, SSR, server functions, Cloudflare Worker runtime | `references/runtime-and-infra.md` |
 | Cover / OG image ("cover", "обложка", "OG image", publish prep) | `references/app-cover.md` — branded 3:2 cover + capsule OG mask |
 | SEO: meta tags, OG/Twitter cards, robots/sitemap, JSON-LD, entity, GEO, audit | `references/seo.md` |

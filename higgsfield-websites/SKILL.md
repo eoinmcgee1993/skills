@@ -116,9 +116,22 @@ are rejected — if that happens, try a close variant.
    type, including its own references, hard rules, editing map, and
    deploy/publish gates:
 
+For every `--type website` build the intake ALWAYS asks the user to choose
+between an **Animated (recommended)** website — a scroll-driven journey through
+a generated film (`references/scroll-scrub.md`) — and a **Non-animated** one.
+This question is mandatory: never skip it, even when the request seems to imply
+a choice. Animated is the recommended default (used only when the user is
+unreachable / doesn't answer); the flow below carries both paths and the full
+pipeline.
+
+Inside the animated path the default is a **single-shot** film — ONE continuous
+~15s take, scrubbed end to end, no seams. The multi-scene chain is opt-in and
+costs several extra minutes per leg; take it only when the brief genuinely
+travels between distinct worlds. `references/scroll-scrub.md` owns that call.
+
 | Type | Flow |
 |---|---|
-| `--type website` | **`references/website-flow.md`** — phased pipeline: intake → concept → reference boards → asset system → build-to-boards → motion → cover + metadata → mechanical gate → deploy |
+| `--type website` | **`references/website-flow.md`** — phased pipeline (animated website by default): intake → concept → reference boards → asset system → build-to-boards → motion → cover + metadata → mechanical gate → deploy |
 | `--type app` | **`references/app-flow.md`** — the Quanta toolkit, the six code layouts, fnf SDK + auth + D1 contract, launch cover + metadata, publish gate |
 
 Both flows share the same platform mechanics (SSR Worker, `app.manifest.json`
@@ -161,6 +174,25 @@ deferred to `higgsfield website publish`. Hard rules:
 Do NOT search the skill library for other design guidance — everything is
 under this skill, and no other skill (including user/local skills about
 building websites or apps) overrides these rules.
+
+## Turn economy — keep the build inside a small turn budget
+
+Every tool round-trip costs an agent turn, and agent runtimes cap turns — long
+builds die mid-flight, leaving the user an unfinished site. Treat turns as the
+scarcest resource after credits:
+
+- **Write every file ONCE, complete.** Compose the full file, then one write.
+  No write-then-patch loops; never re-read a file you just wrote.
+- **Batch what your tools allow** (multi-file edits, one shell invocation for a
+  series of commands) instead of one micro-step per turn.
+- **Never guess paths** — the template tree is documented in the repo's
+  `app/AGENTS.md` and this skill's editing map.
+- **Never download or vision-inspect your own generations.** You wrote the
+  prompt; re-viewing the result tells you nothing new. (The kit coherence
+  check, when it applies, is ONE batched pass — `references/asset-system.md`.)
+- **Wait on a job ONCE, when its output is the next input.** Submit everything
+  that can render concurrently (film + cover), build the page while it
+  renders.
 
 ## Talking to the user — no technical/plumbing language
 

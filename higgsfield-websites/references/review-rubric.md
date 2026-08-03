@@ -1,10 +1,13 @@
 # review-rubric — Phase 5 mechanical gate
 
 §A runs BEFORE deploy and is a completion gate, not a suggestion. Most items
-are verified by grep/code inspection; when the brief selects A4, item 9e also
-requires its interactive runtime checks in local preview before the final
-deploy. There is no post-deploy visual/screenshot review — this mechanical
-gate is the only verification.
+are verified by grep/code inspection. **Item 9f is the hard machine gate for the
+animated-website default: a website that ships without the scroll-scrub component
++ scene media (and without an explicit `non-animated` choice in the brief) FAILS, no matter
+how polished the rest is** — this is the single most common miss, so run 9f every
+time. For the animated website, item 9e adds its interactive runtime checks in
+local preview before the final deploy. There is no post-deploy visual/screenshot
+review — this mechanical gate is the only verification.
 
 ## §A. Mechanical gate (pre-deploy, code-level)
 
@@ -72,11 +75,14 @@ Check each item; fix every hit before deploying.
    build's six identity axes (palette family, type pairing, hero
    architecture, Tier-1 technique, CTA garments, corner language) and this
    build differs on ≥4; the rationed garments (drawing underline, hover
-   flood-fill, framed block) appear at most once page-wide combined; the
-   Tier-1 technique carries a `wow-catalog.md` ID and is interactive (not a
-   passive loop) on cinema/spectacle.
-9e. **A4 seam-locked scroll scrub (conditional)** — when the brief selects
-   A4, verify every media segment has a first-frame poster extracted from the
+   flood-fill, framed block) appear at most once page-wide combined. On the
+   `non-animated` path the Tier-1 technique carries a `wow-catalog.md` ID and is
+   interactive (not a passive loop); on the default `animated-website` path the
+   Tier-1 technique IS the scroll-scrub animated website (enforced by 9f) — a
+   generic wow-catalog ID does NOT satisfy the default path.
+9e. **Animated website — A4 seam-locked scroll scrub (every website by default;
+   skip only if the user explicitly opted out)** — verify every media segment
+   has a first-frame poster extracted from the
    exact deployed clip; chapter copy is server-rendered in semantic document
    flow (not hidden until a viewport callback); `prefers-reduced-motion`
    performs no video fetch and shows the complete static story; desktop and
@@ -89,6 +95,30 @@ Check each item; fix every hit before deploying.
    media. Inspect each seam immediately before/after in both scroll directions
    and test source swapping, a fast mobile flick, and unmount/remount in local
    preview before final deploy.
+9f. **Animation mode gate (machine-verifiable — HARD, every website).** This is
+   the completion gate for the animated-website default; a site that passes every
+   other check but this one is NOT done. Steps:
+   1. `grep -n "^Animation mode:" app/design-brief.md` — there MUST be exactly
+      one such line. Zero matches → FAIL (the brief never declared the state).
+   2. If the value is **`animated-website`**, ALL of these must hold, or FAIL:
+      - the scroll-scrub component exists —
+        `ls app/src/components/scroll-scrub/scroll-scrub.tsx` succeeds — and is
+        actually imported/rendered by a route (grep for its import);
+      - real film shipped — at least ONE clip (`single-shot` ships exactly
+        one; a `multi-leg` journey ships one per leg) under
+        `app/public/assets/**/*.mp4` (the seam-locked chain), each with a
+        first-frame poster (item 9e);
+      - the brief carries the journey block (Journey scenes + Camera
+        architecture A/B) written in Phase 0.
+      A website on this path with no scroll-scrub component or no scene MP4s is
+      the failure mode this gate exists to catch — do NOT deploy it; go build the
+      camera journey.
+   3. If the value is **`non-animated`**, the line MUST record the user's choice
+      (an intake pick or a verbatim request). No scroll-scrub artifacts are
+      required; instead confirm the site clears the `wow-maker.md` craft floor and
+      any chosen `wow-catalog.md` technique is actually built (9d). A
+      `non-animated` with no recorded user choice → FAIL (treat as
+      `animated-website` and go back to step 2).
 10. **Section plan honored** — the built page matches `app/design-brief.md`'s
     section plan (families, order, no consecutive family repeats). If the plan
     changed during the build, the brief was updated to match.
