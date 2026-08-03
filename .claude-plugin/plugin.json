@@ -1,7 +1,7 @@
 {
   "name": "higgsfield",
   "version": "0.12.0",
-  "description": "Higgsfield AI skills for images, videos, narrated explainers, browser games, Marketing Studio, engagement analysis, and Soul Character training.",
+  "description": "Higgsfield AI skills for images, videos, narrated explainers, YouTube thumbnails, browser games, Marketing Studio, engagement analysis, and Soul Character training.",
   "author": {
     "name": "Higgsfield AI",
     "url": "https://higgsfield.ai"
@@ -23,6 +23,7 @@
     "ugc",
     "avatar",
     "video-explainer",
-    "game-generation"
+    "game-generation",
+    "youtube-thumbnail"
   ]
 }
