@@ -10,6 +10,7 @@
 /higgsfield-generate/                   @higgsfield-ai/skills-team
 /higgsfield-soul/                       @higgsfield-ai/skills-team
 /higgsfield-product-photoshoot/         @higgsfield-ai/skills-team
+/higgsfield-brandkit/                   @higgsfield-ai/skills-team
 
 # Plugin manifests and distribution
 /.claude-plugin/                        @higgsfield-ai/skills-team

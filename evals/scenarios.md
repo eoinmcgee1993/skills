@@ -1,6 +1,6 @@
 # Scenarios
 
-13 starter scenarios across the 7 skills. Each is one user request + what the agent should do + how to score it.
+Starter scenarios across the Higgsfield skills. Each is one user request + what the agent should do + how to score it.
 
 These exist to be run by a human (or by another agent acting as the user) in a fresh session with skills installed.
 
@@ -292,6 +292,29 @@ These exist to be run by a human (or by another agent acting as the user) in a f
 
 ---
 
+## Scenario 14 — Complete visual identity (brandkit)
+
+**User request:**
+
+> Create a visual identity and brandbook for Northline, a calm technical logistics platform. Start from scratch.
+
+**Expected behavior:**
+
+- Routes to `higgsfield-brandkit`, not generic generation or Marketing Studio's URL-import brand kit.
+- Asks only for unresolved context/preferences and checks stage-specific local dependencies without installing them silently.
+- Creates 2–3 palette boards, shows them, and waits for a selection.
+- After palette approval, generates exactly three `recraft_v4_1` vector SVG marks with identical technical parameters and waits for logo selection.
+- Proposes typography only after logo selection, persists each approval in project-local `brandkit/state.json`, and builds the canonical PPTX/PDF Brandbook only after all three slots are approved.
+- Does not use FFmpeg, self-select a logo, invent brand claims, or replace an approved mark during downstream mockups.
+
+**Score:**
+
+- Pass: correct staged routing, three SVG candidates, explicit approval gates, durable state, and dependency-aware Brandbook output.
+- Partial: correct assets but asks a full questionnaire, installs tools without permission, or loses approval state.
+- Fail: uses the Marketing Studio metadata kit, self-approves a mark, produces only raster logos, or skips palette/logo/type selection.
+
+---
+
 ## Round template (copy when recording results)
 
 ```
@@ -307,6 +330,7 @@ Scenario 10: ...
 Scenario 11: ...
 Scenario 12: ...
 Scenario 13: ...
+Scenario 14: ...
 
 Aggregate: <P pass / Q partial / F fail>
 Time-to-result mean: <Ns>

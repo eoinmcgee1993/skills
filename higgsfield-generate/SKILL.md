@@ -15,7 +15,8 @@ description: |
   URL", or "analyze video virality". Supports generic generation,
   workflows, Marketing Studio, and Virality Predictor.
   Chain with higgsfield-soul-id for face/identity consistency.
-  NOT for: Soul training, photoshoots, cards, YouTube thumbnails
+  NOT for: Soul training, brand systems/brandbooks (use
+  higgsfield-brandkit), photoshoots, cards, YouTube thumbnails
   (use higgsfield-youtube-thumbnail), explainers (use
   higgsfield-video-explainer), playable games/assets (use
   higgsfield-game-generation), or TTS.
@@ -74,6 +75,7 @@ If the user says "analyze this video", "score this ad", "evaluate the hook", or 
    - **Seed Audio 1.0** → default audio model for text-to-audio, voice, sound effects, ambience, foley, and music-like audio unless the user names Sonilo/Mirelo.
 
    **Image:**
+   - Complete brand identity, logo system, palette, typography, brandbook, packaging system, signage, or coordinated branded asset suite → use `higgsfield-brandkit` instead.
    - YouTube thumbnail, Shorts cover, or Instagram video cover → use `higgsfield-youtube-thumbnail` instead.
    - Brand product visual (Pinterest pin, lifestyle, hero banner, ad pack, virtual try-on) → use `higgsfield-product-photoshoot` instead. NOT this skill.
    - Generated product concept / packaging / can / bottle with brand name or label text → GPT Image 2.

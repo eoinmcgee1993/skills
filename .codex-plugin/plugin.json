@@ -1,7 +1,7 @@
 {
   "name": "higgsfield",
   "version": "0.12.0",
-  "description": "Image/video generation, narrated explainers, YouTube thumbnails, browser games, Marketing Studio, engagement analysis, and Soul Character training via Higgsfield AI.",
+  "description": "Image/video generation, complete brand systems, narrated explainers, YouTube thumbnails, browser games, Marketing Studio, engagement analysis, and Soul Character training via Higgsfield AI.",
   "author": {
     "name": "Higgsfield AI",
     "email": "support@higgsfield.ai",
@@ -18,6 +18,8 @@
     "product-photography",
     "marketing-studio",
     "marketplace-cards",
+    "brandkit",
+    "brand-identity",
     "video-explainer",
     "game-generation",
     "youtube-thumbnail"
@@ -26,7 +28,7 @@
   "interface": {
     "displayName": "Higgsfield AI",
     "shortDescription": "Train Soul Characters and generate powerful AI visuals",
-    "longDescription": "Higgsfield AI Skills turn Codex into a creative production agent. Train reusable Soul Characters, generate images and videos, create narrated explainers and YouTube thumbnails, build playable browser games, produce product and marketplace visuals, create branded Marketing Studio ads, and score finished videos. The plugin uses the Higgsfield CLI for authenticated workflows and returns ready-to-use URLs or reports.",
+    "longDescription": "Higgsfield AI Skills turn Codex into a creative production agent. Train reusable Soul Characters, generate images and videos, build complete visual identities and brandbooks, create narrated explainers and YouTube thumbnails, build playable browser games, produce product and marketplace visuals, create branded Marketing Studio ads, and score finished videos. The plugin uses the Higgsfield CLI for authenticated workflows and returns ready-to-use assets, URLs, or reports.",
     "developerName": "Higgsfield AI",
     "category": "Design",
     "capabilities": [
@@ -39,6 +41,7 @@
       "Generate a cinematic product image with Higgsfield",
       "Analyze this ad video for engagement and hook strength",
       "Create marketplace-ready product cards for this item",
+      "Create a complete visual identity and brandbook for this business",
       "Turn this document into a narrated explainer",
       "Create a YouTube thumbnail for this video",
       "Build and deploy a small browser game"

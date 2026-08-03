@@ -60,6 +60,6 @@ If anything fails:
 
 ## Step 5 — Done
 
-Report to the user: "Skills installed. Try generating media, making a narrated explainer, building a browser game, or training a Soul Character."
+Report to the user: "Skills installed. Try generating media, creating a complete brand identity, making a narrated explainer or YouTube thumbnail, building a browser game, or training a Soul Character."
 
 Do NOT explain the internals (skill paths, file structure). Just confirm install + give starter prompts.

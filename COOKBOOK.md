@@ -1,6 +1,6 @@
 # Higgsfield Skills — Cookbook
 
-Real workflows across the seven skills. Each recipe is what you say to the agent, what the agent runs, and practical tips.
+Selected workflows across the Higgsfield skills. Each recipe is what you say to the agent, what the agent runs, and practical tips.
 
 ---
 
