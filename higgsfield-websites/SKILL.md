@@ -4,24 +4,26 @@ name: higgsfield-websites
 description: |
   Build, edit, and deploy full-stack websites via the Higgsfield CLI
   (`higgsfield website …`). Each site is a React 19 + TanStack Start SSR app in
-  one Cloudflare Worker (D1/R2/KV/DO/Containers). TWO product types, picked via
-  `--type` on create: `website` (standalone, NO Higgsfield integration,
+  one Cloudflare Worker (D1/R2/KV/DO/Containers). THREE product types, picked
+  via `--type` on create: `website` (standalone, NO Higgsfield integration,
   independent brand, custom CSS — the image-grounded pipeline in
-  references/website-flow.md) vs `app` (Sign in with Higgsfield + fnf SDK,
-  Quanta + app layouts per references/app-flow.md). This file routes to
-  the right flow; each flow carries its own workflow, references, hard rules,
-  and deploy/publish gates.
+  references/website-flow.md), `app` (Sign in with Higgsfield + fnf SDK,
+  Quanta + app layouts per references/app-flow.md), and `game` (a browser game
+  with realtime multiplayer rooms — references/game-flow.md). This file routes
+  to the right flow; each flow carries its own workflow, references, hard
+  rules, and deploy/publish gates.
   Use when: "build me a website", "make a landing page", "create a web app",
-  "build a SaaS dashboard / tool / portfolio", "deploy this site", "edit my
-  site", "publish", "ship to production".
+  "build a SaaS dashboard / tool / portfolio", "make me a game", "build a
+  multiplayer game", "deploy this site", "edit my site", "publish", "ship to
+  production".
   NOT for: single image/video/audio generation (higgsfield-generate), product
   photos (higgsfield-product-photoshoot), marketplace cards
   (higgsfield-marketplace-cards).
-argument-hint: "[what to build or edit] [--type website|app]"
+argument-hint: "[what to build or edit] [--type website|app|game]"
 allowed-tools: Bash
 ---
 
-# Higgsfield website builder (CLI) — two product types, two flows
+# Higgsfield website builder (CLI) — three product types, three flows
 
 You drive the whole lifecycle through the **Higgsfield CLI** (`higgsfield
 website …`), then edit code on the local filesystem with `git` + `bun`. You are
@@ -30,7 +32,7 @@ building ONE per-website Cloudflare Worker: a **React 19 + TanStack Start** app,
 subdomain. The project lives in **`app/`** — run every `bun`/build command from
 there.
 
-## The two types — and the REQUIRED `--type` on create
+## The three types — and the REQUIRED `--type` on create
 
 `higgsfield website create` requires `--type`, and it is the **USER'S choice** —
 when the request doesn't make it obvious, ask the user before creating (one
@@ -61,6 +63,17 @@ question, up front):
   higgsfield website create --type app
   ```
 
+- **`--type game`** — a browser game: realtime multiplayer rooms on the game
+  template, where the game itself is six pure functions in `app/src/logic.js`
+  and the platform already owns sockets, rooms and persistence. Requires a
+  **game genre** as `--category` (`arcade`, `puzzle`, `shooter`, …, from
+  `higgsfield website categories`) and takes **no** `--template` — a game
+  scaffolds from the only template it can use. Single-player counts: set
+  `minPlayers: 1`. See `references/game-flow.md`.
+  ```bash
+  higgsfield website create --type game --category arcade
+  ```
+
 **Generation is ALWAYS an app.** Any product that generates images, video,
 audio, or other AI media runs on Higgsfield — build it as `--type app` (Sign
 in with Higgsfield, generation on the user's Higgsfield credits). NEVER offer
@@ -73,7 +86,12 @@ unrelated to this rule.)
 
 Quick tells: "landing page / portfolio / marketing site / SaaS with its own
 users, no AI generation" → website. "generates images/video/audio, or anything
-with Higgsfield models, credits, or generation history" → app.
+with Higgsfield models, credits, or generation history" → app. "something you
+play — a game, multiplayer or single-player" → game.
+
+Games moved onto this pipeline from a separate engine that is being retired.
+The `higgsfield game …` commands are gone: a game is created, deployed and
+published exactly like a website. Any doc saying otherwise is out of date.
 
 ## Always set a subdomain on create
 
@@ -133,11 +151,12 @@ travels between distinct worlds. `references/scroll-scrub.md` owns that call.
 |---|---|
 | `--type website` | **`references/website-flow.md`** — phased pipeline (animated website by default): intake → concept → reference boards → asset system → build-to-boards → motion → cover + metadata → mechanical gate → deploy |
 | `--type app` | **`references/app-flow.md`** — the Quanta toolkit, the six code layouts, fnf SDK + auth + D1 contract, launch cover + metadata, publish gate |
+| `--type game` | **`references/game-flow.md`** — the six-function `logic.js` contract, realtime rooms, a game-genre `--category`, play-testing, deploy + publish |
 
-Both flows share the same platform mechanics (SSR Worker, `app.manifest.json`
-infra, a single live deploy via `higgsfield website deploy <website_id>`,
-the cover + metadata requirement below, and the publish gate) — each flow
-restates what it needs, so you never have to read the other one.
+All three flows share the same platform mechanics (SSR Worker,
+`app.manifest.json` infra, a single live deploy via `higgsfield website
+deploy <website_id>`, the cover + metadata requirement below, and the publish
+gate) — each flow restates what it needs, so you never have to read another.
 
 ## Cover + metadata — ALWAYS part of building, never publish-only
 
