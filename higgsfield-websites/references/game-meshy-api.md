@@ -137,14 +137,14 @@ task). Preferred: stdlib merger, no Blender (verified on a live run
 2026-06-11 — full pipeline cost 41 credits: text-to-3d + rig + 2 anims):
 
 ```bash
-python3 $GAME_SKILL/scripts/glb_merge_anims.py \
+python3 scripts/glb_merge_anims.py \
   rigged.glb walk.glb:Walk run.glb:Run idle.glb:Idle attack.glb:Attack out.glb
 ```
 
 Blender alternative (same semantics):
 
 ```bash
-blender -b -P $GAME_SKILL/scripts/merge_anim_glbs.py -- \
+blender -b -P scripts/merge_anim_glbs.py -- \
   rigged.glb walk.glb:Walk run.glb:Run idle.glb:Idle attack.glb:Attack out.glb
 ```
 
@@ -159,7 +159,7 @@ the character visibly grew 18% when idle played. Fix (automated in the merge
 script): for every clip, if the root bone's scale min/max ≠ 1.0 — set scale
 keys to 1.0 AND divide that clip's root translation keys by the same factor
 (otherwise the character hovers above ground). Verify with
-`$GAME_SKILL/scripts/glb_inspect.py` — it prints per-clip root-scale ranges.
+`scripts/glb_inspect.py` — it prints per-clip root-scale ranges.
 
 Finish with the standard checks: `glb_inspect.py` (skins ≥ 1, all clips
 present, alphaMode OPAQUE) and zip before `higgsfield upload create` (raw `.glb`

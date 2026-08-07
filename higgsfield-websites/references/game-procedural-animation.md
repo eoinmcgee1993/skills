@@ -16,9 +16,9 @@ static mesh (Meshy text/image-to-3d, preview mesh is fine)
 ```
 
 ```bash
-blender -b -P $GAME_SKILL/scripts/proc_rig_dragon.py -- dragon.glb work.blend
-blender -b work.blend -P $GAME_SKILL/scripts/proc_weights.py -- work.blend
-blender -b work.blend -P $GAME_SKILL/scripts/proc_anim_dragon.py -- dragon_anim.glb
+blender -b -P scripts/proc_rig_dragon.py -- dragon.glb work.blend
+blender -b work.blend -P scripts/proc_weights.py -- work.blend
+blender -b work.blend -P scripts/proc_anim_dragon.py -- dragon_anim.glb
 ```
 
 The three scripts are a worked example for a winged quadruped (dragon). For

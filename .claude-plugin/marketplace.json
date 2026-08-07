@@ -50,11 +50,6 @@
           "name": "youtube-thumbnail",
           "path": "higgsfield-youtube-thumbnail",
           "invoke": "/higgsfield:youtube-thumbnail"
-        },
-        {
-          "name": "game-generation",
-          "path": "higgsfield-game-generation",
-          "invoke": "/higgsfield:game-generation"
         }
       ]
     }

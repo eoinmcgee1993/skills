@@ -9,7 +9,7 @@
 >
 > **The post-process scripts live on disk** in this skill's `scripts/`
 > folder. Locate them once per run (see **Locating the scripts** below) and
-> address them as `$GAME_SKILL/scripts/pipeline.py`.
+> address them as `scripts/pipeline.py`.
 
 Turn a reference image into an engine-ready texture in one pass: a
 **seamless edit** with Higgsfield `gpt_image_2` that keeps the reference's
@@ -43,11 +43,10 @@ The scripts ship inside this skill's folder, flat in `scripts/`:
 `pipeline.py` (the whole factory: seam fix, palette transfer, PBR maps,
 masked-inpaint composite) and `seamless.py` (legacy standalone seam fix).
 
-1. Set `GAME_SKILL` to the actual directory containing this `SKILL.md`; verify with
-   `python3 "$GAME_SKILL/scripts/pipeline.py" --help`.
-2. If the variable is empty or the file is missing, **find the skill on
-   disk before doing anything else** — do not fall back to rewriting the
-   script from memory:
+1. Run the bundled scripts from this skill's directory; verify with
+   `python3 scripts/pipeline.py --help`.
+2. If the file is missing, **find the skill on disk before doing anything
+   else** — never fall back to rewriting the script from memory:
 
    Use the path supplied by the active skill loader or search the agent's installed skills
    directory for `higgsfield-game-generation/SKILL.md`, then export its parent directory.
@@ -102,7 +101,7 @@ cancels both deterministically.
 One command per material:
 
 ```bash
-python3 "$GAME_SKILL/scripts/pipeline.py" gpt_output.png \
+python3 "scripts/pipeline.py" gpt_output.png \
     -o textures/{id} --ref textures/{id}_ref.png
 ```
 
@@ -253,7 +252,7 @@ so the prompt also demands the whole output stay tileable.
    script — one command:
 
 ```bash
-python3 "$GAME_SKILL/scripts/pipeline.py" {id}_rolled.png \
+python3 "scripts/pipeline.py" {id}_rolled.png \
     --inpaint gpt_cross_output.png -o textures/{id} --ref textures/{id}_ref.png
 ```
 

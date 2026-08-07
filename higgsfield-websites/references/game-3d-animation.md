@@ -23,7 +23,7 @@
 `sam_3_3d` only makes STATIC meshes. When the user
 needs characters that walk/run/attack in Three.js or a game engine, use this
 pipeline. Verified end-to-end on 2026-06-10 in the Higgsfield sandbox.
-The scripts in `$GAME_SKILL/scripts/` are reconstructions of that verified logic —
+The scripts in `scripts/` are reconstructions of that verified logic —
 smoke-test on a small asset before a long batch run.
 
 ## Decision table
@@ -34,7 +34,7 @@ smoke-test on a small asset before a long batch run.
 | CUSTOM character from text/image, zero manual steps, free | 2D→3D rig-transfer pipeline (Step 4 below) — fully local, but skinning quality is rough on image-to-3D meshes; user rejected it for production. Prefer the native 3D tool |
 | Custom-look humanoid, best skinning quality | Generate T-pose ref → user runs Mixamo manually (no API!) → user gives FBX → convert here |
 | Fully automated 2D→animated GLB, best quality, paid | **Native 3D path — preferred**: inspect `image_to_3d`, select an action with `higgsfield preset list animation-action`, then create with texture, rigging, animation, A-pose, and the chosen integer action ID. Extra clips use `3d_rigging` on the result GLB, then merge locally. **Before any submit read `meshy-input-rules.md`.** Workspace credits only; no provider key. Raw API is fallback only. |
-| Non-humanoid CREATURE (dragon, quadruped, snake, spider, fish) | The auto-rig is humanoid-only (non-bipeds rig poorly or fail). Options: (a) Tripo3D API — rig types quadruped/hexapod/octopod/avian/serpentine/aquatic + locomotion presets (needs Tripo key, unverified); (b) **Procedural branch — VERIFIED on a dragon**: build skeleton+weights+sine-based clips in headless Blender, `procedural-animation.md` + `$GAME_SKILL/scripts/proc_rig_dragon.py`/`proc_weights.py`/`proc_anim_dragon.py` |
+| Non-humanoid CREATURE (dragon, quadruped, snake, spider, fish) | The auto-rig is humanoid-only (non-bipeds rig poorly or fail). Options: (a) Tripo3D API — rig types quadruped/hexapod/octopod/avian/serpentine/aquatic + locomotion presets (needs Tripo key, unverified); (b) **Procedural branch — VERIFIED on a dragon**: build skeleton+weights+sine-based clips in headless Blender, `procedural-animation.md` + `scripts/proc_rig_dragon.py`/`proc_weights.py`/`proc_anim_dragon.py` |
 | Non-rigged props (doors, drones, slimes, turrets) | Procedural animation in Three.js code — no rig needed |
 
 **Mixamo has NO official API.** Internal REST API exists but auto-rig marker
@@ -93,10 +93,10 @@ override is mandatory.
 **CRITICAL PITFALL:** naive `import_scene.fbx` + `export_scene.gltf` exports
 only ONE clip (the active action, e.g. `Rig|T-Pose`) even when 76 actions
 imported. Fix: push every action onto an NLA track before export, and export
-with `export_animation_mode='NLA_TRACKS'`. Use `$GAME_SKILL/scripts/fbx2glb.py`:
+with `export_animation_mode='NLA_TRACKS'`. Use `scripts/fbx2glb.py`:
 
 ```bash
-blender -b -P $GAME_SKILL/scripts/fbx2glb.py -- input.fbx output.glb
+blender -b -P scripts/fbx2glb.py -- input.fbx output.glb
 ```
 
 This also strips the `Rig|` prefix so Three.js clip names are clean
@@ -105,7 +105,7 @@ to OPAQUE (see Material pitfall below).
 
 ## Step 3 — Verify the GLB
 
-Run `$GAME_SKILL/scripts/glb_inspect.py output.glb` (stdlib-only) — prints clip count,
+Run `scripts/glb_inspect.py output.glb` (stdlib-only) — prints clip count,
 clip names, skins/meshes/images, material alphaMode, and root-bone scale
 channels per clip. A correct character GLB has skins ≥ 1 and the expected
 clip count. If clips == 1 and the name contains `T-Pose`, the NLA step was
@@ -119,9 +119,9 @@ Full chain with zero manual steps and no external services:
    white background, full body, matte materials (3d-generation composition
    rules). T-pose matters — the donor skeleton's rest pose is T-pose.
 2. `sam_3_3d` on that image → static textured GLB (no skins, no anims).
-3. `$GAME_SKILL/scripts/rig_transfer.py` — borrows the skeleton + ALL animations from a
+3. `scripts/rig_transfer.py` — borrows the skeleton + ALL animations from a
    rigged donor FBX (KayKit knight or any Mixamo rig):
-   `blender -b -P $GAME_SKILL/scripts/rig_transfer.py -- target_static.glb donor.fbx out.glb`
+   `blender -b -P scripts/rig_transfer.py -- target_static.glb donor.fbx out.glb`
    It scales/aligns the donor armature to the target's bbox, transfers skin
    weights, fixes normals, exports all clips via NLA tracks.
 
@@ -146,12 +146,12 @@ proportion similarity; humanoid T-pose targets only; thin dangling parts
 Meshy returns one GLB per animation. Two merge options:
 
 - **No Blender needed (preferred for Meshy outputs, VERIFIED on a live run
-  2026-06-11):** `python3 $GAME_SKILL/scripts/glb_merge_anims.py rigged.glb walk.glb:Walk
+  2026-06-11):** `python3 scripts/glb_merge_anims.py rigged.glb walk.glb:Walk
   run.glb:Run idle.glb:Idle attack.glb:Attack out.glb` — stdlib-only, remaps
   clips by node NAME, applies the root-scale fix and OPAQUE patch
   automatically.
 - Blender path (when the scene needs other edits anyway):
-  `blender -b -P $GAME_SKILL/scripts/merge_anim_glbs.py -- rigged.glb idle.glb:Idle attack.glb:Attack out.glb`.
+  `blender -b -P scripts/merge_anim_glbs.py -- rigged.glb idle.glb:Idle attack.glb:Attack out.glb`.
 
 **Scale pitfall (verified bug):** Meshy *library* animations (via
 `/animations`) can bake a scale factor into the root bone's scale channel
@@ -176,7 +176,7 @@ Fix layers (all baked into the scripts):
    export. Sanity check: mean dot(poly normal, poly center − mesh centroid)
    should be positive.
 2. **Material**: force `alphaMode: OPAQUE` + `doubleSided: true`. Belt and
-   suspenders: `$GAME_SKILL/scripts/glb_patch.py` (stdlib) patches the JSON chunk of any
+   suspenders: `scripts/glb_patch.py` (stdlib) patches the JSON chunk of any
    existing GLB directly — use it on files you didn't export yourself.
 3. **Renderer side**: thin one-sided surfaces (capes, cloth planes) still look
    "inverted" from the back in Three.js — `material.side = THREE.DoubleSide`.
@@ -219,15 +219,15 @@ white canvas screenshot.
 
 ## Support files
 
-- `$GAME_SKILL/scripts/fbx2glb.py` — Blender CLI converter preserving all clips (NLA tracks, normals fix, OPAQUE).
-- `$GAME_SKILL/scripts/glb_inspect.py` — stdlib GLB inspector: clips, skins, alphaMode, root-scale channels.
-- `$GAME_SKILL/scripts/glb_patch.py` — stdlib JSON-chunk patcher: force OPAQUE/doubleSided on any GLB.
-- `$GAME_SKILL/scripts/rig_transfer.py` — static GLB + rigged donor FBX → animated GLB (Step 4).
-- `$GAME_SKILL/scripts/glb_merge_anims.py` — stdlib merger of single-clip GLBs (Meshy outputs) + root-scale fix, no Blender (Step 5, verified live).
-- `$GAME_SKILL/scripts/merge_anim_glbs.py` — same merge via Blender CLI (when Blender is already in play).
-- `$GAME_SKILL/scripts/proc_rig_dragon.py` — procedural skeleton from bbox analysis (non-humanoids).
-- `$GAME_SKILL/scripts/proc_weights.py` — distance-based skin weights (ARMATURE_AUTO is broken headless).
-- `$GAME_SKILL/scripts/proc_anim_dragon.py` — sine-based idle/fly clips baked to keyframes.
+- `scripts/fbx2glb.py` — Blender CLI converter preserving all clips (NLA tracks, normals fix, OPAQUE).
+- `scripts/glb_inspect.py` — stdlib GLB inspector: clips, skins, alphaMode, root-scale channels.
+- `scripts/glb_patch.py` — stdlib JSON-chunk patcher: force OPAQUE/doubleSided on any GLB.
+- `scripts/rig_transfer.py` — static GLB + rigged donor FBX → animated GLB (Step 4).
+- `scripts/glb_merge_anims.py` — stdlib merger of single-clip GLBs (Meshy outputs) + root-scale fix, no Blender (Step 5, verified live).
+- `scripts/merge_anim_glbs.py` — same merge via Blender CLI (when Blender is already in play).
+- `scripts/proc_rig_dragon.py` — procedural skeleton from bbox analysis (non-humanoids).
+- `scripts/proc_weights.py` — distance-based skin weights (ARMATURE_AUTO is broken headless).
+- `scripts/proc_anim_dragon.py` — sine-based idle/fly clips baked to keyframes.
 - `meshy-api.md` — verified Meshy API pipeline: image→3D→rig→animations, endpoints, action_id catalog, stuck-refine recovery, costs.
 - `meshy-input-rules.md` — MANDATORY pre-submit rules: input-image validation (character sheets MUST be cropped to one figure or split into multi-image views; pose_mode), low-poly paths (`model_type: lowpoly` vs `target_polycount`), polycount budgets per asset class, payload templates. Read BEFORE building any Meshy request.
 - `procedural-animation.md` — non-humanoid branch: skeleton/weights/clip recipes per creature type, vision-QC loop, phase-sampling pitfall.

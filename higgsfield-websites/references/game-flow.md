@@ -79,14 +79,31 @@ Play-test with two browser tabs on the deployed URL: rooms are per-path
 
 ## Art and audio
 
-3D models, rigging, animation, textures, stylization and audio have their own
-pipeline in the **`higgsfield-game-generation`** skill — meshy, GLB tooling and
-the Python scripts under its `scripts/`. That part is unchanged by the move off
-the old engine and is still the right reference.
+The asset pipeline lives here too, under the `game-` prefix. Read
+`references/game-design-system.md` FIRST — it settles the game profile, the core
+loop and the asset manifest — then `references/game-stylization.md` to derive the
+STYLE FORMULA every visual prompt reuses byte-for-byte. No visual should exist
+before that formula does.
 
-What is NOT: anything in that skill describing publishing, the kernel, the
-client bundle, or socket modes (`pump` / `direct`). Those describe the retired
-engine. The template's `app/AGENTS.md` supersedes them.
+Then the reference matching each manifest row:
+
+| Asset | Reference |
+| --- | --- |
+| Sprites, backgrounds, UI | `references/game-stylization.md` |
+| Spritesheets / 2D animation | `references/game-2d-animation.md` |
+| Tiles, walls, ground, PBR maps | `references/game-textures.md` |
+| Any 3D model or animation | `references/game-3d-animation.md` |
+| Non-humanoid procedural rigs | `references/game-procedural-animation.md` |
+| Music, SFX, voice | `references/game-audio.md` |
+| Raw Meshy fallback | `references/game-meshy-api.md` |
+| Before any image-to-3D submit | `references/game-meshy-input-rules.md` |
+
+The GLB, rigging and texture tooling those references drive ships in this
+skill's `scripts/` (`pipeline.py`, `glb_patch.py`, `rig_transfer.py`, …). Never
+recreate a bundled script from memory — find it on disk.
+
+Assets land in `app/public/`; keep `design/assets.csv` beside them so the
+manifest travels with the game.
 
 ## Single-player is fine
 
