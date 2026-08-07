@@ -5,13 +5,12 @@ description: |
   Build, edit, and deploy full-stack websites via the Higgsfield CLI
   (`higgsfield website …`). Each site is a React 19 + TanStack Start SSR app in
   one Cloudflare Worker (D1/R2/KV/DO/Containers). THREE product types, picked
-  via `--type` on create: `website` (standalone, NO Higgsfield integration,
-  independent brand, custom CSS — the image-grounded pipeline in
-  references/website-flow.md), `app` (Sign in with Higgsfield + fnf SDK,
-  Quanta + app layouts per references/app-flow.md), and `game` (a browser game
-  with realtime multiplayer rooms — references/game-flow.md). This file routes
-  to the right flow; each flow carries its own workflow, references, hard
-  rules, and deploy/publish gates.
+  via `--type` on create: `website` (standalone, no Higgsfield integration,
+  independent brand — references/website-flow.md), `app` (Sign in with
+  Higgsfield + fnf SDK, Quanta layouts — references/app-flow.md), and `game`
+  (browser game, realtime rooms — references/game-flow.md). This file routes to
+  the right flow; each carries its own workflow, rules and deploy/publish
+  gates.
   Use when: "build me a website", "make a landing page", "create a web app",
   "build a SaaS dashboard / tool / portfolio", "make me a game", "build a
   multiplayer game", "deploy this site", "edit my site", "publish", "ship to
