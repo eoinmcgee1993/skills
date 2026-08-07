@@ -139,6 +139,15 @@ travels between distinct worlds. `references/scroll-scrub.md` owns that call.
 | `--type app` | **`references/app-flow.md`** — the Quanta toolkit, the six code layouts, fnf SDK + auth + D1 contract, launch cover + metadata, publish gate |
 | `--type game` | **`references/game-flow.md`** — the six-function `logic.js` contract, realtime rooms, a game-genre `--category`, play-testing, deploy + publish |
 
+A game's ART and AUDIO live here too, under the `game-` prefix, and
+`references/game-flow.md` indexes them: `references/game-design-system.md` (read
+first — profile, core loop, asset manifest), `references/game-stylization.md`
+(the STYLE FORMULA every visual reuses), `references/game-2d-animation.md`,
+`references/game-textures.md`, `references/game-3d-animation.md`,
+`references/game-procedural-animation.md`, `references/game-audio.md`,
+`references/game-meshy-api.md` and `references/game-meshy-input-rules.md`. The
+GLB/rigging/texture tooling they drive ships in this skill's `scripts/`.
+
 All three flows share the same platform mechanics (SSR Worker,
 `app.manifest.json` infra, a single live deploy via `higgsfield website
 deploy <website_id>`, the cover + metadata requirement below, and the publish
